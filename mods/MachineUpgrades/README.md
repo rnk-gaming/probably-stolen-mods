@@ -37,19 +37,6 @@ The full player's guide is [dist/README.txt](dist/README.txt).
 Subscribe on the Steam Workshop and Steam does the rest. Approve the mod and switch it on in the game's
 Mods menu, then restart the game.
 
-Without the Workshop: copy the contents of `dist/` into a folder of its own under the game's `Mods/`
-folder.
-
-## Build from source
-
-Only if you want to change the code. To play you do not need any of this.
-
-```bash
-dotnet build mods/MachineUpgrades -c Release
-```
-
-The DLL lands in `bin/Release/netstandard2.1/`. The folder `dist/` holds the released build.
-
 ## Problems and ideas
 
 Open an [issue](https://github.com/rnk-gaming/probably-stolen-mods/issues). That is where I keep track of things.

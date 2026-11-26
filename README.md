@@ -24,21 +24,7 @@ Found a bug, or have an idea? Open an [issue](https://github.com/rnk-gaming/prob
 ## Install
 
 Subscribe to a mod on the Steam Workshop and Steam does the rest. Then approve the mod and switch it
-on in the game's Mods menu, and restart the game. There is nothing to download from here.
-
-## Build from source
-
-Only if you want to change the code. To play you do not need any of this.
-
-You need the .NET SDK and the game installed. The projects read the game's assemblies from its
-`Probably Stolen_Data/Managed` folder; set the environment variable `GAME_MANAGED` to that folder
-if the game is not in Steam's default place.
-
-```bash
-dotnet build mods/Stacking -c Release
-```
-
-Code shared between the mods is in `mods/Shared/`.
+on in the game's Mods menu, and restart the game.
 
 ## Licence
 
