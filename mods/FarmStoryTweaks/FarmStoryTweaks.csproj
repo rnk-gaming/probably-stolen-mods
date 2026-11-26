@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- Everything else comes from ../Directory.Build.props. -->
   <PropertyGroup>
-    <AssemblyName>AgriStockOdds</AssemblyName>
+    <AssemblyName>FarmStoryTweaks</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
