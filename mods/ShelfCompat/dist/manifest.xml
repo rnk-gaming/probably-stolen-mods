@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod>
+  <ID>rnk.shelf-compat</ID>
+  <Name>Off the Books: Water Expanded Compatibility</Name>
+  <Author>RnK Gaming</Author>
+  <ModVersion>1.1.4</ModVersion>
+  <Description>Lets Water Expanded's devices work on Shop Expansion's shelves and in the back room, including inside containers that stand there. It corrects, in memory, Water Expanded's test of where a device stands; it changes none of that mod's files and adds no items or saved data. Needs Water Expanded; the shelves also need Shop Expansion, and the back room works with Water Expanded alone.</Description>
+  <GameVersions><Version>0.46</Version></GameVersions>
+  <Prerequisites><Mod>water_expansion</Mod><Mod>ShopExpansion</Mod></Prerequisites>
+  <Assemblies><Assembly>ShelfCompat.dll</Assembly></Assemblies>
+  <Capabilities />
+</Mod>

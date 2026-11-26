@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod>
+  <ID>rnk.station-economy-compat</ID>
+  <Name>Off the Books: Station Economy Compatibility</Name>
+  <Author>RnK Gaming</Author>
+  <ModVersion>2.6.2</ModVersion>
+  <Description>Corrects faults in Station Economy, in memory: it keeps the phone (F7) inside the game's picture on a screen wider than 16:9, makes phone texts fit, fills in missing English and lets hoppers fill the Furnace. It changes prices: the whole-lot offer of Station Economy's crisis sellers becomes a discount, as the seller says. It changes none of Station Economy's files and writes nothing to saves. It comes with a table of English lines for Station Economy's texts, which that mod's author is free to take over. Requires Station Economy.</Description>
+  <GameVersions><Version>0.46</Version></GameVersions>
+  <Prerequisites><Mod>suoer.stationeconomy</Mod></Prerequisites>
+  <Assemblies><Assembly>StationEconomyCompat.dll</Assembly></Assemblies>
+  <Capabilities />
+</Mod>

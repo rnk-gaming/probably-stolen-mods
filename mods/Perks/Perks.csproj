@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>Perks</AssemblyName></PropertyGroup>
+  <ItemGroup><Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" /></ItemGroup>
+</Project>

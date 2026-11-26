@@ -1,0 +1,7 @@
+# Water Expanded Compatibility: English texts. Copy to another language file to translate.
+option_enabled,"Water Expanded Compatibility enabled"
+option_enabled_desc,"Allow the selected devices to work on Shop Expansion's shelves and in the back room."
+option_water_expanded,"Water Expanded works on the shelves"
+option_water_expanded_desc,"Water Expanded's faucet, pipes, bottler and bridge only work in the shop's own grid. With this on they also work on Shop Expansion's shelves, also inside a Machine Bay that stands on a shelf. Does nothing unless both mods are running."
+option_back_room,"Water Expanded works in the back room"
+option_back_room_desc,"Allow Water Expanded's devices to work in the back room, also inside containers. Needs only Water Expanded."

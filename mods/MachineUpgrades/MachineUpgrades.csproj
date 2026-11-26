@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Everything else comes from ../Directory.Build.props. -->
+  <PropertyGroup>
+    <AssemblyName>MachineUpgrades</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+    <Compile Include="../Shared/UpgradeSupport.cs" Link="UpgradeSupport.cs" />
+    <!-- For the upgrade sound (EmporiumAudioPlayer holds AudioSource fields). -->
+    <Reference Include="UnityEngine.AudioModule"><HintPath>$(GameManaged)\UnityEngine.AudioModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

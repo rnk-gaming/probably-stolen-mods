@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod>
+  <ID>rnk.scavenging-pool</ID>
+  <Name>Off the Books: Scavenging Pool</Name>
+  <Author>RnK Gaming</Author>
+  <ModVersion>2.1.2</ModVersion>
+  <Description>Puts the scavenging attempts of all of a night's trips into one pool, so one visit to the dumping ground can use them and the other trips are free. This gives more finds per night, and the mod keeps its counters in the save. With Transit Quota installed it counts that mod's nightly trips; otherwise it counts the game's outings. Automatic counting is capped by the setting Most trips counted (default 4).</Description>
+  <GameVersions><Version>0.46</Version></GameVersions>
+  <Prerequisites><Mod>transit_quota</Mod></Prerequisites>
+  <Assemblies><Assembly>ScavengingPool.dll</Assembly></Assemblies>
+  <Capabilities />
+</Mod>

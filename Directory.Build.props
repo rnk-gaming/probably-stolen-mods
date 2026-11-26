@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- The game's managed assemblies. Override with the environment variable
+         GAME_MANAGED (the test harness reads the same variable) or -p:GameManaged=... -->
+    <GameManaged Condition="'$(GAME_MANAGED)' != ''">$(GAME_MANAGED)</GameManaged>
+    <GameManaged Condition="'$(GameManaged)' == ''">C:\Program Files (x86)\Steam\steamapps\common\Probably Stolen\Probably Stolen_Data\Managed</GameManaged>
+  </PropertyGroup>
+</Project>

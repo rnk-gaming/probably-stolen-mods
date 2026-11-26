@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Everything else comes from ../Directory.Build.props. -->
+  <PropertyGroup>
+    <AssemblyName>ScavengingPool</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+  </ItemGroup>
+</Project>

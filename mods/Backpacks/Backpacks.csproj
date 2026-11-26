@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Everything else comes from ../Directory.Build.props. -->
+  <PropertyGroup>
+    <AssemblyName>Backpacks</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="UnityEngine.UI"><HintPath>$(GameManaged)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(GameManaged)\UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+    <Compile Include="../Shared/UpgradeSupport.cs" Link="UpgradeSupport.cs" />
+    <Compile Include="../Shared/RemovalSupport.cs" Link="RemovalSupport.cs" />
+    <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+    <!-- For the upgrade sound (EmporiumAudioPlayer holds AudioSource fields). -->
+    <Reference Include="UnityEngine.AudioModule"><HintPath>$(GameManaged)\UnityEngine.AudioModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod>
+  <ID>rnk.machine-upgrades</ID>
+  <Name>Off the Books: Machine Upgrades</Name>
+  <Author>RnK Gaming</Author>
+  <ModVersion>3.1.2</ModVersion>
+  <Description>Upgrade eight machines with the game's own materials: storage rows, efficiency, performance and quality, extra Furnace batches and extra Desequencer output. Changes machine levels, values, energy use and storage rows saved in the run; empty enlarged machines before removal, or items in the extra rows can be lost. Efficiency does not push energy use below 1, but Low Power Mode can still set it to 0. Skips Agri Expansion's Integrated Farm when that mod is installed, and works without it.</Description>
+  <GameVersions><Version>0.46</Version></GameVersions>
+  <Prerequisites />
+  <Assemblies><Assembly>MachineUpgrades.dll</Assembly></Assemblies>
+  <Capabilities />
+</Mod>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod>
+  <ID>rnk.perks</ID>
+  <Name>Off the Books: Perks</Name>
+  <Author>RnK Gaming</Author>
+  <ModVersion>0.2.2</ModVersion>
+  <Description>29 starting perks for the new-game screen: trading, customers, appraisal, security, scavenging and nights out, with drawbacks that give points back. They work only in runs started with them, and some change prices, budgets, reputation, cash and how often customers and inspections come. After removal, a run's perks stay listed and have no effect. Works on its own.</Description>
+  <GameVersions><Version>0.46</Version></GameVersions>
+  <Prerequisites />
+  <Assemblies><Assembly>Perks.dll</Assembly></Assemblies>
+  <Capabilities />
+</Mod>
