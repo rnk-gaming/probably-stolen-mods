@@ -2,7 +2,7 @@
 
 ![Off the Books: Water Expanded Compatibility](../../pictures/off-the-books-water-expanded-compatibility-976x544.png)
 
-[Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) on the shelves.
+[Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) and [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337), working together. Water Expanded's devices run on the shelves that Shop Expansion adds, and in the back room.
 
 | | |
 |---|---|
@@ -12,7 +12,7 @@
 
 ## What you get
 
-- **On the shelves:** Water Expanded's faucet, pipes, tanks and bottler work on [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337)'s shelves.
+- **On the shelves:** the faucet, pipes, tanks and bottler of Water Expanded work on the shelves from Shop Expansion.
 - **In the back room:** they work there too.
 - **Inside containers:** also when a device sits in a container that stands in one of those places.
 
@@ -23,7 +23,7 @@ In the Mods list and in Options, under **Off the Books: Water Expanded Compatibi
 ## Good to know
 
 - It corrects one check in Water Expanded while the game runs. No files are changed and nothing is added to your save, so you can remove it whenever.
-- Needs Water Expanded. The shelves part needs Shop Expansion too.
+- Needs Water Expanded. The shelves come from Shop Expansion, so that part needs it too. The back room works with Water Expanded alone.
 
 The full player's guide is [dist/README.txt](dist/README.txt).
 
