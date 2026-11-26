@@ -2,7 +2,7 @@
 
 ![Off the Books: Water Expanded Compatibility](../../pictures/off-the-books-water-expanded-compatibility-976x544.png)
 
-Water Expanded on the shelves.
+[Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) on the shelves.
 
 | | |
 |---|---|
@@ -12,7 +12,7 @@ Water Expanded on the shelves.
 
 ## What you get
 
-- **On the shelves:** Water Expanded's faucet, pipes, tanks and bottler work on Shop Expansion's shelves.
+- **On the shelves:** Water Expanded's faucet, pipes, tanks and bottler work on [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337)'s shelves.
 - **In the back room:** they work there too.
 - **Inside containers:** also when a device sits in a container that stands in one of those places.
 

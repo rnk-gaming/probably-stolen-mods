@@ -33,7 +33,7 @@ In the Mods list and in Options, under **Off the Books: Stacking**. Every limit 
 ## Good to know
 
 - Split your stacks before you remove the mod. Without it a stack is one item.
-- It works alone. With Station Economy it lets that mod do the stacking and adds its own places and limits. Faucet Filter is handled too.
+- It works alone. With [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344) it lets that mod do the stacking and adds its own places and limits. [Faucet Filter](https://steamcommunity.com/sharedfiles/filedetails/?id=3833421581) is handled too.
 - Please run one stacking mod at a time.
 
 The full player's guide is [dist/README.txt](dist/README.txt).
