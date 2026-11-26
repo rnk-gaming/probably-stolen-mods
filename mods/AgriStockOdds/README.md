@@ -2,17 +2,17 @@
 
 ![Off the Books: Agri Stock Odds](../../pictures/off-the-books-agri-stock-odds-976x544.png)
 
-[Agri Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311)'s machines, a little harder to come by.
+The farm machines of [Probably a Farm Story](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311) (the mod that used to be called Agri Expansion), a little harder to come by.
 
 | | |
 |---|---|
 | Mod id | `rnk.agri-stock-odds` |
 | Version | 2.0.1 |
-| Needs | Agri Expansion. |
+| Needs | Probably a Farm Story. |
 
 ## What you get
 
-- **Before:** Dr. Jackson and the Hypertech Smuggler offer every Agri Expansion machine on every visit.
+- **Before:** Dr. Jackson and the Hypertech Smuggler offer every one of its machines on every visit.
 - **Now:** each machine has a chance to show up. 25% while you own none of that kind, 5% once you have one.
 - **Unchanged:** research requirements, the Integrated Farm and the perfume manual.
 
@@ -23,7 +23,7 @@ In the Mods list and in Options, under **Off the Books: Agri Stock Odds**. Both 
 ## Good to know
 
 - It changes what the two sellers have for sale. Nothing is written to your save.
-- Needs Agri Expansion.
+- Needs Probably a Farm Story.
 
 The full player's guide is [dist/README.txt](dist/README.txt).
 
