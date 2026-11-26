@@ -25,6 +25,11 @@ In the Mods list and in Options, under **Off the Books: Probably a Farm Story Tw
 - It changes what the two sellers have for sale. Nothing is written to your save.
 - Needs Probably a Farm Story.
 
+## Other mods
+
+- **Made for** [Probably a Farm Story](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311). It does nothing without it.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

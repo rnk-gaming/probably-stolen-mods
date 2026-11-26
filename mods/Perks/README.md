@@ -52,6 +52,11 @@ In the Mods list and in Options, under **Off the Books: Perks**. There is a swit
 - If you remove the mod, a run keeps its perks in the list and they stop doing anything.
 - Works on its own.
 
+## Other mods
+
+- **Compatible with** other mods that add starting perks. Where two perks do the same thing, the effects add up.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

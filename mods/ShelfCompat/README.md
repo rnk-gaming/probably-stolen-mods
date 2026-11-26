@@ -25,6 +25,11 @@ In the Mods list and in Options, under **Off the Books: Water Expanded Compatibi
 - It corrects one check in Water Expanded while the game runs. No files are changed and nothing is added to your save, so you can remove it whenever.
 - Needs Water Expanded. The shelves come from Shop Expansion, so that part needs it too. The back room works with Water Expanded alone.
 
+## Other mods
+
+- **Made for** [Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) and [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337). Each part switches itself off when its mod is missing.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

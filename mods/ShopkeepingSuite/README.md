@@ -29,6 +29,13 @@ In the Mods list and in Options, under **Off the Books: Shopkeeping Suite**. Eve
 - The ledger counts from the day you switch it on.
 - Works on its own. It reads [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344), [Scrapyard Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3840982832) and [Module Forge](https://steamcommunity.com/sharedfiles/filedetails/?id=3837427779) when you have them.
 
+## Other mods
+
+- **Compatible with** [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344): found by itself. Its market counts in the price arrows.
+- **Compatible with** [Scrapyard Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3840982832): found by itself. The Scavengers show on the Standing page.
+- **Compatible with** [Module Forge](https://steamcommunity.com/sharedfiles/filedetails/?id=3837427779): found by itself. DSI shows on the Standing page.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install
