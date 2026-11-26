@@ -27,7 +27,7 @@ In the Mods list and in Options, under **Off the Books: Shopkeeping Suite**. Eve
 
 - Most of it only shows you things. Three helpers change what happens: the appraisal fill, the hands helper, and the one that rolls the certificate customer first.
 - The ledger counts from the day you switch it on.
-- Works on its own. It reads Station Economy, Scrapyard Expansion and Module Forge when you have them.
+- Works on its own. It reads [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344), [Scrapyard Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3840982832) and [Module Forge](https://steamcommunity.com/sharedfiles/filedetails/?id=3837427779) when you have them.
 
 The full player's guide is [dist/README.txt](dist/README.txt).
 

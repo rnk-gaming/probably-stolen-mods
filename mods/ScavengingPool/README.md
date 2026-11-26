@@ -25,7 +25,7 @@ In the Mods list and in Options, under **Off the Books: Scavenging Pool**. Autom
 ## Good to know
 
 - You get more finds in a night, so it shifts the balance a little.
-- Works on its own. With Transit Quota it counts that mod's trips.
+- Works on its own. With [Transit Quota](https://steamcommunity.com/sharedfiles/filedetails/?id=3840077264) it counts that mod's trips.
 
 The full player's guide is [dist/README.txt](dist/README.txt).
 

@@ -2,7 +2,7 @@
 
 ![Off the Books: Agri Stock Odds](../../pictures/off-the-books-agri-stock-odds-976x544.png)
 
-Agri Expansion's machines, a little harder to come by.
+[Agri Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311)'s machines, a little harder to come by.
 
 | | |
 |---|---|

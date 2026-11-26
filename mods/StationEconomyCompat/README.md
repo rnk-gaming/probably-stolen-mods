@@ -2,7 +2,7 @@
 
 ![Off the Books: Station Economy Compatibility](../../pictures/off-the-books-station-economy-compatibility-976x544.png)
 
-A handful of fixes for Station Economy, for those of us who play it in English or on a wide screen.
+A handful of fixes for [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344), for those of us who play it in English or on a wide screen.
 
 | | |
 |---|---|
