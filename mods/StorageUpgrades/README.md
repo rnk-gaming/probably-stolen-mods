@@ -43,6 +43,13 @@ In the Mods list and in Options, under **Off the Books: Storage Upgrades**. You 
 - With a stacking mod, a whole stack of ingots upgrades as far as it reaches.
 - Works on its own.
 
+## Other mods
+
+- **Compatible with** [Fence and Case Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3837619429): its 8x8 crates grow too, three crates in one, up to 19x11.
+- **Compatible with** a mod that stacks items ([Off the Books: Stacking](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399246), or [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344)): a whole stack of ingots upgrades as far as it reaches.
+- **Not compatible with** another mod that enlarges the same bays, crates or machine storage.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

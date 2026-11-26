@@ -39,6 +39,13 @@ In the Mods list and in Options, under **Off the Books: Machine Upgrades**. Ther
 - Empty the extra rows before you remove the mod.
 - Works on its own, with the game's own materials.
 
+## Other mods
+
+- **Compatible with** [Probably a Farm Story](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311): found by itself. Its Integrated Farm is left alone, and the Furnace's extra batches also run its Ironfruit smelting.
+- **Compatible with** a mod that stacks items ([Off the Books: Stacking](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399246), or [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344)): a whole stack of material upgrades as far as it reaches.
+- **Not compatible with** another mod that upgrades the same machines.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

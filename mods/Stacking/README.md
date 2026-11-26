@@ -36,6 +36,15 @@ In the Mods list and in Options, under **Off the Books: Stacking**. Every limit 
 - It works alone. With [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344) it lets that mod do the stacking and adds its own places and limits. [Faucet Filter](https://steamcommunity.com/sharedfiles/filedetails/?id=3833421581) is handled too.
 - Please run one stacking mod at a time.
 
+## Other mods
+
+- **Compatible with** [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344): found by itself. Station Economy then does the stacking, and this mod adds its own places and limits.
+- **Compatible with** [Faucet Filter](https://steamcommunity.com/sharedfiles/filedetails/?id=3833421581): found by itself. A stack dropped on its faucet gives one unit.
+- **Compatible with** [Probably a Farm Story](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311): goods it has stamped on a vendor visit still stack.
+- **Compatible with** [Off the Books: Backpacks](https://steamcommunity.com/sharedfiles/filedetails/?id=3846397093): a backpack takes stacks once it has the stack size upgrade from that mod. Without that mod, switch off the setting that asks for the upgrade and every backpack takes them.
+- **Not compatible with** another mod that stacks items. Run one at a time.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

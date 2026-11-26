@@ -30,6 +30,11 @@ In the Mods list and in Options, under **Off the Books: Station Economy Compatib
 - To Station Economy's author: the English lines are in the mod folder in your own table format. Take whatever is useful.
 - Needs Station Economy.
 
+## Other mods
+
+- **Made for** [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344). It does nothing without it.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

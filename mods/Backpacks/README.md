@@ -42,6 +42,13 @@ In the Mods list and in Options, under **Off the Books: Backpacks**. Each kind o
 - Stack size on a backpack has an effect when you also run a mod that stacks items, such as [Off the Books: Stacking](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399246).
 - Works on its own.
 
+## Other mods
+
+- **Compatible with** [Off the Books: Stacking](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399246): the stack size upgrade decides how high a stack may go inside the backpack.
+- **Compatible with** a mod that stacks items ([Off the Books: Stacking](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399246), or [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344)): a whole stack of material upgrades the backpack as far as it reaches.
+- **Not compatible with** another mod that changes the size of backpacks or adds compartments to them.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install

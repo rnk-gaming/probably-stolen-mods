@@ -27,6 +27,12 @@ In the Mods list and in Options, under **Off the Books: Scavenging Pool**. Autom
 - You get more finds in a night, so it shifts the balance a little.
 - Works on its own. With [Transit Quota](https://steamcommunity.com/sharedfiles/filedetails/?id=3840077264) it counts that mod's trips.
 
+## Other mods
+
+- **Compatible with** [Transit Quota](https://steamcommunity.com/sharedfiles/filedetails/?id=3840077264): found by itself. The pool counts that mod's trips for the night.
+- **Not compatible with** another mod that changes how many scavenging attempts a visit gives.
+- Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
+
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install
