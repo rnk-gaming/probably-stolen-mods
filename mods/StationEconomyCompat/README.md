@@ -1,6 +1,8 @@
 # Off the Books: Station Economy Compatibility
 
-Corrects Station Economy's phone on wide screens, its texts, its English, its Furnace feed and its whole-lot offers, in memory.
+![Off the Books: Station Economy Compatibility](../../pictures/off-the-books-station-economy-compatibility-976x544.png)
+
+A handful of fixes for Station Economy, for those of us who play it in English or on a wide screen.
 
 | | |
 |---|---|
@@ -8,18 +10,33 @@ Corrects Station Economy's phone on wide screens, its texts, its English, its Fu
 | Version | 2.6.2 |
 | Needs | Station Economy. |
 
-The player's guide is [dist/README.txt](dist/README.txt): what the mod does, its settings, what it
-changes in a save and how to remove it.
+## What you get
+
+- **The phone on wide screens:** on a screen wider than 16:9 the phone (F7) shows up inside the picture, and you can drag it over the black sides.
+- **Texts that fit:** a phone text that is too long gets smaller before it is cut.
+- **More English:** about 7,600 lines for texts that were still in Chinese, and English that holds when your shopkeeper has a name of your own.
+- **Previews and avatars:** message previews are cut after they are translated, and avatars show the first letter of the English name.
+- **Hoppers:** they can fill the Furnace again.
+- **Whole-lot offers:** a seller who says "half price" for the lot now charges less for it.
+
+## Options
+
+In the Mods list and in Options, under **Off the Books: Station Economy Compatibility**. Each fix has its own switch, and you can set how small a phone text may get.
+
+## Good to know
+
+- Nothing in Station Economy's files is touched. It all happens while the game runs, and nothing is written to your save.
+- The whole-lot fix changes prices.
+- To Station Economy's author: the English lines are in the mod folder in your own table format. Take whatever is useful.
+- Needs Station Economy.
+
+The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install
 
-Subscribe on the Steam Workshop, or copy the contents of `dist/` into a folder of its own under the
-game's `Mods/` folder. Approve the mod and switch it on in the game's Mods menu, then restart the game.
+Subscribe on the Steam Workshop and Steam does the rest. Approve the mod and switch it on in the game's
+Mods menu, then restart the game.
 
-## Build
+## Problems and ideas
 
-```bash
-dotnet build mods/StationEconomyCompat -c Release
-```
-
-The DLL lands in `bin/Release/netstandard2.1/`. The folder `dist/` holds the released build.
+Open an [issue](https://github.com/rnk-gaming/probably-stolen-mods/issues). That is where I keep track of things.
