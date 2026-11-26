@@ -8,7 +8,7 @@ Eight machines, and all of them can get better. Drag materials onto a machine, t
 |---|---|
 | Mod id | `rnk.machine-upgrades` |
 | Version | 3.1.2 |
-| Needs | Nothing. Skips Agri Expansion's Integrated Farm when that mod runs. |
+| Needs | Nothing. Skips the Integrated Farm of Probably a Farm Story when that mod runs. |
 
 ## What you get
 
