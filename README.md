@@ -2,7 +2,8 @@
 
 ![Off the Books](pictures/off-the-books-collection-976x544.png)
 
-By RnK Gaming. Each mod works on its own unless it says what it needs.
+By RnK Gaming. Each mod works on its own unless it says what it needs. All of them are in
+[one collection on the Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3846404278).
 
 Found a bug, or have an idea? Open an [issue](https://github.com/rnk-gaming/probably-stolen-mods/issues). That is where I keep track of things.
 
