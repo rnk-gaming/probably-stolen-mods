@@ -1,13 +1,13 @@
-# Off the Books: Agri Stock Odds
+# Off the Books: Probably a Farm Story Tweaks
 
-![Off the Books: Agri Stock Odds](../../pictures/off-the-books-agri-stock-odds-976x544.png)
+![Off the Books: Probably a Farm Story Tweaks](../../pictures/off-the-books-probably-a-farm-story-tweaks-976x544.png)
 
 The farm machines of [Probably a Farm Story](https://steamcommunity.com/sharedfiles/filedetails/?id=3832249311) (the mod that used to be called Agri Expansion), a little harder to come by.
 
 | | |
 |---|---|
-| Mod id | `rnk.agri-stock-odds` |
-| Version | 2.0.1 |
+| Mod id | `rnk.farm-story-tweaks` |
+| Version | 3.0.0 |
 | Needs | Probably a Farm Story. |
 
 ## What you get
@@ -18,7 +18,7 @@ The farm machines of [Probably a Farm Story](https://steamcommunity.com/sharedfi
 
 ## Options
 
-In the Mods list and in Options, under **Off the Books: Agri Stock Odds**. Both chances are sliders from 0 to 100.
+In the Mods list and in Options, under **Off the Books: Probably a Farm Story Tweaks**. Both chances are sliders from 0 to 100.
 
 ## Good to know
 

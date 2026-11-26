@@ -1,4 +1,4 @@
-// Agri Stock Odds: replaces Agri Expansion's 100% vendor stock for its machines
+// Farm Story Tweaks: replaces Probably a Farm Story's 100% vendor stock for its machines
 // with a chance roll per machine and visit: one chance while the player owns
 // none of that machine, a lower one once they own one. Research gates are kept.
 // The Integrated Farm and the perfume manual are deliberately left alone.
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 
-namespace AgriStockOdds
+namespace FarmStoryTweaks
 {
     internal static class StockRules
     {
@@ -31,7 +31,7 @@ namespace AgriStockOdds
                 string text;
                 try { text = error.GetType().Name + ": " + error.Message; }
                 catch { text = "an error that cannot be shown"; }
-                Log(("[Agri Stock Odds] a fault in " + where + ". " + text)
+                Log(("[Farm Story Tweaks] a fault in " + where + ". " + text)
                     .Replace('\r', ' ').Replace('\n', ' '));
             }
             catch { }
@@ -56,7 +56,7 @@ namespace AgriStockOdds
             { "agri_scent_blender", "agri_expansion.PERFUMERY" },
         };
 
-        // Sold by the Hypertech Smuggler; Agri Expansion adds it on every visit.
+        // Sold by the Hypertech Smuggler; Probably a Farm Story adds it on every visit.
         internal const string SmugglerMachine = "agri_super_hydroponic";
 
         // Set while this mod places an owned-machine offer, so the gate lets it through.
@@ -69,12 +69,12 @@ namespace AgriStockOdds
                 ModConfig config = ModConfig.For(manifest.ID);
                 UnownedChance = config.Define("unowned_chance", 25, "Machine stock",
                     () => "Chance when you own none (%)", 0, 100,
-                    () => "Per machine and visit, for Agri Expansion machines at Dr. Jackson and the Hypertech Smuggler while you own none of that machine. Agri Expansion alone uses 100%.");
+                    () => "Per machine and visit, for Probably a Farm Story machines at Dr. Jackson and the Hypertech Smuggler while you own none of that machine. Without this tweak, Probably a Farm Story offers each of them on every visit.");
                 OwnedChance = config.Define("owned_chance", 5, "Machine stock",
                     () => "Chance when you already own one (%)", 0, 100,
-                    () => "Per machine and visit, once you own that machine. Agri Expansion alone never offers it again at Dr. Jackson, and always at the smuggler.");
+                    () => "Per machine and visit, once you own that machine. Without this tweak, Probably a Farm Story never offers it again at Dr. Jackson, and always at the smuggler.");
 
-                LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Agri Stock Odds", Faults.Report);
+                LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Probably a Farm Story Tweaks", Faults.Report);
             }
             catch (Exception error) { Faults.Report("initialising", error); }
         }
@@ -97,7 +97,7 @@ namespace AgriStockOdds
 
         internal static bool IsManaged(string id) => id == SmugglerMachine || JacksonMachines.ContainsKey(id);
 
-        // Mirrors Agri Expansion's own ownership check (AgriDoctorStock.PlayerOwns).
+        // Mirrors Probably a Farm Story's own ownership check (AgriDoctorStock.PlayerOwns).
         internal static bool PlayerOwns(string id)
         {
             PlayerStore store = PlayerStore.Instance;
@@ -115,8 +115,8 @@ namespace AgriStockOdds
                 OwnedChance == null ? 5 : OwnedChance.Value, RNG.Roll);
         }
 
-        // Agri Expansion skips machines the player owns, so offer those here.
-        // Unowned machines are still offered by Agri Expansion and pass the gate below.
+        // Probably a Farm Story skips machines the player owns, so offer those here.
+        // Unowned machines are still offered by Probably a Farm Story and pass the gate below.
         private static void OfferOwnedMachines(List<GameItem> ownedItems)
         {
             try
@@ -163,7 +163,7 @@ namespace AgriStockOdds
 
                 // The roll said no. If removing the spare item fails, the offer is still
                 // withheld; the fault is reported and the item is left to the game.
-                try { GraphUtils.DestroyIfUnplaced(gameItem, "Agri Stock Odds: machine not offered this visit"); }
+                try { GraphUtils.DestroyIfUnplaced(gameItem, "Farm Story Tweaks: machine not offered this visit"); }
                 catch (Exception error) { Faults.Report("removing a machine that is not offered", error); }
                 __result = false;
                 return false;
