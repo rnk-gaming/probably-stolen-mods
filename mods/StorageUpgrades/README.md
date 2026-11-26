@@ -14,7 +14,7 @@ More room in the things you already own. Drop a Metal Ingot on a storage bay and
 
 - **Bays:** every Metal Ingot adds one column or one row, up to a limit per bay. The sizes are below.
 - **Loot crates:** drop an empty crate on another of the same kind. A 7x5 crate ends at 19x11, six crates in one.
-- **Beer Cases:** the same trick. Three wide first (24x4), and a second row (24x8) with the sixth case.
+- **Red Imp Beer Cases:** the same trick. Three wide first (24x4), and a second row (24x8) with the sixth case.
 - **Machine storage:** the Fridge, Wine Rack, Aquaculture and Rat Cage take ingots once the game's own upgrades are done, and the Water Tank holds more.
 - **Trade-in:** hand an enlarged Smuggler's Bay to the janitor and the modified one keeps what you added.
 
@@ -29,7 +29,7 @@ More room in the things you already own. Drop a Metal Ingot on a storage bay and
 - **Storage Bay (Extended):** 17x10 to 20x20.
 - **Gunsmith Storage Bay and Chemist Storage Bay:** 17x10 to 20x16.
 - **Loot crates:** 7x5 to 19x11, six crates in one.
-- **Beer Case:** 8x4 to 24x8, six cases in one.
+- **Red Imp Beer Case:** 8x4 to 24x8, six cases in one.
 - **Fridge:** 9x13 and 7x13. **Wine Rack:** 12x8. **Aquaculture and Rat Cage:** 24x16.
 - **Water Tank:** from 12 to 48, in six steps.
 
