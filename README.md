@@ -21,7 +21,14 @@ Found a bug, or have an idea? Open an [issue](https://github.com/rnk-gaming/prob
 | [<img src="pictures/off-the-books-water-expanded-compatibility-976x544.png" width="240" alt="">](mods/ShelfCompat/README.md) | **[Off the Books: Water Expanded Compatibility](mods/ShelfCompat/README.md)** 1.1.4<br>Lets Water Expanded's devices work on Shop Expansion's shelves and in the back room.<br>Needs: Water Expanded; Shop Expansion for the shelves. |
 | [<img src="pictures/off-the-books-agri-stock-odds-976x544.png" width="240" alt="">](mods/AgriStockOdds/README.md) | **[Off the Books: Agri Stock Odds](mods/AgriStockOdds/README.md)** 2.0.1<br>Agri Expansion's machines appear in vendor stock by chance instead of on every visit.<br>Needs: Agri Expansion. |
 
-## Build
+## Install
+
+Subscribe to a mod on the Steam Workshop and Steam does the rest. Then approve the mod and switch it
+on in the game's Mods menu, and restart the game. There is nothing to download from here.
+
+## Build from source
+
+Only if you want to change the code. To play you do not need any of this.
 
 You need the .NET SDK and the game installed. The projects read the game's assemblies from its
 `Probably Stolen_Data/Managed` folder; set the environment variable `GAME_MANAGED` to that folder

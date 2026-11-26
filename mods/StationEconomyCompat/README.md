@@ -34,10 +34,15 @@ The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install
 
-Subscribe on the Steam Workshop, or copy the contents of `dist/` into a folder of its own under the
-game's `Mods/` folder. Approve the mod and switch it on in the game's Mods menu, then restart the game.
+Subscribe on the Steam Workshop and Steam does the rest. Approve the mod and switch it on in the game's
+Mods menu, then restart the game.
 
-## Build
+Without the Workshop: copy the contents of `dist/` into a folder of its own under the game's `Mods/`
+folder.
+
+## Build from source
+
+Only if you want to change the code. To play you do not need any of this.
 
 ```bash
 dotnet build mods/StationEconomyCompat -c Release
