@@ -12,12 +12,25 @@ Your backpack can grow. Drop materials on it and it gets bigger, gets compartmen
 
 ## What you get
 
-- **Bigger:** Kotton Fabric and 3D Printing Filament add rows and width. The Backpack (Basic) ends at 12x9 and the Backpack (Large) at 15x9.
+- **Bigger:** Kotton Fabric and 3D Printing Filament add rows and width. The sizes are below.
 - **Compartments:** drop a smaller, empty bag on a backpack and it becomes an extra page.
-- **Side bags and a toolbox slot:** small bags hang on the outside and can be taken off again. The toolbox slot costs 1 Metal Ingot and 2 Scrap Metal.
+- **Side bags and a toolbox slot:** small bags hang on the outside and can be taken off again. The first side bag slot costs 2 Wire and 1 Metal Screws, the toolbox slot 1 Metal Ingot and 2 Scrap Metal.
+- **Stack size:** four steps, paid in Wire, Metal Screws and a Metal Ingot.
 - **Two new packs:** the Scavenger's Pack (6x9, grows to 16x9) and the Hauler's Pack (7x11, grows to 17x11). They are rare. Dr. Jackson has the first from day 20 and the second from day 40, a couple of visits in a hundred, and with luck one turns up at the Dumping Grounds or with a scavenger.
 - **Two starting perks** that put one of the packs in your hands on day one.
 - **Tabs:** hold a dragged item over a compartment tab to flip to it, and drop it there.
+
+## The backpacks
+
+- **Fanny Pack:** 3x3, grows to 5x5.
+- **Satchel (Small):** 6x3, grows to 8x5.
+- **Kid's Backpack:** 5x5, grows to 7x7. Takes a Fanny Pack as a compartment.
+- **Kid's Backpack (Large):** 5x6, grows to 8x8. Takes a Fanny Pack.
+- **Backpack (Small):** 6x6, grows to 9x9. Takes a Fanny Pack.
+- **Backpack (Basic):** 6x9, grows to 12x9. Takes a Satchel (Small), then a Backpack (Small).
+- **Backpack (Large):** 8x9, grows to 15x9. Takes a Backpack (Small), a Backpack (Basic), a Module Bay Expansion Kit and a Storage Bay Expansion Kit.
+- **Scavenger's Pack:** 6x9, grows to 16x9. Compartments as the Backpack (Basic).
+- **Hauler's Pack:** 7x11, grows to 17x11. Compartments as the Backpack (Large).
 
 ## Options
 

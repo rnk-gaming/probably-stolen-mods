@@ -12,12 +12,19 @@ Stacks. Finally. Materials, medical items and key cards pile up in one slot.
 
 ## What you get
 
-- **What stacks:** ingots, scrap, junk, ores, fabric, wire, electronic parts, gun parts, screws, chemical and medical supplies, bandages, pills, dusts, injectors, key cards and more.
+- **What stacks:** materials, medical items and key cards. The full list is below.
 - **How many:** a limit for each kind of goods. From the start it is 20 for materials, 10 for medical items, food, household goods, substances and access cards, 50 for ammunition and 5 for everything else.
 - **Where:** the shop and the back room, storage bays, smuggler's bays, machine bays, crates, what you carry on a night out, and backpacks that have the stack size upgrade.
 - **Using a stack:** it sells and counts by its number. A machine takes what it needs, a lock takes one card, a request or a barter takes what it asks for and leaves the rest.
 - **Splitting:** scroll while you drag.
 - Clean and stolen goods stay apart, and so do different purities.
+
+## What stacks
+
+- **Materials:** Metal Ingot, Scrap Metal, Junk, Kotton Fabric, Metal Ore, Rare Metal Ore, Electronic Parts (Common, Rare, Hypertech), Wire, Printer Plastic, Gun Parts, Metal Screws, Chemical Supplies and Medical Supplies (Common, Restricted).
+- **Medical:** the three bandages, Tilapia Skin Graft, pills, dusts, injectors, salve, rubbing alcohol, blood bags, smelling salt, ZeroChew and the surgery toolset.
+- **Key cards.**
+- **Your own picks:** add more items to the list in Options.
 
 ## Options
 
