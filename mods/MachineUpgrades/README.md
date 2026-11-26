@@ -12,13 +12,22 @@ Eight machines, and all of them can get better. Drag materials onto a machine, t
 
 ## What you get
 
-- **The machines:** Furnace, 3D Printer, Hydroponic System, Moisture Farm, Water Purifier, Evaporator, Cryptographic Desequencer and Chem Finisher.
 - **Storage:** one Metal Ingot, one more row, up to 12 rows.
 - **Efficiency:** Electronic Parts (Common), 5% a step, 40 steps, so 200% at the top.
 - **Performance:** Wire, 5% or 10% a step depending on the machine.
-- **Quality:** each machine has its own material. Advanced Flux Agent for the Furnace, Gun Parts for the 3D Printer, Water Filters for the water machines. A Water Purifier at 200% gives 100% pure water.
-- **Furnace batches:** drop an empty Furnace on a Furnace for one more batch a night, five at most.
-- **Desequencer copies:** up to four of each finished card.
+- **Quality:** each machine has its own material.
+- **Something extra:** the Furnace runs more batches a night and the Cryptographic Desequencer makes copies of its cards.
+
+## The machines
+
+- **Furnace:** storage 9x6 to 9x12. Efficiency 40 x 5%. Quality with Advanced Flux Agent, 20 x 10%. An empty Furnace dropped on it gives one more batch a night, up to five.
+- **3D Printer:** input 9x6 to 9x12, output 9x5 to 9x12. Efficiency 40 x 5%. Performance 20 x 5%. Quality with Gun Parts, 25 x 4%.
+- **Hydroponic System** (the old one too): output 9x6 to 9x12. Efficiency 40 x 5%. Performance 20 x 10%. Quality with Chemical Supplies (Common), 40 x 5%. Performance and quality count half here.
+- **Moisture Farm:** efficiency 40 x 5%. Performance 20 x 5%. Quality with Water Filters, 150 x 1%, and Pure Water at 150%.
+- **Water Purifier:** efficiency 40 x 5%. Performance 20 x 5%. Quality with Water Filters, 200 x 1%, and 100% pure water at 200%.
+- **Evaporator:** efficiency 40 x 5%. Performance 20 x 5%.
+- **Cryptographic Desequencer:** efficiency with PowerBloc, 8 x 25%. Performance with a Module Extractor (Basic), 8 x 25%. An empty Desequencer dropped on it gives one more copy of each finished card, up to four.
+- **Chem Finisher:** output 6x4 to 6x12.
 
 ## Options
 
