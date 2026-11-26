@@ -26,6 +26,10 @@ Found a bug, or have an idea? Open an [issue](https://github.com/rnk-gaming/prob
 Subscribe to a mod on the Steam Workshop and Steam does the rest. Then approve the mod and switch it
 on in the game's Mods menu, and restart the game.
 
+## How they are made
+
+These mods are built with help from AI tools. The ideas and the decisions are mine, and I play with all of them myself.
+
 ## Licence
 
 MIT, see [LICENSE](LICENSE).
