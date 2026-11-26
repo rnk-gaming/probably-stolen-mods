@@ -43,7 +43,7 @@ The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install
 
-Subscribe on the Steam Workshop and Steam does the rest. Approve the mod and switch it on in the game's
+Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399196) and Steam does the rest. Approve the mod and switch it on in the game's
 Mods menu, then restart the game.
 
 ## Problems and ideas

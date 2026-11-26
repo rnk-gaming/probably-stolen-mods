@@ -39,14 +39,14 @@ In the Mods list and in Options, under **Off the Books: Backpacks**. Each kind o
 ## Good to know
 
 - The extra space is saved in your save. Before you remove the mod, use "Before removing this mod: list what to move" in Options. What sits in the extra space is gone at the next load otherwise.
-- Stack size on a backpack has an effect when you also run a mod that stacks items, such as Off the Books: Stacking.
+- Stack size on a backpack has an effect when you also run a mod that stacks items, such as [Off the Books: Stacking](https://steamcommunity.com/sharedfiles/filedetails/?id=3846399246).
 - Works on its own.
 
 The full player's guide is [dist/README.txt](dist/README.txt).
 
 ## Install
 
-Subscribe on the Steam Workshop and Steam does the rest. Approve the mod and switch it on in the game's
+Subscribe on the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3846397093) and Steam does the rest. Approve the mod and switch it on in the game's
 Mods menu, then restart the game.
 
 ## Problems and ideas
