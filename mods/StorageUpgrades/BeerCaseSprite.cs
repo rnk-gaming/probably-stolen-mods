@@ -40,7 +40,7 @@ namespace StorageUpgrades
         internal static void Install()
         {
             Active = false;
-            Storage.Guard("beer case picture patch", () =>
+            Storage.Guard("Red Imp Beer Case picture patch", () =>
             {
                 MethodInfo update = typeof(ContainerItemDirectory).GetMethod("UpdateBeerCaseSprite",
                     BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly, null,
@@ -48,7 +48,7 @@ namespace StorageUpgrades
                 MethodInfo setter = typeof(GameItem).GetMethod("SetSpriteAndShape",
                     BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly, null,
                     new[] { typeof(string), typeof(string) }, null);
-                if (!Fits(update, setter)) throw new InvalidOperationException("the Beer Case picture methods have a different shape; no picture patch applied");
+                if (!Fits(update, setter)) throw new InvalidOperationException("the Red Imp Beer Case picture methods have a different shape; no picture patch applied");
                 PatchChecked(update);
                 Active = true;
             });
@@ -64,7 +64,7 @@ namespace StorageUpgrades
         internal static void Disable()
         {
             Active = false;
-            Storage.Guard("removing beer case picture patch", () => new Harmony(Owner).UnpatchAll(Owner));
+            Storage.Guard("removing Red Imp Beer Case picture patch", () => new Harmony(Owner).UnpatchAll(Owner));
         }
         internal static bool Prefix(GameItem __0, GameInventory __1)
         {
@@ -89,7 +89,7 @@ namespace StorageUpgrades
                 SetPicture(__0, "Items/beer_case", "beer_case_" + StorageRules.BeerPictureIndex(count, capacity));
                 return false;
             }
-            catch (Exception error) { Storage.Fault("beer case picture", error); return true; }
+            catch (Exception error) { Storage.Fault("Red Imp Beer Case picture", error); return true; }
         }
     }
 }

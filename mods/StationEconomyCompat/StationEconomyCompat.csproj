@@ -5,7 +5,12 @@
   <ItemGroup>
     <!-- GUIStyle and GUIContent, for measuring translated previews. -->
     <Reference Include="UnityEngine.IMGUIModule"><HintPath>$(GameManaged)\UnityEngine.IMGUIModule.dll</HintPath><Private>false</Private></Reference>
+    <Compile Include="../Shared/Incompatible.cs" Link="Incompatible.cs" />
+    <Compile Include="../Shared/Notes.cs" Link="Notes.cs" />
     <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+    <Compile Include="../Shared/TextTable.cs" Link="TextTable.cs" />
+    <!-- Only language tables: station_economy_additions.csv belongs to the other translator. -->
+    <EmbeddedResource Include="dist/Localization/en.csv" LogicalName="Localization/en.csv" />
   </ItemGroup>
   <ItemGroup>
     <!-- Canvas, for the phone's layer. -->

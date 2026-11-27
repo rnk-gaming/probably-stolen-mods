@@ -11,7 +11,7 @@ namespace Backpacks
     // restore build the window. The starting perks share this builder.
     internal static class DebugTools
     {
-        internal const string Category = "Backpacks";
+        internal static string Category => TextTable.Early(TextKeys.DebugCategory);
 
         // What a fully upgraded backpack of this id carries, as tag and value. Pure.
         internal static List<KeyValuePair<string, int>> FullTags(string id)
@@ -126,9 +126,9 @@ namespace Backpacks
                 foreach (string id in new[] { "backpack_small", "backpack_medium", "backpack_large", Military.Medium, Military.Large })
                 {
                     string bag = id;
-                    string label = bag == Military.Medium ? Texts.Get("scavengers_pack_name")
-                        : bag == Military.Large ? Texts.Get("haulers_pack_name") : bag;
-                    AddEntry(modId, "Fully upgraded " + label, () => Spawn(bag));
+                    string label = bag == Military.Medium ? TextTable.Early(TextKeys.ScavengersPackName)
+                        : bag == Military.Large ? TextTable.Early(TextKeys.HaulersPackName) : bag;
+                    AddEntry(modId, TextTable.Early(TextKeys.DebugFullyUpgraded, label), () => Spawn(bag));
                 }
             });
         }

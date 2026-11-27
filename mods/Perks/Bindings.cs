@@ -252,7 +252,7 @@ namespace Perks
                 string difference = Check(entry.Slug);
                 if (difference == null) continue;
                 Runtime.Unavailable[entry.Slug] = difference;
-                Runtime.Report("shape:" + entry.Slug, entry.Name + " is not working with this game version: " + difference);
+                Runtime.Report("shape:" + entry.Slug, entry.Slug + " is not working with this game version: " + difference);
             }
         }
         internal static void Enable()

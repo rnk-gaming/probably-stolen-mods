@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,40 +8,75 @@ namespace ShopkeepingSuite
     public sealed class SuiteMod : IMod
     {
         internal const string Id = "rnk.shopkeeping-suite";
-        internal const string Version = "0.7.2";
+        internal const string Version = "0.9.0";
         public void Init(ModManifest manifest)
         {
             try
             {
-                ModConfig config = ModConfig.For(Id);
-                foreach (string name in Settings.Keys)
+                TextTable.Start(manifest.ID, Fault);
+                // Mods it does not go together with: add one list line and two rows in en.csv.
+                Incompatible.Register(manifest.ID, "[Shopkeeping Suite]", new IncompatibleMod[]
                 {
-                    string key = name;
-                    ConfigEntry<bool> entry = config.Define(key, true, "Shopkeeping Suite", () => Texts.Get(key + "_label"), () => Texts.Get(key + "_description"));
+                    new IncompatibleMod("loyce_shop_assist", "shop_assist"),
+                }, NoteFault);
+                ModConfig config = ModConfig.For(Id);
+                string section = TextTable.Early(TextKeys.SectionShopkeepingSuite);
+                (string Key, string Label, string Tip)[] options =
+                {
+                    ("enabled", TextKeys.EnabledLabel, TextKeys.EnabledDescription),
+                    ("hands_home", TextKeys.HandsHomeLabel, TextKeys.HandsHomeDescription),
+                    ("mark_same_kind", TextKeys.MarkSameKindLabel, TextKeys.MarkSameKindDescription),
+                    ("mark_risk", TextKeys.MarkRiskLabel, TextKeys.MarkRiskDescription),
+                    ("mark_inspection", TextKeys.MarkInspectionLabel, TextKeys.MarkInspectionDescription),
+                    ("mark_wanted", TextKeys.MarkWantedLabel, TextKeys.MarkWantedDescription),
+                    ("mark_wanted_inside", TextKeys.MarkWantedInsideLabel, TextKeys.MarkWantedInsideDescription),
+                    ("mark_price", TextKeys.MarkPriceLabel, TextKeys.MarkPriceDescription),
+                    ("tooltip_price", TextKeys.TooltipPriceLabel, TextKeys.TooltipPriceDescription),
+                    ("tooltip_wanted", TextKeys.TooltipWantedLabel, TextKeys.TooltipWantedDescription),
+                    ("tooltip_risk", TextKeys.TooltipRiskLabel, TextKeys.TooltipRiskDescription),
+                    ("tooltip_appraisal", TextKeys.TooltipAppraisalLabel, TextKeys.TooltipAppraisalDescription),
+                    ("appraisal_fill", TextKeys.AppraisalFillLabel, TextKeys.AppraisalFillDescription),
+                    ("certificate_first", TextKeys.CertificateFirstLabel, TextKeys.CertificateFirstDescription),
+                    ("counterfeit_check", TextKeys.CounterfeitCheckLabel, TextKeys.CounterfeitCheckDescription),
+                    ("reputation_feed", TextKeys.ReputationFeedLabel, TextKeys.ReputationFeedDescription),
+                    ("tablet_feed", TextKeys.TabletFeedLabel, TextKeys.TabletFeedDescription),
+                    ("standing_tally", TextKeys.StandingTallyLabel, TextKeys.StandingTallyDescription),
+                    ("ledger", TextKeys.LedgerLabel, TextKeys.LedgerDescription),
+                    ("window", TextKeys.WindowLabel, TextKeys.WindowDescription),
+                    ("paper_window", TextKeys.PaperWindowLabel, TextKeys.PaperWindowDescription),
+                    ("ledger_at_closing", TextKeys.LedgerAtClosingLabel, TextKeys.LedgerAtClosingDescription),
+                };
+                foreach (var option in options)
+                {
+                    string key = option.Key;
+                    ConfigEntry<bool> entry = config.Define(key, true, section, TextTable.Later(option.Label), TextTable.Later(option.Tip));
                     Settings.Entries[key] = entry;
                     entry.OnChanged += value => SuiteRuntime.SettingsChanged();
                 }
-                Settings.Key = config.Define("open_key", "F6", "Shopkeeping Suite", () => Texts.Get("open_key_label"));
-                Settings.MarkSize = config.Define("mark_size", 2, "Shopkeeping Suite", () => Texts.Get("mark_size_label"), 1, 3,
-                    () => Texts.Get("mark_size_description"));
+                Settings.Key = config.Define("open_key", "F6", section, TextTable.Later(TextKeys.OpenKeyLabel));
+                Settings.MarkSize = config.Define("mark_size", 2, section, TextTable.Later(TextKeys.MarkSizeLabel), 1, 3,
+                    TextTable.Later(TextKeys.MarkSizeDescription));
                 Settings.MarkSize.OnChanged += value => Marks.RequestAll();
-                Settings.PriceMarginEntry = config.Define("price_margin", 5, "Shopkeeping Suite", () => Texts.Get("price_margin_label"), 1, 100,
-                    () => Texts.Get("price_margin_description"));
-                Settings.PriceMarginStrongEntry = config.Define("price_margin_strong", 20, "Shopkeeping Suite", () => Texts.Get("price_margin_strong_label"), 1, 300,
-                    () => Texts.Get("price_margin_strong_description"));
+                Settings.PriceMarginEntry = config.Define("price_margin", 5, section, TextTable.Later(TextKeys.PriceMarginLabel), 1, 100,
+                    TextTable.Later(TextKeys.PriceMarginDescription));
+                Settings.PriceMarginStrongEntry = config.Define("price_margin_strong", 20, section, TextTable.Later(TextKeys.PriceMarginStrongLabel), 1, 300,
+                    TextTable.Later(TextKeys.PriceMarginStrongDescription));
                 Settings.PriceMarginEntry.OnChanged += value => Marks.RequestAll();
                 Settings.PriceMarginStrongEntry.OnChanged += value => Marks.RequestAll();
-                LocalMods.OptionsMenu.Register(Id, "Off the Books: Shopkeeping Suite", Fault);
-                GameOptionRegistry.GetOrAddSection(LocalMods.OptionsRules.SectionId(Id, "Shopkeeping Suite"), () => Texts.Get("title"), Id).label = () => Texts.Get("title");
+                LocalMods.OptionsMenu.Register(Id, TextTable.Early(TextKeys.Title), Fault);
                 ModHelper.AddGameOptionKeyBind(Id, ModHelper.OPTION_SECTION_KEYBIND, "open_key",
-                    () => Texts.Get("open_key_label"), Settings.KeyCode,
+                    TextTable.Later(TextKeys.OpenKeyLabel), Settings.KeyCode,
                     value => { try { Settings.Key.Set(value.ToString()); } catch (Exception error) { Fault("key setting", error); } },
-                    () => Texts.Get("open_key_description"));
+                    TextTable.Later(TextKeys.OpenKeyDescription));
             }
             catch (Exception error) { Fault("settings", error); }
         }
+        private static void NoteFault(string id, Exception error) =>
+            UnityEngine.Debug.LogWarning("[Shopkeeping Suite] a fault in note " + id + "; note delivery skipped. " + error.GetType().Name + ": " + error.Message);
+
         public void OnEnable()
         {
+            Incompatible.Enable();
             try
             {
                 Shapes.Apply();
@@ -64,6 +100,7 @@ namespace ShopkeepingSuite
         }
         public void OnDisable()
         {
+            Incompatible.Disable();
             Counterfeit.Reset();
             try { SuiteRuntime.StopLoop(); }
             catch (Exception error) { Fault("stopping", error); }

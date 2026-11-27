@@ -23,8 +23,8 @@ namespace ShopkeepingSuite
         internal static bool IsSign(string id) => GoodsType(id) != null || id == "sign_berry" || id == "sign_expedition";
         private static readonly Dictionary<string, string> Names = new Dictionary<string, string>
         {
-            ["WATER"] = "price_type_water", ["FOOD"] = "price_type_food", ["MATERIAL"] = "price_type_material", ["MEDICAL"] = "price_type_medical",
-            ["HOUSEHOLD_GOOD"] = "price_type_household", ["FIREARM"] = "price_type_firearm", ["MACHINE"] = "price_type_machine"
+            ["WATER"] = TextKeys.PriceTypeWater, ["FOOD"] = TextKeys.PriceTypeFood, ["MATERIAL"] = TextKeys.PriceTypeMaterial, ["MEDICAL"] = TextKeys.PriceTypeMedical,
+            ["HOUSEHOLD_GOOD"] = TextKeys.PriceTypeHousehold, ["FIREARM"] = TextKeys.PriceTypeFirearm, ["MACHINE"] = TextKeys.PriceTypeMachine
         };
         internal static string NameKey(string type) => Names[type];
         internal static int EventShift(IEnumerable<PriceEntry> entries, string type) => PriceRules.EventShift(entries, tag => tag == type);

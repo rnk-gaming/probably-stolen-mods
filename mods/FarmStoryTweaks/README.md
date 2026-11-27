@@ -7,7 +7,7 @@ The farm machines of [Probably a Farm Story](https://steamcommunity.com/sharedfi
 | | |
 |---|---|
 | Mod id | `rnk.farm-story-tweaks` |
-| Version | 3.0.0 |
+| Version | 3.2.0 |
 | Needs | Probably a Farm Story. |
 
 ## What you get

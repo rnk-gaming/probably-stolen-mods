@@ -5,9 +5,22 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
+using LocalMods;
 
 namespace FarmStoryTweaks
 {
+    // Every text a player sees is a line in dist/Localization/en.csv with one of these keys.
+    internal static class TextKeys
+    {
+
+        internal const string OptionsTitle = "options_title";
+        internal const string Section = "section_machine_stock";
+        internal const string UnownedChance = "option_unowned_chance";
+        internal const string UnownedChanceTip = "option_unowned_chance_desc";
+        internal const string OwnedChance = "option_owned_chance";
+        internal const string OwnedChanceTip = "option_owned_chance_desc";
+    }
+
     internal static class StockRules
     {
         internal static bool Offered(bool owns, int unownedChance, int ownedChance, Func<int, bool> roll)
@@ -66,21 +79,30 @@ namespace FarmStoryTweaks
         {
             try
             {
+                TextTable.Start(manifest.ID, Faults.Report);
+                // Mods it does not go together with: add one list line and two rows in en.csv.
+                Incompatible.Register(manifest.ID, "[Farm Story Tweaks]", new IncompatibleMod[]
+                {
+                    // No confirmed conflicts yet.
+                }, NoteFault);
                 ModConfig config = ModConfig.For(manifest.ID);
-                UnownedChance = config.Define("unowned_chance", 25, "Machine stock",
-                    () => "Chance when you own none (%)", 0, 100,
-                    () => "Per machine and visit, for Probably a Farm Story machines at Dr. Jackson and the Hypertech Smuggler while you own none of that machine. Without this tweak, Probably a Farm Story offers each of them on every visit.");
-                OwnedChance = config.Define("owned_chance", 5, "Machine stock",
-                    () => "Chance when you already own one (%)", 0, 100,
-                    () => "Per machine and visit, once you own that machine. Without this tweak, Probably a Farm Story never offers it again at Dr. Jackson, and always at the smuggler.");
+                string section = TextTable.Early(TextKeys.Section);
+                UnownedChance = config.Define("unowned_chance", 25, section,
+                    TextTable.Later(TextKeys.UnownedChance), 0, 100, TextTable.Later(TextKeys.UnownedChanceTip));
+                OwnedChance = config.Define("owned_chance", 5, section,
+                    TextTable.Later(TextKeys.OwnedChance), 0, 100, TextTable.Later(TextKeys.OwnedChanceTip));
 
-                LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Probably a Farm Story Tweaks", Faults.Report);
+                OptionsMenu.Register(manifest.ID, TextTable.Early(TextKeys.OptionsTitle), Faults.Report);
             }
             catch (Exception error) { Faults.Report("initialising", error); }
         }
 
+        private static void NoteFault(string id, Exception error) =>
+            UnityEngine.Debug.LogWarning("[Farm Story Tweaks] a fault in note " + id + "; note delivery skipped. " + error.GetType().Name + ": " + error.Message);
+
         public void OnEnable()
         {
+            Incompatible.Enable();
             try
             {
                 ModHook.OnPlaceInventorInventoryItemEarly -= OfferOwnedMachines;
@@ -91,6 +113,7 @@ namespace FarmStoryTweaks
 
         public void OnDisable()
         {
+            Incompatible.Disable();
             try { ModHook.OnPlaceInventorInventoryItemEarly -= OfferOwnedMachines; }
             catch (Exception error) { Faults.Report("disabling", error); }
         }
@@ -163,6 +186,7 @@ namespace FarmStoryTweaks
 
                 // The roll said no. If removing the spare item fails, the offer is still
                 // withheld; the fault is reported and the item is left to the game.
+                // The reason is written to the log only, so it is not in the text table.
                 try { GraphUtils.DestroyIfUnplaced(gameItem, "Farm Story Tweaks: machine not offered this visit"); }
                 catch (Exception error) { Faults.Report("removing a machine that is not offered", error); }
                 __result = false;

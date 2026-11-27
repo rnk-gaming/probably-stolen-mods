@@ -4,6 +4,31 @@ using System.Collections.Generic;
 
 namespace LocalMods
 {
+    internal static class RemovalTextKeys
+    {
+        // Each linking mod includes these in its TextKeys and in its own English table.
+        internal const string RemovalOption = "removal_option";
+        internal const string RemovalOptionDesc = "removal_option_desc";
+        internal const string RemovalNoRun = "removal_no_run";
+        internal const string RemovalReturn = "removal_return";
+        internal const string RemovalEmptyWalk = "removal_empty_walk";
+        internal const string RemovalSafe = "removal_safe";
+        internal const string RemovalFailed = "removal_failed";
+        internal const string RemovalContainer = "removal_container";
+        internal const string RemovalLocationUnknown = "removal_location_unknown";
+        internal const string RemovalParentContainer = "removal_parent_container";
+        internal const string RemovalInventory = "removal_inventory";
+        internal const string RemovalInspectFailed = "removal_inspect_failed";
+        internal const string RemovalPackUnknown = "removal_pack_unknown";
+        internal const string RemovalPackContents = "removal_pack_contents";
+        internal const string RemovalPackEmpty = "removal_pack_empty";
+        internal const string RemovalContainerUnknown = "removal_container_unknown";
+        internal const string RemovalContainerCount = "removal_container_count";
+        internal const string RemovalTotalUnknown = "removal_total_unknown";
+        internal const string RemovalTotal = "removal_total";
+        internal const string RemovalTitle = "removal_title";
+    }
+
     internal sealed class RemovalPage
     {
         internal int BaseWidth, BaseHeight, Width, Height;
@@ -77,8 +102,8 @@ namespace LocalMods
             {
                 string section = OptionsRules.SectionId(id, group);
                 var option = GameOptionRegistry.Toggle(OptionsRules.OptionId(id, "before_removing"),
-                    () => "Before removing this mod: list what to move", () => false, Request,
-                    () => "Lists affected containers in the loaded run. Moves nothing. Apply to open the list.");
+                    TextTable.Later(RemovalTextKeys.RemovalOption), () => false, Request,
+                    TextTable.Later(RemovalTextKeys.RemovalOptionDesc));
                 option.source = id;
                 GameOptionRegistry.GetOrAddSection(section, () => OptionsRules.SectionLabel(name, group), id);
                 GameOptionRegistry.Add(section, option);
@@ -109,8 +134,8 @@ namespace LocalMods
             var lines = new List<string>();
             try
             {
-                if (!RunLoaded()) lines.Add("No run is loaded. Load a run and return to the shop first.");
-                else if (!InShop()) lines.Add("Return to the shop to list what must be moved.");
+                if (!RunLoaded()) lines.Add(TextTable.Get(RemovalTextKeys.RemovalNoRun));
+                else if (!InShop()) lines.Add(TextTable.Get(RemovalTextKeys.RemovalReturn));
                 else
                 {
                     bool unknown = false;
@@ -124,7 +149,7 @@ namespace LocalMods
                         catch (Exception error)
                         {
                             unknown = true;
-                            lines.Add((item.name ?? item.identifier ?? "Container") + ": cannot tell (could not inspect this container)");
+                            lines.Add(TextTable.Get(RemovalTextKeys.RemovalInspectFailed, item.name ?? item.identifier ?? TextTable.Get(RemovalTextKeys.RemovalContainer)));
                             Storage.Fault("inspecting a removal container", error); continue;
                         }
                         if (container == null) continue;
@@ -133,30 +158,29 @@ namespace LocalMods
                         unknown |= count < 0;
                         listed.Add(container);
                         if (container.All)
-                            lines.Add(container.Name + ": this backpack itself is removed with the mod"
-                                + (count < 0 ? "; cannot tell how many items are in it" : count > 0 ? "; " + count + " items in it" : "")
-                                + " | " + container.Location);
-                        else lines.Add(container.Name + " | " + container.Location + " | " + (count < 0 ? "cannot tell" : count + " items to move"));
+                            lines.Add(TextTable.Get(count < 0 ? RemovalTextKeys.RemovalPackUnknown
+                                : count > 0 ? RemovalTextKeys.RemovalPackContents : RemovalTextKeys.RemovalPackEmpty, container.Name, container.Location, count));
+                        else lines.Add(TextTable.Get(count < 0 ? RemovalTextKeys.RemovalContainerUnknown : RemovalTextKeys.RemovalContainerCount, container.Name, container.Location, count));
                     }
                     if (seen.Count == 0)
                     {
                         unknown = true;
-                        lines.Add("Cannot tell: no items were found in the loaded run.");
+                        lines.Add(TextTable.Get(RemovalTextKeys.RemovalEmptyWalk));
                     }
-                    if (lines.Count == 0) lines.Add("Nothing to move: this mod can be removed");
-                    else lines.Add("Total: " + RemovalRules.Total(listed) + " items" + (unknown ? "; cannot tell for some containers" : ""));
+                    if (lines.Count == 0) lines.Add(TextTable.Get(RemovalTextKeys.RemovalSafe));
+                    else lines.Add(TextTable.Get(unknown ? RemovalTextKeys.RemovalTotalUnknown : RemovalTextKeys.RemovalTotal, RemovalRules.Total(listed)));
                 }
             }
             catch (Exception error)
             {
-                lines.Add("Cannot finish the list: cannot tell what remains. Keep this mod enabled and try again.");
+                lines.Add(TextTable.Get(RemovalTextKeys.RemovalFailed));
                 Storage.Fault("listing containers before removal", error);
             }
             Storage.Guard("opening removal list", () =>
             {
                 string id = modId + ".before-removing";
                 Close(id);
-                Show(id, modName + ": Before removing this mod", lines);
+                Show(id, TextTable.Get(RemovalTextKeys.RemovalTitle, modName), lines);
             });
         }
 
@@ -164,7 +188,7 @@ namespace LocalMods
         internal static RemovalContainer Snapshot(GameItem item, int[][] basis, int basePages, bool all,
             IEnumerable<GameGridInventory> inventories = null, bool includeSlots = true)
         {
-            var result = new RemovalContainer { Name = item.name ?? item.identifier ?? "Container", All = all, Location = Location(item) };
+            var result = new RemovalContainer { Name = item.name ?? item.identifier ?? TextTable.Get(RemovalTextKeys.RemovalContainer), All = all, Location = Location(item) };
             var pages = new List<RemovalPage>();
             var affected = new HashSet<int>();
             if (all) affected.Add(item.uniqueId);
@@ -230,9 +254,9 @@ namespace LocalMods
         private static string Location(GameItem item)
         {
             GameInventory inventory = item.parentInventory;
-            if (inventory == null) return "location unknown";
+            if (inventory == null) return TextTable.Get(RemovalTextKeys.RemovalLocationUnknown);
             GameItem parent = inventory.GetParentItem();
-            return parent != null ? parent.name ?? parent.identifier ?? "container" : inventory.identifier ?? "inventory";
+            return parent != null ? parent.name ?? parent.identifier ?? TextTable.Get(RemovalTextKeys.RemovalParentContainer) : inventory.identifier ?? TextTable.Get(RemovalTextKeys.RemovalInventory);
         }
 
         private static void Render(string id, string title, List<string> lines)

@@ -1,0 +1,28 @@
+# Off the Books: Machine Upgrades. English texts. To translate, copy this file to the language's
+# code (zh.csv for Chinese, de.csv for German) and change the text after the first comma.
+# Keep {0}, {1} and so on: the game puts a name or a number there.
+options_title,"Off the Books: Machine Upgrades"
+section_machine_upgrades,"Machine Upgrades"
+option_stack_steps,"A dropped stack upgrades as far as it reaches"
+option_stack_steps_desc,"Use a dropped stack for every upgrade it reaches. Off: one drop takes one step. Changes take effect now."
+effect_storage,"Storage"
+effect_efficiency,"Efficiency"
+effect_quality,"Quality"
+effect_performance,"Performance"
+effect_batches,"Batches"
+effect_output,"Output"
+# The lines of a machine's tooltip: {0} the effect, {1} the material, {2} the level, {3} the highest
+# level, {4} what the level gives (rows, batches per night, copies, per cent).
+tooltip_track_rows,"{0} ({1}): {2}/{3} | +{4} rows"
+tooltip_track_per_night,"{0} ({1}): {2}/{3} | {4} per night"
+tooltip_track_times,"{0} ({1}): {2}/{3} | x{4}"
+tooltip_track_percent,"{0} ({1}): {2}/{3} | +{4}%"
+tooltip_storage_rows,"Each Metal Ingot adds 1 row (max 12)."
+tooltip_storage_rows_power,"Each Metal Ingot adds 1 row (max 12) and raises the nightly energy use by 1."
+tooltip_spare_machine,"The machine used as upgrade must be empty and have no Module Bay Expansion Kit."
+tooltip_hydroponic,"Performance and Quality count half on this machine. Upgrades have no effect inside an Integrated Farm."
+incompatible_title,"Off the Books: conflicting mods"
+incompatible_body,"These running mods overlap with Machine Upgrades:\n{0}\n\nSwitch off either this mod or the one listed."
+incompatible_final,"No more notes about this conflict will come in this save."
+incompatible_entry,"{0}: {1}"
+notes_signature,"Off the Books"

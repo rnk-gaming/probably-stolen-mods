@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -161,7 +162,7 @@ namespace ShopkeepingSuite
             {
                 bool stamp = SuiteWindow.DayState.Stamp(SuiteWindow.CurrentDay());
                 paper.SetVisible(page, StampId, stamp); paper.SetVisible(page, ClosedLabelId, stamp);
-                paper.SetText(page, ClosedLabelId, "<color=#" + PaperRules.Red + ">" + Escape(Texts.Get("day_closed", SuiteWindow.CurrentDay())) + "</color>");
+                paper.SetText(page, ClosedLabelId, "<color=#" + PaperRules.Red + ">" + Escape(TextTable.Get(TextKeys.DayClosed, SuiteWindow.CurrentDay())) + "</color>");
                 if (!rotationFailed)
                 {
                     try { paper.TurnOnce(page, StampId, -17); paper.TurnOnce(page, ClosedLabelId, -17); }

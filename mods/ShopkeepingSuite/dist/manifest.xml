@@ -3,7 +3,7 @@
   <ID>rnk.shopkeeping-suite</ID>
   <Name>Off the Books: Shopkeeping Suite</Name>
   <Author>RnK Gaming</Author>
-  <ModVersion>0.7.2</ModVersion>
+  <ModVersion>0.9.0</ModVersion>
   <Description>Shows wanted goods, risky offers, inspection risks, matching containers, price changes, appraisal values, a shop ledger, the current customer and faction standing, with a switch for each aid. Three aids change your game: the appraisal fill writes the value onto the item, the hands aid moves items left in your hands into storage at home, and the appraiser's certificate customer is rolled first. The appraisal aids and the counterfeit check give answers away. Reads Station Economy, Scrapyard Expansion and Module Forge when they are installed, and works without them. Nothing in a save needs the mod.</Description>
   <GameVersions><Version>0.46</Version></GameVersions>
   <Prerequisites><Mod>suoer.stationeconomy</Mod><Mod>local.dumping_ground_map</Mod><Mod>local.moduleforge</Mod></Prerequisites>

@@ -3,7 +3,7 @@
   <ID>rnk.farm-story-tweaks</ID>
   <Name>Off the Books: Probably a Farm Story Tweaks</Name>
   <Author>RnK Gaming</Author>
-  <ModVersion>3.0.0</ModVersion>
+  <ModVersion>3.2.0</ModVersion>
   <Description>Probably a Farm Story's machines at Dr. Jackson and the Hypertech Smuggler get a chance per machine and visit instead of 100%: 25% while you own none, 5% once you own one (adjustable in the mod settings). This changes which machines the two sellers offer; it writes nothing to saves. Research requirements are kept, and the Integrated Farm and the perfume manual are unchanged. Requires Probably a Farm Story.</Description>
   <GameVersions><Version>0.46</Version></GameVersions>
   <Prerequisites><Mod>agri_expansion</Mod></Prerequisites>

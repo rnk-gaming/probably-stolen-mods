@@ -7,7 +7,7 @@
 | | |
 |---|---|
 | Mod id | `rnk.perks` |
-| Version | 0.2.2 |
+| Version | 0.4.0 |
 | Needs | Nothing. |
 
 ## What you get
@@ -48,8 +48,8 @@ In the Mods list and in Options, under **Off the Books: Perks**. There is a swit
 
 ## Good to know
 
-- A perk works in runs that were started with it.
-- If you remove the mod, a run keeps its perks in the list and they stop doing anything.
+- A perk only works in runs that were started with it.
+- If you remove the mod, a run keeps its perks in the list, but they stop doing anything.
 - Works on its own.
 
 ## Other mods

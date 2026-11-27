@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,7 +36,7 @@ namespace ShopkeepingSuite
             foreach (var change in changes)
             {
                 double amount = Math.Round(change.Value, 2, MidpointRounding.AwayFromZero);
-                parts.Add(Texts.Get("reputation_change", name(change.Key), amount.ToString("+0.##;-0.##;0", CultureInfo.InvariantCulture)));
+                parts.Add(TextTable.Get(TextKeys.ReputationChange, name(change.Key), amount.ToString("+0.##;-0.##;0", CultureInfo.InvariantCulture)));
             }
             return string.Join(", ", parts);
         }
@@ -70,7 +71,7 @@ namespace ShopkeepingSuite
                 var factions = AllStanding.Read();
                 // Freeze the reading: a provider may reuse its objects on subsequent polls.
                 Latest = factions.Select(f => new StandingView { Id = f.Id, Faction = f.Faction, Value = f.Value, Status = f.Status, Steps = f.Steps }).ToList();
-                changeTemplate ??= Texts.Get("reputation_change", "{0}", "{1}");
+                changeTemplate ??= TextTable.Get(TextKeys.ReputationChange, "{0}", "{1}");
                 var labels = StandingRules.Labels();
                 var reading = new List<KeyValuePair<string, double>>();
                 var names = new Dictionary<string, string>(StringComparer.Ordinal);

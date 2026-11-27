@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace ShopkeepingSuite
             {
                 StoreEvent active = events[i];
                 if (active?.negociationDatas == null) continue;
-                string name = active.isHidden ? Texts.Get("price_event") : active.displayName;
+                string name = active.isHidden ? TextTable.Get(TextKeys.PriceEvent) : active.displayName;
                 foreach (NegociationData data in active.negociationDatas)
                     if (data != null) result.Add(new PriceEntry { Tag = data.itemType, Value = data.value, Name = name, Group = i });
             }
@@ -132,14 +133,19 @@ namespace ShopkeepingSuite
             try
             {
                 PriceAnswer answer = Get(item, true); if (answer == null || answer.Total == 0 && answer.SignType == null) return;
-                string[] keys = answer.SignType == null
-                    ? new[] { "price_now", "price_more", "price_market", "price_event" }
-                    : new[] { "price_sign_now", "price_more", "price_event", "price_sign_usual", "price_sign_market",
-                        "price_sign_empty", "price_sign_unknown", SignPrices.NameKey(answer.SignType) };
-                var labels = keys.ToDictionary(key => key, key => Texts.Get(key, "{0}", "{1}"));
-                SuiteRuntime.AddLine(builder, PriceRules.Tooltip(answer, labels));
+                SuiteRuntime.AddLine(builder, TooltipLine(answer));
             }
             catch (Exception error) { Fault(error); }
+        }
+        // Text composition is also exercised offline, with supplied price readings.
+        internal static string TooltipLine(PriceAnswer answer)
+        {
+            string[] keys = answer.SignType == null
+                ? new[] { TextKeys.PriceNow, TextKeys.PriceMore, TextKeys.PriceMarket, TextKeys.PriceEvent }
+                : new[] { TextKeys.PriceSignNow, TextKeys.PriceMore, TextKeys.PriceEvent, TextKeys.PriceSignUsual, TextKeys.PriceSignMarket,
+                    TextKeys.PriceSignEmpty, TextKeys.PriceSignUnknown, SignPrices.NameKey(answer.SignType) };
+            var labels = keys.ToDictionary(key => key, key => TextTable.Get(key, "{0}", "{1}"));
+            return PriceRules.Tooltip(answer, labels);
         }
         internal static void Reset()
         {

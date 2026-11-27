@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -21,8 +22,8 @@ namespace ShopkeepingSuite
         {
             if (issues == null) return new List<TabletPage>();
             // The heading always owns the first line. Subsequent pages contain two issue lines.
-            var lines = new List<string> { Texts.Get(issues.Count == 0 ? "counterfeit_no_faults" : "counterfeit_faults") };
-            lines.AddRange(Wrap(issues.Count == 0 ? Texts.Get("counterfeit_sound") : string.Join(", ", issues), measure, width));
+            var lines = new List<string> { TextTable.Get(issues.Count == 0 ? TextKeys.CounterfeitNoFaults : TextKeys.CounterfeitFaults) };
+            lines.AddRange(Wrap(issues.Count == 0 ? TextTable.Get(TextKeys.CounterfeitSound) : string.Join(", ", issues), measure, width));
             return LinePages(lines);
         }
         internal static bool IsTablet(string name) => name == "negociation_tablet" || (name?.EndsWith("_negociation_tablet", StringComparison.Ordinal) ?? false);

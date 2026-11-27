@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 
 namespace ShopkeepingSuite
@@ -31,12 +32,12 @@ namespace ShopkeepingSuite
         {
             Seen last = previous[slot];
             if (last == null || last.Finished || unitsBefore <= 0) return null;
-            if (slot == 2) { last.Finished = true; return "hands_backpack"; }
-            if (unitsLeft == 0) { last.Finished = true; return "hands_brought"; }
+            if (slot == 2) { last.Finished = true; return TextKeys.HandsBackpack; }
+            if (unitsLeft == 0) { last.Finished = true; return TextKeys.HandsBrought; }
             last.NextTry = now + 5;
             if (last.Warned) return null;
             last.Warned = true;
-            return "hands_full";
+            return TextKeys.HandsFull;
         }
         internal string Name(int slot) => previous[slot]?.Name;
         internal void Reset() { Array.Clear(previous, 0, previous.Length); }
@@ -78,7 +79,7 @@ namespace ShopkeepingSuite
                     if (action == 1 && before > 0)
                         for (int root = 0; root < 3 && left > 0; root++) left = Place(root, item);
                     string notice = rules.Result(slot, left, before, now);
-                    if (notice != null) ReputationFeed.Notify(Texts.Get(notice, rules.Name(slot)), "default");
+                    if (notice != null) ReputationFeed.Notify(TextTable.Get(notice, rules.Name(slot)), "default");
                 }
             }
             catch (Exception error) { SuiteMod.Fault("hands at home", error); }
@@ -92,7 +93,7 @@ namespace ShopkeepingSuite
                 throw new InvalidOperationException("the item name is empty");
             }
             catch (Exception error) { SuiteMod.Fault("reading hand item name", error); }
-            return Texts.Get("hands_item");
+            return TextTable.Get(TextKeys.HandsItem);
         }
         internal static void Reset()
         {

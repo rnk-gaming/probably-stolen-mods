@@ -63,18 +63,18 @@ namespace ShopkeepingSuite
             bool sign = answer.SignType != null;
             var events = answer.Events.GroupBy(e => (e.Group, e.Name))
                 .Select(g => new { Name = Name(g.Key.Name), Value = g.Sum(e => (long)e.Value) }).Where(e => e.Value != 0).ToList();
-            var parts = events.Take(3).Select(e => (e.Name.Length == 0 ? text["price_event"] : e.Name) + " " + Signed(e.Value)).ToList();
-            if (events.Count > 3) parts.Add(string.Format(CultureInfo.InvariantCulture, text["price_more"], events.Count - 3));
+            var parts = events.Take(3).Select(e => (e.Name.Length == 0 ? text[TextKeys.PriceEvent] : e.Name) + " " + Signed(e.Value)).ToList();
+            if (events.Count > 3) parts.Add(string.Format(CultureInfo.InvariantCulture, text[TextKeys.PriceMore], events.Count - 3));
             int market = Total(0, answer.Factor);
             if (market != 0) parts.Add(sign
-                ? string.Format(CultureInfo.InvariantCulture, text["price_sign_market"], Signed(market), answer.MarketCount)
-                : text["price_market"] + " " + Signed(market));
+                ? string.Format(CultureInfo.InvariantCulture, text[TextKeys.PriceSignMarket], Signed(market), answer.MarketCount)
+                : text[TextKeys.PriceMarket] + " " + Signed(market));
             string line = sign
-                ? string.Format(CultureInfo.InvariantCulture, text["price_sign_now"], text[SignPrices.NameKey(answer.SignType)], answer.Total == 0 ? text["price_sign_usual"] : Signed(answer.Total))
-                : string.Format(CultureInfo.InvariantCulture, text["price_now"], Signed(answer.Total));
+                ? string.Format(CultureInfo.InvariantCulture, text[TextKeys.PriceSignNow], text[SignPrices.NameKey(answer.SignType)], answer.Total == 0 ? text[TextKeys.PriceSignUsual] : Signed(answer.Total))
+                : string.Format(CultureInfo.InvariantCulture, text[TextKeys.PriceNow], Signed(answer.Total));
             line += parts.Count == 0 ? "" : " (" + string.Join(", ", parts) + ")";
             if (sign && answer.MarketRead && answer.MarketCount == 0)
-                line += "; " + text[answer.MarketSeen == 0 ? "price_sign_empty" : "price_sign_unknown"];
+                line += "; " + text[answer.MarketSeen == 0 ? TextKeys.PriceSignEmpty : TextKeys.PriceSignUnknown];
             return line;
         }
     }

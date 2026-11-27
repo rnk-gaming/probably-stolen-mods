@@ -7,13 +7,13 @@ A bunch of small helpers for running the shop. Switch on the ones you like.
 | | |
 |---|---|
 | Mod id | `rnk.shopkeeping-suite` |
-| Version | 0.7.2 |
+| Version | 0.9.0 |
 | Needs | Nothing. Reads Station Economy, Scrapyard Expansion and Module Forge when they run. |
 
 ## What you get
 
 - **Marks on items:** a green square for what the customer wants and can afford, an orange one for what is over their budget, red and purple triangles for stolen goods and contraband on offer, a red diamond for what a search would find.
-- **Price arrows:** green up for dearer than usual, red down for cheaper. One arrow from 5%, two from 20%, and the tooltip says why.
+- **Price arrows:** green up for more expensive than usual, red down for cheaper. One arrow from 5%, two from 20%, and the tooltip says why.
 - **The ledger:** a window with four pages on F6. Today's sales, purchases and costs, the whole run, the customer at the counter, and your standing with every faction.
 - **Standing:** changes show on the tablet as they happen.
 - **Answers, if you want them:** the right appraisal value and what a counterfeit check would find.
@@ -31,9 +31,9 @@ In the Mods list and in Options, under **Off the Books: Shopkeeping Suite**. Eve
 
 ## Other mods
 
-- **Compatible with** [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344): found by itself. Its market counts in the price arrows.
-- **Compatible with** [Scrapyard Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3840982832): found by itself. The Scavengers show on the Standing page.
-- **Compatible with** [Module Forge](https://steamcommunity.com/sharedfiles/filedetails/?id=3837427779): found by itself. DSI shows on the Standing page.
+- **Compatible with** [Station Economy](https://steamcommunity.com/sharedfiles/filedetails/?id=3838352344): detected automatically. Its market counts in the price arrows.
+- **Compatible with** [Scrapyard Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3840982832): detected automatically. The Scavengers show on the Standing page.
+- **Compatible with** [Module Forge](https://steamcommunity.com/sharedfiles/filedetails/?id=3837427779): detected automatically. DSI shows on the Standing page.
 - Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
 
 The full player's guide is [dist/README.txt](dist/README.txt).

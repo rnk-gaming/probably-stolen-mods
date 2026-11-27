@@ -17,6 +17,31 @@ namespace MachineUpgrades
 {
     internal enum Effect { Storage, Efficiency, Quality, Performance, Batches, Output }
 
+    // Every text a player sees is a line in dist/Localization/en.csv with one of these keys.
+    internal static class TextKeys
+    {
+
+        internal const string OptionsTitle = "options_title";
+        internal const string Section = "section_machine_upgrades";
+        internal const string StackSteps = "option_stack_steps";
+        internal const string StackStepsTip = "option_stack_steps_desc";
+        internal const string Storage = "effect_storage";
+        internal const string Efficiency = "effect_efficiency";
+        internal const string Quality = "effect_quality";
+        internal const string Performance = "effect_performance";
+        internal const string Batches = "effect_batches";
+        internal const string Output = "effect_output";
+        // {0} effect, {1} material, {2} level, {3} highest level, {4} what the level gives.
+        internal const string TrackRows = "tooltip_track_rows";
+        internal const string TrackPerNight = "tooltip_track_per_night";
+        internal const string TrackTimes = "tooltip_track_times";
+        internal const string TrackPercent = "tooltip_track_percent";
+        internal const string StorageRows = "tooltip_storage_rows";
+        internal const string StorageRowsPower = "tooltip_storage_rows_power";
+        internal const string SpareMachine = "tooltip_spare_machine";
+        internal const string Hydroponic = "tooltip_hydroponic";
+    }
+
     internal sealed class Track
     {
         internal readonly Effect Effect;
@@ -61,9 +86,8 @@ namespace MachineUpgrades
 
         internal static void Configure(string id)
         {
-            stackSteps = ModConfig.For(id).Define("stack_steps", true, "Machine Upgrades",
-                () => "A dropped stack upgrades as far as it reaches",
-                () => "Use a dropped stack for every upgrade it reaches. Off: one drop takes one step. Changes take effect now.");
+            stackSteps = ModConfig.For(id).Define("stack_steps", true, TextTable.Early(TextKeys.Section),
+                TextTable.Later(TextKeys.StackSteps), TextTable.Later(TextKeys.StackStepsTip));
         }
 
         private const string Ingot = "metal_ingot", IngotName = "item_metal_ingot_name";
@@ -368,37 +392,49 @@ namespace MachineUpgrades
             if (!IsUpgradeable(item)) return;
             builder.AddLine(" ");
             builder.AddLine(LocHelper.GetLocalizedMechanic("mech_fridge_tooltip_upgrade_header"), true, RenderHandler.ColorPalette.LightCyan);
-            foreach (Track t in Machines[item.identifier])
-            {
-                int level = Level(item, t);
-                string detail = t.Effect switch
-                {
-                    Effect.Storage => " | +" + level + " rows",
-                    Effect.Batches => " | " + (1 + level) + " per night",
-                    Effect.Output => " | x" + (1 + level),
-                    _ => " | +" + level * t.PerStep + "%",
-                };
-                builder.AddLine(Label(t.Effect) + " (" + LocHelper.GetLocalizedItem(t.MaterialName) + "): " + level + "/" + t.Max + detail, true, RenderHandler.ColorPalette.LightCyan);
-            }
-            if (FindTrack(item, Effect.Storage) != null)
-                builder.AddLine(HasPower(item)
-                    ? "Each Metal Ingot adds 1 row (max 12) and raises the nightly energy use by 1."
-                    : "Each Metal Ingot adds 1 row (max 12).", true, RenderHandler.ColorPalette.LightCyan);
-            if (FindTrack(item, Effect.Batches) != null || FindTrack(item, Effect.Output) != null)
-                builder.AddLine("The machine used as upgrade must be empty and have no Module Bay Expansion Kit.", true, RenderHandler.ColorPalette.LightCyan);
-            if (item.identifier == Hydroponic)
-                builder.AddLine("Performance and Quality count half on this machine. Upgrades have no effect inside an Integrated Farm.", true, RenderHandler.ColorPalette.LightCyan);
+            foreach (string line in TooltipLines(item, HasPower))
+                builder.AddLine(line, true, RenderHandler.ColorPalette.LightCyan);
         }
 
-        private static string Label(Effect effect) => effect switch
+        // The lines under the game's own upgrade header, for a machine this mod upgrades.
+        internal static List<string> TooltipLines(GameItem item, Func<GameItem, bool> hasPower)
         {
-            Effect.Storage => "Storage",
-            Effect.Efficiency => "Efficiency",
-            Effect.Quality => "Quality",
-            Effect.Performance => "Performance",
-            Effect.Batches => "Batches",
-            Effect.Output => "Output",
-            _ => effect.ToString(),
+            var lines = new List<string>();
+            foreach (Track t in Machines[item.identifier])
+                lines.Add(TrackLine(t, Level(item, t), MaterialName(t.MaterialName)));
+            if (FindTrack(item, Effect.Storage) != null)
+                lines.Add(TextTable.Get(hasPower(item) ? TextKeys.StorageRowsPower : TextKeys.StorageRows));
+            if (FindTrack(item, Effect.Batches) != null || FindTrack(item, Effect.Output) != null)
+                lines.Add(TextTable.Get(TextKeys.SpareMachine));
+            if (item.identifier == Hydroponic)
+                lines.Add(TextTable.Get(TextKeys.Hydroponic));
+            return lines;
+        }
+
+        // The game's own name of the material.
+        internal static Func<string, string> MaterialName = key => LocHelper.GetLocalizedItem(key);
+
+        internal static string TrackLine(Track track, int level, string material)
+        {
+            string effect = TextTable.Get(Label(track.Effect));
+            switch (track.Effect)
+            {
+                case Effect.Storage: return TextTable.Get(TextKeys.TrackRows, effect, material, level, track.Max, level);
+                case Effect.Batches: return TextTable.Get(TextKeys.TrackPerNight, effect, material, level, track.Max, 1 + level);
+                case Effect.Output: return TextTable.Get(TextKeys.TrackTimes, effect, material, level, track.Max, 1 + level);
+                default: return TextTable.Get(TextKeys.TrackPercent, effect, material, level, track.Max, level * track.PerStep);
+            }
+        }
+
+        // The key of an effect's name.
+        internal static string Label(Effect effect) => effect switch
+        {
+            Effect.Storage => TextKeys.Storage,
+            Effect.Efficiency => TextKeys.Efficiency,
+            Effect.Quality => TextKeys.Quality,
+            Effect.Performance => TextKeys.Performance,
+            Effect.Batches => TextKeys.Batches,
+            _ => TextKeys.Output,
         };
 
         // Furnace runs one batch per cycle (night or Turbo Booster). Run the vanilla
@@ -478,21 +514,40 @@ namespace MachineUpgrades
 
     public class MachineUpgradesMod : IMod
     {
-        internal const string Version = "3.1.2";
+        internal const string Version = "3.3.0";
         internal static bool Running;
         public void Init(ModManifest manifest)
         {
             Storage.Prefix = "[Machine Upgrades]";
             Storage.Guard("machine version", () => Storage.Log?.Invoke(Storage.Prefix + " v" + Version));
+            TextTable.Start(manifest.ID, TextFault);
+            // Mods it does not go together with: add one list line and two rows in en.csv.
+            Incompatible.Register(manifest.ID, "[Machine Upgrades]", new IncompatibleMod[]
+            {
+                // No confirmed conflicts yet.
+            }, NoteFault);
             Storage.Guard("machine settings", () => Upgrades.Configure(manifest.ID));
-            LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Machine Upgrades", Storage.Fault);
+            OptionsMenu.Register(manifest.ID, TextTable.Early(TextKeys.OptionsTitle), Storage.Fault);
             ModHook.OnCreateTooltipLate += AddTooltip;
         }
 
-        public void OnEnable() { Running = true; }
+        // TextTable reports each text fault once; keep the gameplay fault count, which stops
+        // upgrade loops, untouched.
+        private static void TextFault(string where, Exception error) =>
+            Storage.Log?.Invoke(Storage.Prefix + " a fault in " + where + "; using text fallback. " + error.GetType().Name + ": " + error.Message);
+
+        private static void NoteFault(string id, Exception error) =>
+            UnityEngine.Debug.LogWarning("[Machine Upgrades] a fault in note " + id + "; note delivery skipped. " + error.GetType().Name + ": " + error.Message);
+
+        public void OnEnable()
+        {
+            Incompatible.Enable();
+            Running = true;
+        }
 
         public void OnDisable()
         {
+            Incompatible.Disable();
             Running = false;
             ModHook.OnCreateTooltipLate -= AddTooltip;
         }

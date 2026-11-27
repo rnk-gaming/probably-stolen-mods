@@ -1,4 +1,4 @@
-Off the Books: Perks 0.2.2
+Off the Books: Perks 0.4.0
 
 WHAT IT DOES
 It adds 29 starting perks to the new-game screen: trading, customers, appraisal,
@@ -159,10 +159,10 @@ WITH OTHER MODS
 If another mod offers a perk that does the same job as one of these, pick one of the
 two: with both, the effects add up.
 
-TRANSLATIONS
-The texts are in Localization/en.csv. Put a copy named for another language next to it
-(fr.csv, de.csv and so on) and the game uses it when it runs in that language.
-
 WHEN SOMETHING SEEMS WRONG
 Player.log has a line starting with [Perks] that says how many perks were registered
 and how many are not working. If one is not working, another [Perks] line says why.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

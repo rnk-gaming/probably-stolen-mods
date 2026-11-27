@@ -3,7 +3,7 @@
   <ID>rnk.backpacks</ID>
   <Name>Off the Books: Backpacks</Name>
   <Author>RnK Gaming</Author>
-  <ModVersion>1.6.0</ModVersion>
+  <ModVersion>1.8.0</ModVersion>
   <Description>Upgrade the game's backpacks with materials: rows, width, compartments, stack size, side bag slots and a toolbox slot; stack size has an effect only with a mod that stacks items. Adds Scavenger's Pack and Hauler's Pack, more places where backpacks and a worn toolbox are found and sold, and two starting perks. Changes backpack containers saved in the run: without this mod, items in extra space and slots are lost on load, and the two new packs disappear with their contents. Before removal, use 'Before removing this mod: list what to move' in Options, in the shop. Works on its own.</Description>
   <GameVersions><Version>0.46</Version></GameVersions>
   <Prerequisites />

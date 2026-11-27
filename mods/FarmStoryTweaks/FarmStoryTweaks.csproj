@@ -4,6 +4,11 @@
     <AssemblyName>FarmStoryTweaks</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../Shared/Incompatible.cs" Link="Incompatible.cs" />
+    <Compile Include="../Shared/Notes.cs" Link="Notes.cs" />
     <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+    <Compile Include="../Shared/TextTable.cs" Link="TextTable.cs" />
+    <!-- A copy of every text table goes into the DLL, for the texts needed before the game has read the files. -->
+    <EmbeddedResource Include="dist/Localization/*.csv" LogicalName="Localization/%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

@@ -24,10 +24,10 @@ namespace Backpacks
         internal static void Configure(string modId)
         {
             ModConfig config = ModConfig.For(modId);
-            offers[Courier] = config.Define("offer_seasoned_courier", true, "Backpacks", () => "Offer Seasoned Courier in a new game",
-                () => "Restart needed. Adds the starting perk to the new-game screen.");
-            offers[Quartermaster] = config.Define("offer_quartermasters_issue", true, "Backpacks", () => "Offer Quartermaster's Issue in a new game",
-                () => "Restart needed. Adds the starting perk to the new-game screen.");
+            offers[Courier] = config.Define("offer_seasoned_courier", true, TextTable.Early(TextKeys.SectionBackpacks), TextTable.Later(TextKeys.OptionOfferSeasonedCourier),
+                TextTable.Later(TextKeys.OptionOfferPerkDesc));
+            offers[Quartermaster] = config.Define("offer_quartermasters_issue", true, TextTable.Early(TextKeys.SectionBackpacks), TextTable.Later(TextKeys.OptionOfferQuartermastersIssue),
+                TextTable.Later(TextKeys.OptionOfferPerkDesc));
         }
 
         internal static void Enable()
@@ -35,8 +35,8 @@ namespace Backpacks
             Storage.Guard("backpack starting perk registration", () =>
             {
                 if (!Backpacks.Switch("backpacks_enabled")) return;
-                if (Offer(Courier)) Register(Courier, 1, () => Texts.Get("perk_courier_name"), () => Texts.Get("perk_courier_description") + " Stack size needs a stacking mod.");
-                if (Offer(Quartermaster)) Register(Quartermaster, 3, () => Texts.Get("perk_quartermaster_name"), () => Texts.Get("perk_quartermaster_description") + " Stack size needs a stacking mod.");
+                if (Offer(Courier)) Register(Courier, 1, () => TextTable.Get(TextKeys.PerkCourierName), () => TextTable.Get(TextKeys.PerkCourierDescription));
+                if (Offer(Quartermaster)) Register(Quartermaster, 3, () => TextTable.Get(TextKeys.PerkQuartermasterName), () => TextTable.Get(TextKeys.PerkQuartermasterDescription));
             });
         }
 
@@ -51,10 +51,9 @@ namespace Backpacks
                     Storage.Guard("starting backpack", () =>
                     {
                         if (!Active(perk)) return;
-                        string name = Texts.Get(perk == Courier ? "perk_courier_name" : "perk_quartermaster_name");
                         if (!Backpacks.Switch("backpacks_enabled"))
                         {
-                            Storage.Fault(name + " gave nothing because backpack upgrades are off", new InvalidOperationException("Backpack upgrades are disabled"));
+                            Storage.Fault(perk + " gave nothing because backpack upgrades are off", new InvalidOperationException("Backpack upgrades are disabled"));
                             return;
                         }
                         GameItem item = perk == Courier ? DebugTools.Make(Military.Medium, 0, 1, 1, 1, 0, 2) : DebugTools.MakeFull(Military.Large);
@@ -63,12 +62,12 @@ namespace Backpacks
                         {
                             Place(item);
                             if (item.parentInventory == null)
-                                throw new InvalidOperationException(name + " backpack found no room");
+                                throw new InvalidOperationException(perk + " backpack found no room");
                         }
                         catch (Exception error)
                         {
                             if (item.parentInventory == null) Storage.Guard("discarding an unplaced starting backpack", () => Material.Destroy(item));
-                            Storage.Fault(name + " backpack found no room", error);
+                            Storage.Fault(perk + " backpack found no room", error);
                         }
                     });
                 }

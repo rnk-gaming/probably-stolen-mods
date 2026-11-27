@@ -288,7 +288,7 @@ namespace StorageUpgrades
         private static string Describe(int[][] sizes)
         {
             string text = sizes[0][0] + "x" + sizes[0][1];
-            for (int i = 1; i < sizes.Length; i++) text += " and " + sizes[i][0] + "x" + sizes[i][1];
+            for (int i = 1; i < sizes.Length; i++) text = TextTable.Get(TextKeys.TooltipGrids, text, sizes[i][0], sizes[i][1]);
             return text;
         }
 
@@ -300,9 +300,8 @@ namespace StorageUpgrades
                 if (Water(item.identifier))
                 {
                     int capacity = WaterCapacity(item), level = AdoptWater(item, capacity);
-                    string waterDetail = level >= WaterLimit ? "limit reached" : "next: Metal Ingot";
-                    Storage.Line(builder, "Water tank: " + (capacity / 1000000m).ToString("0.######", CultureInfo.InvariantCulture)
-                        + " of 48 | " + waterDetail);
+                    string waterDetail = level >= WaterLimit ? TextTable.Get(TextKeys.TooltipLimit) : TextTable.Get(TextKeys.TooltipNextIngot);
+                    Storage.Line(builder, TextTable.Get(TextKeys.TooltipWater, (capacity / 1000000m).ToString("0.######", CultureInfo.InvariantCulture), waterDetail));
                     return;
                 }
                 int[][] basis = Machines[item.identifier], current = Current(item, basis);
@@ -311,10 +310,10 @@ namespace StorageUpgrades
                 if (complete) current = Targets(basis, current, Adopt(item, basis, current));
                 var most = new int[basis.Length][];
                 for (int i = 0; i < basis.Length; i++) most[i] = new[] { basis[i][2], basis[i][3] };
-                string detail = !complete ? "after the machine's own upgrades"
+                string detail = !complete ? TextTable.Get(TextKeys.TooltipMachineFirst)
                     : StorageRules.NextBay(basis[0][0], basis[0][1], basis[0][2], basis[0][3], current[0][0], current[0][1]) == null
-                        ? "limit reached" : "next: Metal Ingot";
-                Storage.Line(builder, "Storage: " + Describe(current) + " of " + Describe(most) + " | " + detail);
+                        ? TextTable.Get(TextKeys.TooltipLimit) : TextTable.Get(TextKeys.TooltipNextIngot);
+                Storage.Line(builder, TextTable.Get(TextKeys.TooltipMachine, Describe(current), Describe(most), detail));
             }
             catch (Exception error) { Storage.Fault("machine storage tooltip", error); }
         }

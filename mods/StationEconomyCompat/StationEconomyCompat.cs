@@ -2,9 +2,40 @@ using System;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
+using LocalMods;
 
 namespace StationEconomyCompat
 {
+    // The compatibility mod's own texts; Station Economy's English additions stay separate.
+    internal static class TextKeys
+    {
+
+        internal const string OptionsTitle = "options_title";
+        internal const string Section = "section_station_economy";
+        internal const string PhoneInView = "option_phone_in_view";
+        internal const string PhoneInViewTip = "option_phone_in_view_desc";
+        internal const string PhoneOverSides = "option_phone_over_sides";
+        internal const string PhoneOverSidesTip = "option_phone_over_sides_desc";
+        internal const string PhoneFitText = "option_phone_fit_text";
+        internal const string PhoneFitTextTip = "option_phone_fit_text_desc";
+        internal const string PhoneFitShare = "option_phone_fit_share";
+        internal const string PhoneFitShareTip = "option_phone_fit_share_desc";
+        internal const string EnglishAdditions = "option_english_additions";
+        internal const string EnglishAdditionsTip = "option_english_additions_desc";
+        internal const string EnglishNames = "option_english_names";
+        internal const string EnglishNamesTip = "option_english_names_desc";
+        internal const string EnglishPreviews = "option_english_previews";
+        internal const string EnglishPreviewsTip = "option_english_previews_desc";
+        internal const string EnglishInitials = "option_english_initials";
+        internal const string EnglishInitialsTip = "option_english_initials_desc";
+        internal const string FurnaceFeed = "option_furnace_feed";
+        internal const string FurnaceFeedTip = "option_furnace_feed_desc";
+        internal const string FurnaceHopper = "option_furnace_hopper";
+        internal const string FurnaceHopperTip = "option_furnace_hopper_desc";
+        internal const string WholesaleSign = "option_wholesale_sign";
+        internal const string WholesaleSignTip = "option_wholesale_sign_desc";
+    }
+
     // Station Economy draws its phone (F7) on a layer of its own over the whole screen and
     // places it from the full screen width. On a screen wider than 16:9 the game's picture
     // is 16:9 in the middle, and the phone lands beside it where it is not seen.
@@ -51,39 +82,51 @@ namespace StationEconomyCompat
 
         public void Init(ModManifest manifest)
         {
+            TextTable.Start(manifest.ID, Bridge.Fault);
+            // Mods it does not go together with: add one list line and two rows in en.csv.
+            Incompatible.Register(manifest.ID, "[Station Economy Compat]", new IncompatibleMod[]
+            {
+                // No confirmed conflicts yet.
+            }, NoteFault);
             Bridge.HarmonyId = "mod." + manifest.ID;
             try
             {
-                Enabled = ModConfig.For(manifest.ID).Define("phone_in_view", true, "Station Economy", () => "Keep the phone inside the game's picture",
-                    () => "On a screen wider than 16:9, keep Station Economy's phone (F7) inside the 16:9 picture.");
-                OverSides = ModConfig.For(manifest.ID).Define("phone_over_sides", true, "Station Economy", () => "Show the phone over the black sides",
-                    () => "On a screen wider than 16:9, draw Station Economy's phone over the black sides, so that it can be dragged there like the game's own windows.");
-                FitText = ModConfig.For(manifest.ID).Define("phone_fit_text", true, "Station Economy", () => "Shrink phone texts that do not fit",
-                    () => "Station Economy's phone cuts a line that is too long for its place. With this on, the line is first made smaller so that more of it shows. Applies to texts made after the change.");
-                FitShare = ModConfig.For(manifest.ID).Define("phone_fit_share", Rules.DefaultShare, "Station Economy", () => "Smallest text size (% of its own)", Rules.LeastShare, Rules.MostShare,
-                    () => "How small a phone text may become before it is cut. 100 switches the shrinking off.");
-                English = ModConfig.For(manifest.ID).Define("english_additions", true, "Station Economy", () => "Add missing English to Station Economy",
-                    () => "Add English lines from the table in this mod's Localization folder to Station Economy's own translator. Without the table this does nothing. Switching it off restores the original table for the next translation.");
+                var config = ModConfig.For(manifest.ID);
+                string section = TextTable.Early(TextKeys.Section);
+                Enabled = config.Define("phone_in_view", true, section, TextTable.Later(TextKeys.PhoneInView),
+                    TextTable.Later(TextKeys.PhoneInViewTip));
+                OverSides = config.Define("phone_over_sides", true, section, TextTable.Later(TextKeys.PhoneOverSides),
+                    TextTable.Later(TextKeys.PhoneOverSidesTip));
+                FitText = config.Define("phone_fit_text", true, section, TextTable.Later(TextKeys.PhoneFitText),
+                    TextTable.Later(TextKeys.PhoneFitTextTip));
+                FitShare = config.Define("phone_fit_share", Rules.DefaultShare, section, TextTable.Later(TextKeys.PhoneFitShare), Rules.LeastShare, Rules.MostShare,
+                    TextTable.Later(TextKeys.PhoneFitShareTip));
+                English = config.Define("english_additions", true, section, TextTable.Later(TextKeys.EnglishAdditions),
+                    TextTable.Later(TextKeys.EnglishAdditionsTip));
                 English.OnChanged += EnglishAdditions.SettingChanged;
-                Names = ModConfig.For(manifest.ID).Define("english_names", true, "Station Economy", () => "Keep Station Economy's English with your own shopkeeper name",
-                    () => "Only acts when the game is not in Chinese. A Chinese name is kept as written, a Latin name is written given name first, and a default part uses its English form. A family name shared with another character can show your name in a line about them.");
-                Previews = ModConfig.For(manifest.ID).Define("english_previews", true, "Station Economy", () => "Cut long lines after translating them",
-                    () => "Translate message previews before cutting them to fit, so that long English lines stay in English. Chinese text is left as it is.");
-                Initials = ModConfig.For(manifest.ID).Define("english_initials", true, "Station Economy", () => "Latin initial for a translated name",
-                    () => "Use the first letter or digit of a translated name on its avatar. Chinese names without a translation are left as they are.");
-                Furnace = ModConfig.For(manifest.ID).Define("furnace_feed", true, "Station Economy", () => "Feed the Furnace in full through a hopper",
-                    () => "When Station Economy pulls feed for the Furnace itself (it does so when the input holds fewer than three pieces), every piece it takes is counted and what a run did not use goes back.");
-                Hoppers = ModConfig.For(manifest.ID).Define("furnace_hopper", true, "Station Economy", () => "Hoppers fill the Furnace as in the base game",
-                    () => "Station Economy stops a hopper from moving items into a Furnace and feeds the Furnace itself, a few pieces at a time. With this on, a hopper fills the Furnace's input as it fills any other inventory: what the filter lets through, as much as there is room for.");
-                Wholesale = ModConfig.For(manifest.ID).Define("wholesale_sign", true, "Station Economy", () => "Wholesale offers of Station Economy's sellers are a discount",
-                    () => "Buying a seller's whole lot costs less, as the seller says. Applies to the next visitor.");
-                LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Station Economy Compatibility", Bridge.Fault);
+                Names = config.Define("english_names", true, section, TextTable.Later(TextKeys.EnglishNames),
+                    TextTable.Later(TextKeys.EnglishNamesTip));
+                Previews = config.Define("english_previews", true, section, TextTable.Later(TextKeys.EnglishPreviews),
+                    TextTable.Later(TextKeys.EnglishPreviewsTip));
+                Initials = config.Define("english_initials", true, section, TextTable.Later(TextKeys.EnglishInitials),
+                    TextTable.Later(TextKeys.EnglishInitialsTip));
+                Furnace = config.Define("furnace_feed", true, section, TextTable.Later(TextKeys.FurnaceFeed),
+                    TextTable.Later(TextKeys.FurnaceFeedTip));
+                Hoppers = config.Define("furnace_hopper", true, section, TextTable.Later(TextKeys.FurnaceHopper),
+                    TextTable.Later(TextKeys.FurnaceHopperTip));
+                Wholesale = config.Define("wholesale_sign", true, section, TextTable.Later(TextKeys.WholesaleSign),
+                    TextTable.Later(TextKeys.WholesaleSignTip));
+                OptionsMenu.Register(manifest.ID, TextTable.Early(TextKeys.OptionsTitle), Bridge.Fault);
             }
             catch (Exception error) { Bridge.Fault("settings", error); }
         }
 
+        private static void NoteFault(string id, Exception error) =>
+            UnityEngine.Debug.LogWarning("[Station Economy Compat] a fault in note " + id + "; note delivery skipped. " + error.GetType().Name + ": " + error.Message);
+
         public void OnEnable()
         {
+            Incompatible.Enable();
             EnglishAdditions.Active = true;
             EnglishNames.Active = true;
             EnglishPreviews.Active = true;
@@ -100,6 +143,7 @@ namespace StationEconomyCompat
 
         public void OnDisable()
         {
+            Incompatible.Disable();
             EnglishAdditions.Disable();
             EnglishNames.Disable();
             EnglishPreviews.Disable();

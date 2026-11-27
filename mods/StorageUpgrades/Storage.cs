@@ -1,3 +1,4 @@
+using StorageUpgrades;
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
@@ -111,10 +112,10 @@ namespace LocalMods
             catch (Exception error) { Fault("bay option name", error); }
             if (string.IsNullOrWhiteSpace(name) || name == key)
             {
-                name = (id ?? "Storage").Replace('_', ' ');
+                name = (id ?? TextTable.Get(TextKeys.BayNameUnknown)).Replace('_', ' ');
                 if (name.Length > 0) name = char.ToUpperInvariant(name[0]) + name.Substring(1);
             }
-            return name + ": maximum " + (columns ? "columns" : "rows");
+            return TextTable.Get(columns ? TextKeys.OptionBayColumns : TextKeys.OptionBayRows, name);
         }
         internal static Func<string, int, int> Setting = (key, fallback) => settings.TryGetValue(key, out ConfigEntry<int> entry) ? entry.Value : fallback;
         // Ingots retain vanilla upgrade perks. A joined container is always used up.
@@ -127,27 +128,27 @@ namespace LocalMods
         internal static void Configure(string id)
         {
             ModConfig config = ModConfig.For(id);
-            Bool(config, "stack_steps", true, "A dropped stack upgrades as far as it reaches", "Use a dropped stack for every upgrade it reaches. Off: one drop takes one step. Changes take effect now.");
-            Bool(config, "storage_enabled", true, "Storage upgrades", "Allow new storage upgrades. Saved sizes are restored even when this is off.");
-            Bool(config, "machine_storage_enabled", true, "Machine storage upgrades", "Allow Metal Ingots to enlarge machine storage after the machine's own upgrades. Saved sizes are always restored.");
-            Bool(config, "crates_enabled", true, "Drop an empty crate on another of the same kind to enlarge it", "Join unlocked crates of the same kind using an empty owned donor.");
-            Bool(config, "beer_case_enabled", true, "Beer Case upgrades", "Join Beer Cases using an empty owned donor.");
-            Bool(config, "smuggler_takes_machine_bays", false, "Smuggler's Bays take Machine Bays", "A Machine Bay, with what is in it, can be put into a Smuggler's Bay. The game does not allow this. Changes take effect now.");
-            Bool(config, "storage_bays_take_machine_bays", false, "Storage Bays take Machine Bays", "A Machine Bay, with what is in it, can be put into a Makeshift Storage Bay, a Storage Bay or a Storage Bay (Extended). The game does not allow this. Changes take effect now.");
-            settings["crate_limit"] = config.Define("crate_limit", 6, "Storage", () => "How many crates one crate can grow to", 1, 6,
-                () => "Maximum combined multiplier. Lowering this does not shrink existing containers.");
+            Bool(config, "stack_steps", true, TextKeys.OptionStackSteps, TextKeys.OptionStackStepsDesc);
+            Bool(config, "storage_enabled", true, TextKeys.OptionStorageEnabled, TextKeys.OptionStorageEnabledDesc);
+            Bool(config, "machine_storage_enabled", true, TextKeys.OptionMachineStorageEnabled, TextKeys.OptionMachineStorageEnabledDesc);
+            Bool(config, "crates_enabled", true, TextKeys.OptionCratesEnabled, TextKeys.OptionCratesEnabledDesc);
+            Bool(config, "beer_case_enabled", true, TextKeys.OptionBeerCaseEnabled, TextKeys.OptionBeerCaseEnabledDesc);
+            Bool(config, "smuggler_takes_machine_bays", false, TextKeys.OptionSmugglerTakesMachineBays, TextKeys.OptionSmugglerTakesMachineBaysDesc);
+            Bool(config, "storage_bays_take_machine_bays", false, TextKeys.OptionStorageBaysTakeMachineBays, TextKeys.OptionStorageBaysTakeMachineBaysDesc);
+            settings["crate_limit"] = config.Define("crate_limit", 6, TextTable.Early(TextKeys.SectionStorage), TextTable.Later(TextKeys.OptionCrateLimit), 1, 6,
+                TextTable.Later(TextKeys.OptionCrateLimitDesc));
             foreach (KeyValuePair<string, int[]> bay in StorageRules.Bays)
             {
                 string key = bay.Key; int[] s = bay.Value;
-                settings[key + "_columns"] = config.Define(key + "_columns", s[2], "Storage", () => BayLabel(key, true), s[0], s[2],
-                    () => "Largest width for new steps; existing capacity is kept.");
-                settings[key + "_rows"] = config.Define(key + "_rows", s[3], "Storage", () => BayLabel(key, false), s[1], s[3],
-                    () => "Largest height for new steps; existing capacity is kept.");
+                settings[key + "_columns"] = config.Define(key + "_columns", s[2], TextTable.Early(TextKeys.SectionStorage), () => BayLabel(key, true), s[0], s[2],
+                    TextTable.Later(TextKeys.OptionBayColumnsDesc));
+                settings[key + "_rows"] = config.Define(key + "_rows", s[3], TextTable.Early(TextKeys.SectionStorage), () => BayLabel(key, false), s[1], s[3],
+                    TextTable.Later(TextKeys.OptionBayRowsDesc));
             }
         }
 
         private static void Bool(ModConfig config, string key, bool value, string title, string description)
-            => switches[key] = config.Define(key, value, "Storage", () => title, () => description);
+            => switches[key] = config.Define(key, value, TextTable.Early(TextKeys.SectionStorage), TextTable.Later(title), TextTable.Later(description));
 
         internal static bool IsCrate(string id) => id == "eng_box" || id == "med_box" || id == "sec_box" || id == "service_box" || id == "evidence_box";
         internal static bool Supported(string id) => id != null && (StorageRules.Bays.ContainsKey(id) || IsCrate(id) || id == "beerCase");
@@ -346,7 +347,7 @@ namespace LocalMods
                 {
                     current = BaySize(item, bay, current);
                     int[] next = NextBay(item, bay, current);
-                    detail = next == null ? "limit reached" : "next: Metal Ingot -> " + next[0] + "x" + next[1];
+                    detail = next == null ? TextTable.Get(TextKeys.TooltipLimit) : TextTable.Get(TextKeys.TooltipNextBay, next[0], next[1]);
                 }
                 else
                 {
@@ -357,12 +358,11 @@ namespace LocalMods
                     int limit = StorageRules.Clamp(Setting("crate_limit", 6), 1, 6);
                     // A crate with a large grid of its own reaches the largest grid before the setting.
                     int most = item.identifier == "beerCase" ? limit : Math.Max(multiplier, StorageRules.MostCrates(basis[0], basis[1], limit));
-                    detail = "x" + multiplier + "/" + most + " | "
-                        + (next == null ? (most < limit ? "largest grid reached" : "limit reached") : "next: empty, owned, unlocked " + (item.identifier == "beerCase" ? "Beer Case" : "crate of the same kind"));
-                    if (item.identifier == "beerCase" && multiplier >= 3 && multiplier < 6) detail += " | second row at x6";
+                    detail = TextTable.Get(TextKeys.TooltipCrate, multiplier, most, next == null ? TextTable.Get(most < limit ? TextKeys.TooltipLargest : TextKeys.TooltipLimit) : TextTable.Get(item.identifier == "beerCase" ? TextKeys.TooltipNextBeer : TextKeys.TooltipNextCrate));
+                    if (item.identifier == "beerCase" && multiplier >= 3 && multiplier < 6) detail = TextTable.Get(TextKeys.TooltipBeerSecondRow, detail);
                 }
-                if (!On(item.identifier)) detail += " | new upgrades disabled";
-                Line(builder, "Storage: " + current[0] + "x" + current[1] + " | " + detail);
+                if (!On(item.identifier)) detail = TextTable.Get(TextKeys.TooltipDisabled, detail);
+                Line(builder, TextTable.Get(TextKeys.TooltipStorage, current[0], current[1], detail));
             }
             catch (Exception error) { Fault("storage tooltip", error); }
         }

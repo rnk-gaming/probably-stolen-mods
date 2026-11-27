@@ -1,4 +1,4 @@
-Off the Books: Scavenging Pool 2.1.2
+Off the Books: Scavenging Pool 2.3.0
 RnK Gaming
 
 WHAT IT DOES
@@ -58,3 +58,7 @@ Lines start with [Scavenging Pool]. Once a night one line says how many trips ar
 counted: "[Scavenging Pool] trips tonight: ...", with the source of the number and
 the cap. Other lines are warnings, for example when Transit Quota or a game hook has
 a shape the mod cannot use. A fault is reported once and the game's own rule is used.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

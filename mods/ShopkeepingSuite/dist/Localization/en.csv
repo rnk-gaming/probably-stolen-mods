@@ -1,3 +1,6 @@
+# Off the Books: Shopkeeping Suite. English texts. To translate, copy this file to the language's
+# code (zh.csv for Chinese, de.csv for German) and change the text after the first comma.
+# Keep {0}, {1} and so on: the game puts a name or a number there.
 title,"Off the Books: Shopkeeping Suite"
 hands_home_label,"Hands are emptied at home"
 hands_home_description,"After an outing the game leaves an item in your hand when there is no room for it at home, and all but one unit of a stack. You cannot reach it there until the next outing. With this on, such an item is brought into the back room, the shop or the showcase as soon as there is room, and a notice says so."
@@ -95,14 +98,8 @@ today,"Today"
 run,"Run"
 customer,"Customer"
 standing,"Standing"
-money_in,"Money in: {0}"
-money_out,"Money out: {0}"
-net,"Net: {0}"
 yesterday,"Yesterday"
 last_day,"Last day recorded"
-day_net,"Day {0}: net {1}"
-days,"Days recorded: {0}"
-line,"{0}: {1}"
 sales,"Sales"
 items_sold,"Items sold"
 purchases,"Purchases"
@@ -116,13 +113,8 @@ burgled,"Stolen from the shop"
 other,"Other income"
 upgrades,"Upgrades"
 margin,"Known sales margin"
-service_line,"Service ({0}): {1}"
 nobody,"Nobody at the counter"
-budget,"Budget left: {0}"
 no_budget,"No spending limit"
-wants_count,"Wanted items: {0}; within budget: {1}"
-client_line,"{0} — {1} — {2}"
-reputation,"{0}: {1} ({2})"
 no_standing,"No standing recorded"
 intent_buy,"Buying goods"
 intent_sell,"Selling goods"
@@ -156,16 +148,25 @@ tooltip_appraisal_description,"Gives the answer to an appraisal while an apprais
 ledger_description,"Counts future sales and costs only while enabled. Missed events cannot be recovered. Changes take effect now."
 window_description,"Today, Run, Customer and Standing in one window. Changes take effect now."
 ledger_at_closing_description,"Opens the Today page after closing the shutter. Changes take effect now."
-
-section_sales,Sales
-section_purchases,Purchases
-section_costs,Costs
-section_other_costs,Other costs
-section_result,Result
-daily_gained,Gained
-daily_lost,Lost
-daily_change,Change
-no_change_today,No change today
+section_sales,"Sales"
+section_purchases,"Purchases"
+section_costs,"Costs"
+section_other_costs,"Other costs"
+section_result,"Result"
+daily_gained,"Gained"
+daily_lost,"Lost"
+daily_change,"Change"
+no_change_today,"No change today"
 wanted_inside,"Wanted by this customer: {0} item(s) inside"
 mark_wanted_inside_label,"Mark containers that hold what the customer wants"
 mark_wanted_inside_description,"With wanted marks on, marks your containers holding wanted goods, including nested, locked and hidden stock. Light green if any wanted item inside is affordable, light orange otherwise. Changes take effect now."
+section_shopkeeping_suite,"Shopkeeping Suite"
+faction_scavengers,"Scavengers"
+faction_dsi,"DSI"
+incompatible_title,"Off the Books: conflicting mods"
+incompatible_body,"These running mods overlap with Shopkeeping Suite:\n{0}\n\nSwitch off either this mod or the one listed."
+incompatible_final,"No more notes about this conflict will come in this save."
+incompatible_entry,"{0}: {1}"
+notes_signature,"Off the Books"
+incompatible_shop_assist_name,"Shop Assist"
+incompatible_shop_assist_reason,"The ledger, stock overview and appraisal help overlap."
