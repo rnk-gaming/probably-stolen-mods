@@ -1,4 +1,4 @@
-Off the Books: Machine Upgrades 3.1.2
+Off the Books: Machine Upgrades 3.3.0
 
 WHAT IT DOES
 You upgrade eight machines by dragging materials onto the closed machine item, as you
@@ -39,8 +39,8 @@ Hydroponic System (also the Old Hydroponic System)
 - Efficiency, 40 x 5%. Performance (Wire), 20 x 10%.
 - Quality (Chemical Supplies (Common)), 40 x 5%.
 - Performance and Quality count half on this machine.
-- Upgrades have no effect inside Agri Expansion's Integrated Farm, which sets its
-  plots' stats itself, and cannot be added there.
+- Upgrades have no effect inside Probably a Farm Story's Integrated Farm, which sets
+  its plots' stats itself, and cannot be added there.
 
 Moisture Farm
 - Efficiency, 40 x 5%. Performance (Wire), 20 x 5%.
@@ -74,7 +74,8 @@ WHAT IT CHANGES IN A SAVE AND IN THE ECONOMY
 - Upgrades change what the machines make and how much energy they use.
 
 IF YOU USE OTHER MODS
-- Agri Expansion: the Furnace's extra batches also apply to its Ironfruit smelting.
+- Probably a Farm Story: the Furnace's extra batches also apply to its Ironfruit
+  smelting.
 
 SETTINGS
 The only setting is "A dropped stack upgrades as far as it reaches". It is in the Mods
@@ -88,3 +89,7 @@ the mod is removed.
 
 WHEN SOMETHING SEEMS WRONG
 Player.log shows a line starting with [Machine Upgrades] when the mod meets a fault.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

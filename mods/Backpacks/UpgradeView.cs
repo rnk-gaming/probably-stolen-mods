@@ -18,20 +18,35 @@ namespace Backpacks
             internal readonly Dictionary<string, int> Needs = new Dictionary<string, int>();
         }
 
-        internal const string Help = "Drop a material on the closed backpack, or use what lies in it. A dropped material goes to the first upgrade in this list that still needs it.";
+        internal static string Help => TextTable.Get(TextKeys.ViewHelp);
 
         internal static string Name(string id)
         {
             id = Military.Canonical(id);
-            if (id == Military.Medium) return Texts.Get("scavengers_pack_name");
-            if (id == Military.Large) return Texts.Get("haulers_pack_name");
-            string fallback = id == "kotton_fabric" ? "Kotton Fabric" : id == "printer_plastic" ? "3D Printing Filament"
-            : id == "wire" ? "Wire" : id == "nuts_metal" ? "Metal Screws" : id == "metal_ingot" ? "Metal Ingot"
-            : id == "scrap_metal" ? "Scrap Metal" : id == "fanny_pack" ? "Fanny Pack" : id == "satchel" ? "Satchel"
-            : id == "backpack_small" ? "Small Backpack" : id == "backpack_medium" ? "Medium Backpack"
-            : id == "backpack_large" ? "Large Backpack" : id == "kids_backpack" ? "Kids' Backpack"
-            : id == "storage_bay_expansion_kit" ? "Storage Bay Expansion Kit" : "Module Bay Expansion Kit";
+            if (id == Military.Medium) return TextTable.Get(TextKeys.ScavengersPackName);
+            if (id == Military.Large) return TextTable.Get(TextKeys.HaulersPackName);
+            string fallback = id == "kotton_fabric" ? TextTable.Get(TextKeys.ItemKottonFabric) :
+                id == "printer_plastic" ? TextTable.Get(TextKeys.ItemPrinterPlastic) :
+                id == "wire" ? TextTable.Get(TextKeys.ItemWire) :
+                id == "nuts_metal" ? TextTable.Get(TextKeys.ItemNutsMetal) :
+                id == "metal_ingot" ? TextTable.Get(TextKeys.ItemMetalIngot) :
+                id == "scrap_metal" ? TextTable.Get(TextKeys.ItemScrapMetal) :
+                id == "fanny_pack" ? TextTable.Get(TextKeys.ItemFannyPack) :
+                id == "satchel" ? TextTable.Get(TextKeys.ItemSatchel) :
+                id == "backpack_small" ? TextTable.Get(TextKeys.ItemBackpackSmall) :
+                id == "backpack_medium" ? TextTable.Get(TextKeys.ItemBackpackMedium) :
+                id == "backpack_large" ? TextTable.Get(TextKeys.ItemBackpackLarge) :
+                id == "kids_backpack" ? TextTable.Get(TextKeys.ItemKidsBackpack) :
+                id == "storage_bay_expansion_kit" ? TextTable.Get(TextKeys.ItemStorageBayExpansionKit) :
+                TextTable.Get(TextKeys.ItemModuleBayExpansionKit);
             return Backpacks.Supported(id) && !Military.IsMilitary(id) ? Texts.ItemName(id, fallback) : fallback;
+        }
+
+        private static string LaterSteps(List<string> steps)
+        {
+            string text = steps[0];
+            for (int i = 1; i < steps.Count; i++) text = TextTable.Get(TextKeys.ViewThen, text, steps[i]);
+            return text;
         }
 
         internal static List<Block> Build(string id, Dictionary<string, int> tags, Dictionary<string, int> contents,
@@ -47,9 +62,9 @@ namespace Backpacks
 
             void Add(int kind, int step, string heading, string key, string[] materials, int[] recipe, int[] paid, List<string> later, bool donor = false)
             {
-                var block = new Block { Kind = kind, Step = step, Heading = heading, Next = "Limit reached" };
+                var block = new Block { Kind = kind, Step = step, Heading = heading, Next = TextTable.Get(TextKeys.ViewLimit) };
                 bool active = enabled && On(key);
-                if (!active) block.Note = "New upgrades disabled";
+                if (!active) block.Note = TextTable.Get(TextKeys.ViewDisabled);
                 if (recipe != null)
                 {
                     var progress = new List<string>(); var held = new List<string>();
@@ -57,26 +72,26 @@ namespace Backpacks
                     {
                         if (recipe[i] <= 0) continue;
                         int p = StorageRules.Clamp(paid[i], 0, recipe[i]);
-                        progress.Add(Name(materials[i]) + (donor ? "" : " " + p + "/" + recipe[i]));
+                        progress.Add(donor ? Name(materials[i]) : TextTable.Get(TextKeys.MaterialProgress, Name(materials[i]), p, recipe[i]));
                         int need = recipe[i] - p;
                         if (need <= 0) continue;
                         block.Needs[materials[i]] = need;
                         int count = contents != null && contents.TryGetValue(materials[i], out int n) ? Math.Max(0, n) : 0;
-                        if (count > 0) held.Add(Name(materials[i]) + " " + count);
+                        if (count > 0) held.Add(TextTable.Get(TextKeys.MaterialCount, Name(materials[i]), count));
                     }
-                    block.Next = "Next: " + string.Join(", ", progress);
-                    if (donor) block.Note = "Drop the bag on the closed backpack" + (active ? "" : ". New upgrades disabled");
+                    block.Next = TextTable.Get(TextKeys.ViewNext, string.Join(", ", progress));
+                    if (donor) block.Note = TextTable.Get(active ? TextKeys.ViewDropBag : TextKeys.ViewDropBagDisabled);
                     else
                     {
-                        if (held.Count > 0) block.Contents = "In this backpack: " + string.Join(", ", held);
+                        if (held.Count > 0) block.Contents = TextTable.Get(TextKeys.ViewContents, string.Join(", ", held));
                         block.Button = kind != 2 && active && held.Count > 0;
                         if (kind != 2 && held.Count == 0)
-                            block.Note = "Nothing in this backpack to use: put the material in it, or drop it on the closed backpack."
-                                + (active ? "" : " New upgrades disabled");
+                            block.Note = TextTable.Get(active ? TextKeys.ViewNoMaterial
+                                : TextKeys.ViewNoMaterialDisabled);
                     }
-                    if (kind == 2 && !donor) block.Note = "Drop the kit on the closed backpack" + (active ? "" : ". New upgrades disabled");
+                    if (kind == 2 && !donor) block.Note = TextTable.Get(active ? TextKeys.ViewDropKit : TextKeys.ViewDropKitDisabled);
                 }
-                if (later.Count > 0) block.After = "After that: " + string.Join(", then ", later);
+                if (later.Count > 0) block.After = TextTable.Get(TextKeys.ViewAfter, LaterSteps(later));
                 blocks.Add(block);
             }
 
@@ -94,10 +109,10 @@ namespace Backpacks
                     for (int n = step + 1; n <= maximum - basis; n++)
                     {
                         var after = Cost(n);
-                        later.Add(n == step + 1 ? after.Units + " " + Name(after.Material)
-                            : after.Material != Cost(n - 1).Material ? Name(after.Material) + " " + after.Units : after.Units.ToString());
+                        later.Add(n == step + 1 ? TextTable.Get(TextKeys.MaterialUnits, after.Units, Name(after.Material))
+                            : after.Material != Cost(n - 1).Material ? TextTable.Get(TextKeys.MaterialCount, Name(after.Material), after.Units) : after.Units.ToString());
                     }
-                Add(row ? 1 : 4, size, (row ? "Rows: " : "Columns: ") + size + " of " + Math.Max(size, maximum),
+                Add(row ? 1 : 4, size, TextTable.Get(row ? TextKeys.ViewRows : TextKeys.ViewColumns, size, Math.Max(size, maximum)),
                     row ? "backpack_rows_enabled" : "backpack_width_enabled", new[] { cost.Material },
                     size >= maximum ? null : new[] { cost.Units },
                     new[] { StorageRules.Clamp(Tag(row ? Backpacks.RowProgressTag : Backpacks.ColumnProgressTag), 0, Math.Max(0, cost.Units - 1)) }, later);
@@ -111,7 +126,7 @@ namespace Backpacks
                 string next = BackpackRules.NextTab(id, tabs);
                 var later = new List<string>();
                 for (int n = 0; n < maxTabs; n++) if (n > tabs) later.Add(Name(BackpackRules.NextTab(id, n)));
-                Add(2, tabs, "Compartments: " + ((long)tabs + 1) + " of " + (maxTabs + 1), "backpack_tabs_enabled",
+                Add(2, tabs, TextTable.Get(TextKeys.ViewCompartments, (long)tabs + 1, maxTabs + 1), "backpack_tabs_enabled",
                     new[] { next }, next == null ? null : new[] { 1 }, new[] { 0 }, later, Backpacks.Supported(next));
             }
 
@@ -119,7 +134,7 @@ namespace Backpacks
             {
                 var words = new List<string>();
                 for (int i = 0; i < recipe.Length; i++)
-                    if (recipe[i] > 0) words.Add((recipe[i] == 1 ? "" : recipe[i] + " ") + Name(materials[i]));
+                    if (recipe[i] > 0) words.Add(recipe[i] == 1 ? Name(materials[i]) : TextTable.Get(TextKeys.MaterialUnits, recipe[i], Name(materials[i])));
                 return string.Join(", ", words);
             }
 
@@ -128,7 +143,7 @@ namespace Backpacks
             for (int n = level + 1; n < 4; n++) stackLater.Add(Cost(BackpackRules.Materials, BackpackRules.Ingredients(n)));
             var stackPaid = new int[Backpacks.ProgressTags.Length];
             for (int i = 0; i < stackPaid.Length; i++) stackPaid[i] = Tag(Backpacks.ProgressTags[i]);
-            Add(3, level, "Stack size: x" + (level + 1) + " of x5", "backpack_stacking_enabled",
+            Add(3, level, TextTable.Get(TextKeys.ViewStack, level + 1), "backpack_stacking_enabled",
                 BackpackRules.Materials, BackpackRules.Ingredients(level), stackPaid, stackLater);
 
             void Slots(bool toolbox)
@@ -141,7 +156,7 @@ namespace Backpacks
                 for (int i = 0; i < paid.Length; i++) paid[i] = Tag(keys[i]);
                 var later = new List<string>();
                 for (int n = 0; n < maximum; n++) if (n > count) later.Add(Cost(PocketRules.Materials, PocketRules.Recipe(id, n, toolbox)));
-                Add(toolbox ? 6 : 5, count, toolbox ? "Toolbox slot: " + (count > 0 ? "yes" : "no") : "Side bag slots: " + count + " of " + maximum,
+                Add(toolbox ? 6 : 5, count, toolbox ? TextTable.Get(count > 0 ? TextKeys.ViewToolboxYes : TextKeys.ViewToolboxNo) : TextTable.Get(TextKeys.ViewSideBags, count, maximum),
                     toolbox ? "backpack_toolbox_enabled" : "backpack_pockets_enabled", PocketRules.Materials,
                     PocketRules.Recipe(id, count, toolbox), paid, later);
             }
@@ -247,7 +262,7 @@ namespace Backpacks
         private static void Refresh(View view)
         {
             int revision = ++view.Revision;
-            Render(view.Id, view.Item.name + ": Upgrades", Snapshot(view.Item),
+            Render(view.Id, TextTable.Get(TextKeys.ViewTitle, view.Item.name), Snapshot(view.Item),
                 kind => Storage.Guard("using backpack upgrade contents", () =>
                 {
                     if (open.TryGetValue(view.Item, out View active) && active == view && view.Revision == revision) Use(view, kind);
@@ -296,7 +311,7 @@ namespace Backpacks
                 if (block.After != null) builder.AddLabel(block.After);
                 if (block.Contents != null) builder.AddLabel(block.Contents);
                 if (block.Note != null) builder.AddLabel(block.Note);
-                if (block.Button) { int kind = block.Kind; builder.AddButton("Use from backpack", () => use(kind)); }
+                if (block.Button) { int kind = block.Kind; builder.AddButton(TextTable.Get(TextKeys.ViewUse), () => use(kind)); }
                 builder.AddSeparator();
             }
             builder.AddLabel(UpgradeViewRules.Help).End();

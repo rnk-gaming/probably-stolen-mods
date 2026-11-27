@@ -3,8 +3,8 @@
   <ID>rnk.storage-upgrades</ID>
   <Name>Off the Books: Storage Upgrades</Name>
   <Author>RnK Gaming</Author>
-  <ModVersion>1.3.4</ModVersion>
-  <Description>Enlarge bays, loot crates, Beer Cases and machine storage by dropping Metal Ingots, or an empty crate of the same kind, on them; the material is used up. Changes container sizes saved in the run: without this mod, containers return to the game's own sizes and items in the extra space are lost on load. Before removal, use 'Before removing this mod: list what to move' in Options, in the shop. Works on its own.</Description>
+  <ModVersion>1.5.0</ModVersion>
+  <Description>Enlarge bays, loot crates, Red Imp Beer Cases and machine storage by dropping Metal Ingots, or an empty crate of the same kind, on them; the material is used up. Changes container sizes saved in the run: without this mod, containers return to the game's own sizes and items in the extra space are lost on load. Before removal, use 'Before removing this mod: list what to move' in Options, in the shop. Works on its own.</Description>
   <GameVersions><Version>0.46</Version></GameVersions>
   <Prerequisites />
   <Assemblies><Assembly>StorageUpgrades.dll</Assembly></Assemblies>

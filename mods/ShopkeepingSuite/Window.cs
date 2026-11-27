@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,7 +36,7 @@ namespace ShopkeepingSuite
         internal static Func<string> BoundKey = () => Settings.KeyCode().ToString();
         internal static Func<string, string> ServiceName = ReadServiceName;
         private static bool suppressClosed;
-        internal static string ReopenHint() => PaperRules.Hint(Texts.Get("reopen_hint", "{0}"), BoundKey());
+        internal static string ReopenHint() => PaperRules.Hint(TextTable.Get(TextKeys.ReopenHint, "{0}"), BoundKey());
         internal static void PaperClosed()
         {
             if (suppressClosed) return;
@@ -57,10 +58,10 @@ namespace ShopkeepingSuite
         }
         internal static void AddNavigation(Action<string, Action> add)
         {
-            string[] titles = { "today", "run", "customer", "standing" };
+            string[] titles = { TextKeys.Today, TextKeys.Run, TextKeys.Customer, TextKeys.Standing };
             for (int i = 0; i < titles.Length; i++)
             {
-                int page = i; string label = Texts.Get(titles[i]);
+                int page = i; string label = TextTable.Get(titles[i]);
                 add(page == Page ? "[" + label + "]" : label, () => SelectPage(page));
             }
         }
@@ -125,7 +126,7 @@ namespace ShopkeepingSuite
                 {
                     cachedPages = WindowRules.Pages(figures, customer, standing, tally);
                     foreach (WindowRow row in cachedPages.SelectMany(p => p.Rows).Where(r => r.ServiceId != null))
-                        row.Label = Texts.Get("service_name", ServiceName(row.ServiceId));
+                        row.Label = TextTable.Get(TextKeys.ServiceName, ServiceName(row.ServiceId));
                     inputKey = key;
                 }
                 var pages = cachedPages;
@@ -225,7 +226,7 @@ namespace ShopkeepingSuite
         private static void BuildUI(List<string>[] tabs)
         {
             if (CustomUIManager.Instance == null) return;
-            var b = CustomUIManager.Window(Id, Texts.Get("title"), CustomUIManager.LAYER_PAPER).SetSize(620, 590).Center().SetDraggable(true);
+            var b = CustomUIManager.Window(Id, TextTable.Get(TextKeys.Title), CustomUIManager.LAYER_PAPER).SetSize(620, 590).Center().SetDraggable(true);
             b.BeginRow();
             AddNavigation((label, click) => b.AddButton(label, click));
             b.End().BeginScroll(440);

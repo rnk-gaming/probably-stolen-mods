@@ -1,4 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><AssemblyName>Perks</AssemblyName></PropertyGroup>
-  <ItemGroup><Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="../Shared/Incompatible.cs" Link="Incompatible.cs" />
+    <Compile Include="../Shared/Notes.cs" Link="Notes.cs" />
+    <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+    <Compile Include="../Shared/TextTable.cs" Link="TextTable.cs" />
+    <EmbeddedResource Include="dist/Localization/*.csv" LogicalName="Localization/%(Filename)%(Extension)" />
+  </ItemGroup>
 </Project>

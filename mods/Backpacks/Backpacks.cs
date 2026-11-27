@@ -121,7 +121,7 @@ namespace Backpacks
         };
         // Backpack pages are called Compartments. A page
         // without a name gets one; a name the player has given is left alone.
-        internal static string PageName(int index) => index == 0 ? "Main" : "Comp " + (index + 1);
+        internal static string PageName(int index) => index == 0 ? TextTable.Get(TextKeys.TabMain) : TextTable.Get(TextKeys.TabCompartment, index + 1);
         internal static Action<GameItem, int> NamePages = (item, pages) =>
         {
             for (int i = 0; i < pages; i++)
@@ -137,26 +137,26 @@ namespace Backpacks
         internal static void Configure(string id)
         {
             ModConfig config = ModConfig.For(id);
-            switches["stack_steps"] = config.Define("stack_steps", true, "Backpacks",
-                () => "A dropped stack upgrades as far as it reaches",
-                () => "Use a dropped stack for every upgrade it reaches. Off: one drop takes one step. Changes take effect now.");
-            switches[TabHover.SettingKey] = config.Define(TabHover.SettingKey, TabHover.Default, "Backpacks",
-                () => Texts.Get("tab_hover_name"), () => Texts.Get("tab_hover_description"));
-            switches["carry_empty_bags"] = config.Define("carry_empty_bags", true, "Backpacks", () => "Backpacks can carry empty bags",
-                () => "An empty backpack, satchel or fanny pack can be put inside a backpack. A bag with something in it cannot.");
+            switches["stack_steps"] = config.Define("stack_steps", true, TextTable.Early(TextKeys.SectionBackpacks),
+                TextTable.Later(TextKeys.OptionStackSteps),
+                TextTable.Later(TextKeys.OptionStackStepsDesc));
+            switches[TabHover.SettingKey] = config.Define(TabHover.SettingKey, TabHover.Default, TextTable.Early(TextKeys.SectionBackpacks),
+                TextTable.Later(TextKeys.TabHoverName), TextTable.Later(TextKeys.TabHoverDescription));
+            switches["carry_empty_bags"] = config.Define("carry_empty_bags", true, TextTable.Early(TextKeys.SectionBackpacks), TextTable.Later(TextKeys.OptionCarryEmptyBags),
+                TextTable.Later(TextKeys.OptionCarryEmptyBagsDesc));
             foreach (string key in new[] { "backpacks_enabled", "backpack_rows_enabled", "backpack_width_enabled", "backpack_tabs_enabled", "backpack_stacking_enabled", "backpack_pockets_enabled", "backpack_toolbox_enabled", "backpack_view_enabled" })
             {
-                string title = SettingTitle(key);
-                switches[key] = config.Define(key, true, "Backpacks", () => title,
-                    () => key == "backpack_view_enabled" ? "Show Configure on newly created backpacks and allow the upgrades view."
-                        : "Allow new upgrade steps. Saved sizes, compartments and slots are restored even when this is off.");
+                switches[key] = config.Define(key, true, TextTable.Early(TextKeys.SectionBackpacks), () => SettingTitle(key),
+                    () => key == "backpack_view_enabled" ? TextTable.Get(TextKeys.OptionBackpackViewEnabledDesc)
+                        : TextTable.Get(TextKeys.OptionUpgradesDesc));
             }
         }
 
-        internal static string SettingTitle(string key) => key == "backpacks_enabled" ? "Backpack upgrades" : key == "backpack_rows_enabled" ? "Backpack rows"
-            : key == "backpack_width_enabled" ? "Backpack width" : key == "backpack_tabs_enabled" ? "Backpack compartments"
-            : key == "backpack_pockets_enabled" ? "Backpack side bag slots" : key == "backpack_toolbox_enabled" ? "Backpack toolbox slot"
-            : key == "backpack_view_enabled" ? "Backpack upgrades view" : "Backpack stack size";
+        internal static string SettingTitle(string key) => TextTable.Get(key == "backpacks_enabled" ? TextKeys.OptionBackpacksEnabled
+            : key == "backpack_rows_enabled" ? TextKeys.OptionBackpackRowsEnabled : key == "backpack_width_enabled" ? TextKeys.OptionBackpackWidthEnabled
+            : key == "backpack_tabs_enabled" ? TextKeys.OptionBackpackTabsEnabled : key == "backpack_pockets_enabled" ? TextKeys.OptionBackpackPocketsEnabled
+            : key == "backpack_toolbox_enabled" ? TextKeys.OptionBackpackToolboxEnabled : key == "backpack_view_enabled" ? TextKeys.OptionBackpackViewEnabled
+            : TextKeys.OptionBackpackStackingEnabled);
 
         internal static bool Fits(MethodInfo method)
         {
@@ -483,24 +483,23 @@ namespace Backpacks
                 var columnCost = BackpackRules.ColumnCost(id, StorageRules.Clamp(columns, 0, StorageRules.Sane) + 1);
                 int columnProgress = StorageRules.Clamp(Storage.Read(item, ColumnProgressTag), 0, Math.Max(0, columnCost.Units - 1));
                 string material = BackpackRules.NextTab(id, tabs);
-                Storage.Line(builder, "Rows: " + Math.Max(current[1], bag[1] + StorageRules.Clamp(rows, 0, StorageRules.Sane))
-                    + " of " + Math.Max(bag[2], Math.Max(current[1], bag[1] + StorageRules.Clamp(rows, 0, StorageRules.Sane))) + " | " + (next == 0 ? "limit reached" : "next: Kotton Fabric "
-                        + Storage.Read(item, RowProgressTag) + "/" + (next - bag[1])) + Disabled("backpack_rows_enabled"));
-                Storage.Line(builder, "Columns: " + Math.Max(current[0], bag[0] + StorageRules.Clamp(columns, 0, StorageRules.Sane - bag[0]))
-                    + " of " + BackpackRules.Widths[id] + " | " + (nextColumn == 0 ? "limit reached" : "next: " + UpgradeViewRules.Name(columnCost.Material) + " "
-                        + columnProgress + "/" + columnCost.Units) + Disabled("backpack_width_enabled"));
-                Storage.Line(builder, "Compartments: " + (tabs + 1) + " of " + (BackpackRules.MaxTabs(id) + 1)
-                    + " | " + (material == null ? "limit reached" : "next: " + Name(material) + " 0/1") + Disabled("backpack_tabs_enabled"));
+                string RowState() => next == 0 ? TextTable.Get(TextKeys.TooltipLimit)
+                    : TextTable.Get(TextKeys.TooltipNextProgress, UpgradeViewRules.Name("kotton_fabric"), Storage.Read(item, RowProgressTag), next - bag[1]);
+                string ColumnState() => nextColumn == 0 ? TextTable.Get(TextKeys.TooltipLimit)
+                    : TextTable.Get(TextKeys.TooltipNextProgress, UpgradeViewRules.Name(columnCost.Material), columnProgress, columnCost.Units);
+                Storage.Line(builder, Disabled("backpack_rows_enabled", TextTable.Get(TextKeys.TooltipRows, Math.Max(current[1], bag[1] + StorageRules.Clamp(rows, 0, StorageRules.Sane)), Math.Max(bag[2], Math.Max(current[1], bag[1] + StorageRules.Clamp(rows, 0, StorageRules.Sane))), RowState())));
+                Storage.Line(builder, Disabled("backpack_width_enabled", TextTable.Get(TextKeys.TooltipColumns, Math.Max(current[0], bag[0] + StorageRules.Clamp(columns, 0, StorageRules.Sane - bag[0])), BackpackRules.Widths[id], ColumnState())));
+                Storage.Line(builder, Disabled("backpack_tabs_enabled", TextTable.Get(TextKeys.TooltipCompartments, tabs + 1, BackpackRules.MaxTabs(id) + 1, material == null ? TextTable.Get(TextKeys.TooltipLimit) : TextTable.Get(TextKeys.TooltipNextProgress, Name(material), 0, 1))));
                 int[] recipe = BackpackRules.Ingredients(level), progress = Progress(item);
                 var needs = new List<string>();
                 if (recipe != null)
                     for (int i = 0; i < recipe.Length; i++)
-                        if (recipe[i] > 0) needs.Add(Name(BackpackRules.Materials[i]) + " " + progress[i] + "/" + recipe[i]);
-                Storage.Line(builder, "Stack size: x" + (level + 1) + " of x5 | " + (recipe == null ? "limit reached" : "next: " + string.Join(", ", needs)) + " | needs a stacking mod" + Disabled("backpack_stacking_enabled"));
+                        if (recipe[i] > 0) needs.Add(TextTable.Get(TextKeys.MaterialProgress, Name(BackpackRules.Materials[i]), progress[i], recipe[i]));
+                Storage.Line(builder, Disabled("backpack_stacking_enabled", TextTable.Get(TextKeys.TooltipStack, level + 1, recipe == null ? TextTable.Get(TextKeys.TooltipLimit) : TextTable.Get(TextKeys.TooltipNext, string.Join(", ", needs)))));
             }
             catch (Exception error) { Storage.Fault("backpack tooltip", error); }
         }
 
-        private static string Disabled(string key) => Switch("backpacks_enabled") && Switch(key) ? "" : " | new upgrades disabled";
+        internal static string Disabled(string key, string text) => Switch("backpacks_enabled") && Switch(key) ? text : TextTable.Get(TextKeys.TooltipDisabled, text);
     }
 }

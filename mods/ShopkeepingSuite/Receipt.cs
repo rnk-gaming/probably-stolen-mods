@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -33,27 +34,27 @@ namespace ShopkeepingSuite
         private static string Number(double value, string format = "0.##") => value.ToString(Math.Abs(value) >= 1e12 ? "0.##E+0" : format, CultureInfo.InvariantCulture);
         internal static List<WindowPage> Pages(LedgerState ledger, CustomerView customer, IEnumerable<StandingView> standing, bool tally)
         {
-            string[] keys = { "today", "run", "customer", "standing", "money_in_label", "money_out_label", "net_label", "service_name", "days_label", "day_label",
-                "yesterday", "last_day", "standing_today", "standing_start", "standing_now", "nobody", "name_label", "faction_label", "intent_label", "budget_label", "no_budget", "wanted_label", "affordable_label", "no_standing", "other_services", "and_more",
-                "section_sales", "section_purchases", "section_costs", "section_other_costs", "section_result", "daily_gained", "daily_lost", "daily_change", "no_change_today" };
+            string[] keys = { TextKeys.Today, TextKeys.Run, TextKeys.Customer, TextKeys.Standing, TextKeys.MoneyInLabel, TextKeys.MoneyOutLabel, TextKeys.NetLabel, TextKeys.ServiceName, TextKeys.DaysLabel, TextKeys.DayLabel,
+                TextKeys.Yesterday, TextKeys.LastDay, TextKeys.StandingToday, TextKeys.StandingStart, TextKeys.StandingNow, TextKeys.Nobody, TextKeys.NameLabel, TextKeys.FactionLabel, TextKeys.IntentLabel, TextKeys.BudgetLabel, TextKeys.NoBudget, TextKeys.WantedLabel, TextKeys.AffordableLabel, TextKeys.NoStanding, TextKeys.OtherServices, TextKeys.AndMore,
+                TextKeys.SectionSales, TextKeys.SectionPurchases, TextKeys.SectionCosts, TextKeys.SectionOtherCosts, TextKeys.SectionResult, TextKeys.DailyGained, TextKeys.DailyLost, TextKeys.DailyChange, TextKeys.NoChangeToday };
             // Resolve translations at the boundary; composition below only uses supplied figures and text.
-            pageLabels ??= keys.Concat(LedgerRules.Keys).Concat(StandingRules.TextKeys).Distinct().ToDictionary(k => k, k => Texts.Get(k, "{0}"));
+            pageLabels ??= keys.Concat(LedgerRules.Keys).Concat(StandingRules.LabelKeys).Distinct().ToDictionary(k => k, k => TextTable.Get(k, "{0}"));
             return ComposePages(ledger, customer, standing, tally, pageLabels);
         }
         internal static List<WindowPage> ComposePages(LedgerState ledger, CustomerView customer, IEnumerable<StandingView> standing, bool tally, IReadOnlyDictionary<string, string> labels)
         {
             var factions = standing.ToList();
-            string[] titles = { "today", "run", "customer", "standing" };
+            string[] titles = { TextKeys.Today, TextKeys.Run, TextKeys.Customer, TextKeys.Standing };
             var pages = new List<WindowPage>();
             for (int tab = 0; tab < 4; tab++)
             {
                 var rows = Rows(tab, ledger, customer, factions, tally, labels, true);
                 if (tab == 3 && factions.Count > 0) rows.Insert(0, StandingHeader(labels));
                 var page = new WindowPage { Tab = tab, Part = 0, Title = labels[titles[tab]], Rows = rows };
-                if (tab < 2) PaperRules.Layout(page, labels["other_services"], labels["and_more"]);
+                if (tab < 2) PaperRules.Layout(page, labels[TextKeys.OtherServices], labels[TextKeys.AndMore]);
                 else
                 {
-                    page.Rows = tab == 3 ? PaperRules.FoldStanding(rows, labels["and_more"]) : rows;
+                    page.Rows = tab == 3 ? PaperRules.FoldStanding(rows, labels[TextKeys.AndMore]) : rows;
                     for (int i = 0; i < page.Rows.Count; i++) page.Rows[i].Y = 62 + 14 * i;
                 }
                 pages.Add(page);
@@ -66,12 +67,12 @@ namespace ShopkeepingSuite
             return ComposePlainPages(ledger, customer, standing, tally, pageLabels);
         }
         private static WindowRow StandingHeader(IReadOnlyDictionary<string, string> labels) =>
-            new WindowRow(labels["faction_label"], labels["standing_start"] + " | " + labels["today"] + " | " + labels["standing_now"], "standing")
-                { StandingRow = true, Header = true, Start = labels["standing_start"], Today = labels["today"], Now = labels["standing_now"] };
+            new WindowRow(labels[TextKeys.FactionLabel], labels[TextKeys.StandingStart] + " | " + labels[TextKeys.Today] + " | " + labels[TextKeys.StandingNow], "standing")
+                { StandingRow = true, Header = true, Start = labels[TextKeys.StandingStart], Today = labels[TextKeys.Today], Now = labels[TextKeys.StandingNow] };
         private static List<WindowPage> ComposePlainPages(LedgerState ledger, CustomerView customer, IEnumerable<StandingView> standing, bool tally, IReadOnlyDictionary<string, string> labels)
         {
             var result = new List<WindowPage>();
-            string[] titles = { "today", "run", "customer", "standing" };
+            string[] titles = { TextKeys.Today, TextKeys.Run, TextKeys.Customer, TextKeys.Standing };
             var factions = standing.ToList();
             for (int tab = 0; tab < 4; tab++)
             {
@@ -85,8 +86,8 @@ namespace ShopkeepingSuite
                     if (count > 1 && rows[offset + count - 1].Section) count--;
                     var pageRows = rows.Skip(offset).Take(count).ToList();
                     if (tab == 3 && factions.Count > 0)
-                        pageRows.Insert(0, new WindowRow(labels["faction_label"], labels["standing_start"] + " | " + labels["today"] + " | " + labels["standing_now"], "standing")
-                            { StandingRow = true, Header = true, Start = labels["standing_start"], Today = labels["today"], Now = labels["standing_now"] });
+                        pageRows.Insert(0, new WindowRow(labels[TextKeys.FactionLabel], labels[TextKeys.StandingStart] + " | " + labels[TextKeys.Today] + " | " + labels[TextKeys.StandingNow], "standing")
+                            { StandingRow = true, Header = true, Start = labels[TextKeys.StandingStart], Today = labels[TextKeys.Today], Now = labels[TextKeys.StandingNow] });
                     result.Add(new WindowPage { Tab = tab, Part = part, Title = labels[titles[tab]] + (part == 0 ? "" : " (" + (part + 1).ToString(CultureInfo.InvariantCulture) + ")"), Rows = pageRows });
                     offset += count;
                 }
@@ -101,15 +102,15 @@ namespace ShopkeepingSuite
             void Add(string label, string value, string group) => rows.Add(new WindowRow(label, value, group));
             if (tab == 2)
             {
-                if (!customer.Present) Add(Text("nobody"), "", "customer");
+                if (!customer.Present) Add(Text(TextKeys.Nobody), "", "customer");
                 else
                 {
-                    Add(Text("name_label"), customer.Name, "identity");
-                    Add(Text("faction_label"), customer.Faction, "identity");
-                    Add(Text("intent_label"), customer.Intent, "identity");
-                    Add(customer.HasBudget ? Text("budget_label") : Text("no_budget"), customer.HasBudget ? Number(customer.Budget) : "", "budget");
-                    Add(Text("wanted_label"), Number(customer.Wanted), "wanted");
-                    Add(Text("affordable_label"), Number(customer.Affordable), "wanted");
+                    Add(Text(TextKeys.NameLabel), customer.Name, "identity");
+                    Add(Text(TextKeys.FactionLabel), customer.Faction, "identity");
+                    Add(Text(TextKeys.IntentLabel), customer.Intent, "identity");
+                    Add(customer.HasBudget ? Text(TextKeys.BudgetLabel) : Text(TextKeys.NoBudget), customer.HasBudget ? Number(customer.Budget) : "", "budget");
+                    Add(Text(TextKeys.WantedLabel), Number(customer.Wanted), "wanted");
+                    Add(Text(TextKeys.AffordableLabel), Number(customer.Affordable), "wanted");
                 }
             }
             else
@@ -139,7 +140,7 @@ namespace ShopkeepingSuite
                             if (description.Length > 0) rows.Add(new WindowRow(description, "", "standing_changes") { Caption = true });
                         }
                     }
-                if (rows.Count == 0) Add(Text("no_standing"), "", "standing");
+                if (rows.Count == 0) Add(Text(TextKeys.NoStanding), "", "standing");
             }
             return rows;
         }

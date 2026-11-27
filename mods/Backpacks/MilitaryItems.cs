@@ -36,8 +36,8 @@ namespace Backpacks
                 item = Create(medium ? "backpack_medium" : "backpack_large");
                 if (item == null) throw new InvalidOperationException("Ordinary backpack factory returned nothing");
                 Resize(item, medium ? 6 : 7, medium ? 9 : 11);
-                item.name = Texts.Get(medium ? "scavengers_pack_name" : "haulers_pack_name");
-                item.shortDescription = Texts.Get(medium ? "scavengers_pack_description" : "haulers_pack_description");
+                item.name = TextTable.Get(medium ? TextKeys.ScavengersPackName : TextKeys.HaulersPackName);
+                item.shortDescription = TextTable.Get(medium ? TextKeys.ScavengersPackDescription : TextKeys.HaulersPackDescription);
                 item.unitValue = medium ? 700 : 1000;
                 Military.Dress(item, id);
                 // Inner creation supplies a unique id; outer creation keeps it.

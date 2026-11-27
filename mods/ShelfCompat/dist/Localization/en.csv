@@ -1,7 +1,17 @@
-# Water Expanded Compatibility: English texts. Copy to another language file to translate.
+# Off the Books: Water Expanded Compatibility. English texts. To translate, copy this file to the
+# language's code (zh.csv for Chinese, de.csv for German) and change the text after the first comma.
+options_title,"Off the Books: Water Expanded Compatibility (obsolete)"
+section_shelfcompat,"Water Expanded Compatibility"
 option_enabled,"Water Expanded Compatibility enabled"
-option_enabled_desc,"Allow the selected devices to work on Shop Expansion's shelves and in the back room."
+option_enabled_desc,"Allow the selected devices to work on Shop Expansion's shelves and in the back room. No effect: this mod is retired."
 option_water_expanded,"Water Expanded works on the shelves"
-option_water_expanded_desc,"Water Expanded's faucet, pipes, bottler and bridge only work in the shop's own grid. With this on they also work on Shop Expansion's shelves, also inside a Machine Bay that stands on a shelf. Does nothing unless both mods are running."
+option_water_expanded_desc,"Water Expanded's faucet, pipes, bottler and bridge only work in the shop's own grid. With this on they also work on Shop Expansion's shelves, also inside a Machine Bay that stands on a shelf. Does nothing unless both mods are running. No effect: this mod is retired."
 option_back_room,"Water Expanded works in the back room"
-option_back_room_desc,"Allow Water Expanded's devices to work in the back room, also inside containers. Needs only Water Expanded."
+option_back_room_desc,"Allow Water Expanded's devices to work in the back room, also inside containers. Needs only Water Expanded. No effect: this mod is retired."
+incompatible_title,"Off the Books: conflicting mods"
+incompatible_body,"These running mods overlap with Water Expanded Compatibility:\n{0}\n\nSwitch off either this mod or the one listed."
+incompatible_final,"No more notes about this conflict will come in this save."
+incompatible_entry,"{0}: {1}"
+notes_signature,"Off the Books"
+retired_title,"Off the Books: Water Expanded Compatibility retires"
+retired_body,"Water Expanded 1.2.0 now runs its devices on Shop Expansion's shelves by itself, so this mod is no longer needed and does nothing. You can unsubscribe from it. If you play with an older Water Expanded, update it to 1.2.0 or later."

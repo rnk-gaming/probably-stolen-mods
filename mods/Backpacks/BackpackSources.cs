@@ -50,14 +50,16 @@ namespace Backpacks
                     int chance = BackpackSourceRules.Chance(i, source, scale, int.MaxValue, own);
                     if (chance <= 0) continue;
                     string id = BackpackSourceRules.Items[i];
-                    string name = id == Military.Medium ? "Scavenger's Pack" : id == Military.Large ? "Hauler's Pack" : UpgradeViewRules.Name(id);
-                    rows.Add(name + " " + (chance / 100m).ToString("0.##", CultureInfo.InvariantCulture) + "%"
-                        + (source == BackpackSource.Jackson && BackpackSourceRules.FromDay(i) > 0 ? " (from day " + BackpackSourceRules.FromDay(i) + ")" : ""));
+                    string name = UpgradeViewRules.Name(id);
+                    rows.Add(source == BackpackSource.Jackson && BackpackSourceRules.FromDay(i) > 0
+                        ? TextTable.Get(TextKeys.SourceChanceDay, name, (chance / 100m).ToString("0.##", CultureInfo.InvariantCulture), BackpackSourceRules.FromDay(i))
+                        : TextTable.Get(TextKeys.SourceChance, name, (chance / 100m).ToString("0.##", CultureInfo.InvariantCulture)));
                 }
-                return "100 is normal. Now, per " + (source == BackpackSource.Jackson ? "visit" : source == BackpackSource.Dump ? "find" : "seller")
-                    + ": " + (rows.Count == 0 ? "no extra backpacks" : string.Join(", ", rows)) + ".";
+                string chancesText = rows.Count == 0 ? TextTable.Get(TextKeys.SourceNone) : string.Join(", ", rows);
+                return TextTable.Get(source == BackpackSource.Jackson ? TextKeys.SourceJackson
+                    : source == BackpackSource.Dump ? TextKeys.SourceDump : TextKeys.SourceSellers, chancesText);
             }
-            catch (Exception error) { Storage.Fault("backpack source description", error); return "Backpack chances are unavailable."; }
+            catch (Exception error) { Storage.Fault("backpack source description", error); return TextTable.Get(TextKeys.SourceUnavailable); }
         }
         private static ConfigEntry<bool> enabled, toolbox;
         internal static Func<bool> ToolboxEnabled = () => toolbox == null || toolbox.Value;
@@ -78,18 +80,17 @@ namespace Backpacks
         internal static void Configure(string id)
         {
             ModConfig config = ModConfig.For(id);
-            enabled = config.Define("backpack_sources_enabled", true, "Backpack sources", () => "Extra backpack sources",
-                () => "Add backpack chances at Dr. Jackson, the Dumping Grounds and scavenger sellers.");
+            enabled = config.Define("backpack_sources_enabled", true, TextTable.Early(TextKeys.SectionSources), TextTable.Later(TextKeys.OptionBackpackSourcesEnabled),
+                TextTable.Later(TextKeys.OptionBackpackSourcesEnabledDesc));
             foreach (string source in new[] { "jackson", "dump", "sellers" })
             {
                 string key = "backpack_chance_" + source;
                 BackpackSource kind = source == "jackson" ? BackpackSource.Jackson : source == "dump" ? BackpackSource.Dump : BackpackSource.Sellers;
-                string title = (source == "jackson" ? "Dr. Jackson" : source == "dump" ? "Dumping Grounds" : "Scavenger sellers") + ": backpack chances, scale (%)";
-                chances[key] = config.Define(key, 100, "Backpack sources", () => title, 0, 300,
+                chances[key] = config.Define(key, 100, TextTable.Early(TextKeys.SectionSources), () => source == "jackson" ? TextTable.Get(TextKeys.OptionBackpackChanceJackson) : source == "dump" ? TextTable.Get(TextKeys.OptionBackpackChanceDump) : TextTable.Get(TextKeys.OptionBackpackChanceSellers), 0, 300,
                     () => Description(kind));
             }
-            toolbox = config.Define("toolbox_from_sellers", true, "Backpack sources", () => "Worn toolbox from scavenger sellers",
-                () => "One scavenger seller in a hundred brings a worn toolbox, also when you own one.");
+            toolbox = config.Define("toolbox_from_sellers", true, TextTable.Early(TextKeys.SectionSources), TextTable.Later(TextKeys.OptionToolboxFromSellers),
+                TextTable.Later(TextKeys.OptionToolboxFromSellersDesc));
         }
 
         internal static List<string> Choose(BackpackSource source)

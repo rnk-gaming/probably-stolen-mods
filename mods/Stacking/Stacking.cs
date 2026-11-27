@@ -2,60 +2,95 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+using LocalMods;
 using UnityEngine;
 
 namespace Stacking
 {
     public class StackingMod : IMod
     {
-        internal const string Version = "1.9.2";
+        internal const string Version = "1.12.0";
         internal static readonly Dictionary<string, ConfigEntry<bool>> Switches = new Dictionary<string, ConfigEntry<bool>>();
         internal static readonly Dictionary<string, ConfigEntry<string>> ItemLists = new Dictionary<string, ConfigEntry<string>>();
         internal static readonly Dictionary<string, ConfigEntry<int>> Limits = new Dictionary<string, ConfigEntry<int>>();
 
         public void Init(ModManifest manifest)
         {
-            Bridge.HarmonyId = "mod.rnk.stacking";
-            ModConfig config = ModConfig.For(manifest.ID);
-            Bool(config, "enabled");
-            Bool(config, "smuggler_bays");
-            Bool(config, "machine_bays");
-            Bool(config, "loot_crates");
-            Bool(config, "backpacks");
-            Bool(config, "backpack_needs_upgrade");
-            Bool(config, "requests_take_units");
-            Bool(config, "barters_take_units");
-            Bool(config, "requests_refuse_stacks");
-            Bool(config, "ignore_visit_stamp");
-            Bool(config, "ignore_empty_stolen_mark");
-            Bool(config, "ignore_lock_mark");
-            Bool(config, "ignore_empty_bottle_state");
-            Bool(config, "faucet_one_unit");
-            Bool(config, "variety_one_unit");
-            Bool(config, "ignore_stated_wear");
-            Bool(config, "types_follow_marks");
-            Bool(config, "save_stack_rest");
-            Bool(config, "ignore_phone_order_mark");
-            foreach (string category in Rules.Categories)
+            try
             {
-                string key = category;
-                Limits[key] = config.Define("max_" + key.ToLowerInvariant(), Rules.DefaultLimit(key), "Stack limits",
-                    () => Runtime.Text("category_" + key), 1, 99, () => Runtime.Text("option_category_desc"));
+                TextTable.Start(manifest.ID, Bridge.Fault);
+                // Mods it does not go together with: add one list line and two rows in en.csv.
+                Incompatible.Register(manifest.ID, "[Stacking]", new IncompatibleMod[]
+                {
+                    new IncompatibleMod("local.item-stacks", "item_stacks"),
+                    new IncompatibleMod("keycard_stack", "keycard_stack"),
+                }, NoteFault);
+                Bridge.HarmonyId = "mod.rnk.stacking";
+                ModConfig config = ModConfig.For(manifest.ID);
+                Bool(config, "enabled", TextKeys.OptionEnabled, TextKeys.OptionEnabledDesc);
+                Bool(config, "smuggler_bays", TextKeys.OptionSmugglerBays, TextKeys.OptionSmugglerBaysDesc);
+                Bool(config, "machine_bays", TextKeys.OptionMachineBays, TextKeys.OptionMachineBaysDesc);
+                Bool(config, "loot_crates", TextKeys.OptionLootCrates, TextKeys.OptionLootCratesDesc);
+                Bool(config, "backpacks", TextKeys.OptionBackpacks, TextKeys.OptionBackpacksDesc);
+                Bool(config, "backpack_needs_upgrade", TextKeys.OptionBackpackNeedsUpgrade, TextKeys.OptionBackpackNeedsUpgradeDesc);
+                Bool(config, "requests_take_units", TextKeys.OptionRequestsTakeUnits, TextKeys.OptionRequestsTakeUnitsDesc);
+                Bool(config, "barters_take_units", TextKeys.OptionBartersTakeUnits, TextKeys.OptionBartersTakeUnitsDesc);
+                Bool(config, "requests_refuse_stacks", TextKeys.OptionRequestsRefuseStacks, TextKeys.OptionRequestsRefuseStacksDesc);
+                Bool(config, "ignore_visit_stamp", TextKeys.OptionIgnoreVisitStamp, TextKeys.OptionIgnoreVisitStampDesc);
+                Bool(config, "ignore_empty_stolen_mark", TextKeys.OptionIgnoreEmptyStolenMark, TextKeys.OptionIgnoreEmptyStolenMarkDesc);
+                Bool(config, "ignore_lock_mark", TextKeys.OptionIgnoreLockMark, TextKeys.OptionIgnoreLockMarkDesc);
+                Bool(config, "ignore_empty_bottle_state", TextKeys.OptionIgnoreEmptyBottleState, TextKeys.OptionIgnoreEmptyBottleStateDesc);
+                Bool(config, "faucet_one_unit", TextKeys.OptionFaucetOneUnit, TextKeys.OptionFaucetOneUnitDesc);
+                Bool(config, "variety_one_unit", TextKeys.OptionVarietyOneUnit, TextKeys.OptionVarietyOneUnitDesc);
+                Bool(config, "ignore_stated_wear", TextKeys.OptionIgnoreStatedWear, TextKeys.OptionIgnoreStatedWearDesc);
+                Bool(config, "types_follow_marks", TextKeys.OptionTypesFollowMarks, TextKeys.OptionTypesFollowMarksDesc);
+                Bool(config, "save_stack_rest", TextKeys.OptionSaveStackRest, TextKeys.OptionSaveStackRestDesc);
+                Bool(config, "stack_use_live_target", TextKeys.OptionStackUseLiveTarget, TextKeys.OptionStackUseLiveTargetDesc);
+                Bool(config, "ignore_phone_order_mark", TextKeys.OptionIgnorePhoneOrderMark, TextKeys.OptionIgnorePhoneOrderMarkDesc);
+                var categoryLabels = new Dictionary<string, string>(StringComparer.Ordinal)
+                {
+                    { "ACCESS_CARD", TextKeys.CategoryAccessCard },
+                    { "AMMUNITION", TextKeys.CategoryAmmunition },
+                    { "MEDICAL", TextKeys.CategoryMedical },
+                    { "FOOD", TextKeys.CategoryFood },
+                    { "HOUSEHOLD_GOOD", TextKeys.CategoryHouseholdGood },
+                    { "SUBSTANCE", TextKeys.CategorySubstance },
+                    { "MATERIAL", TextKeys.CategoryMaterial },
+                    { "other", TextKeys.CategoryOther }
+                };
+                foreach (string category in Rules.Categories)
+                {
+                    if (category == null || !categoryLabels.TryGetValue(category, out string label))
+                    {
+                        Bridge.Fault("category settings", new InvalidOperationException("Unknown stack category: " + (category ?? "<null>")));
+                        continue;
+                    }
+                    Limits[category] = config.Define("max_" + category.ToLowerInvariant(), Rules.DefaultLimit(category),
+                        TextTable.Early(TextKeys.SectionLimits), TextTable.Later(label), 1, 99,
+                        TextTable.Later(TextKeys.OptionCategoryDesc));
+                }
+                Limits["backpack_max"] = config.Define("backpack_max", 5, TextTable.Early(TextKeys.SectionLimits),
+                    TextTable.Later(TextKeys.OptionBackpackMax), 1, 5, TextTable.Later(TextKeys.OptionBackpackMaxDesc));
+                ItemLists["extra_items"] = config.Define("extra_items", "", TextTable.Early(TextKeys.SectionStacking),
+                    TextTable.Later(TextKeys.OptionExtraItems), null, TextTable.Later(TextKeys.OptionExtraItemsDesc));
+                ItemLists["excluded_items"] = config.Define("excluded_items", "", TextTable.Early(TextKeys.SectionStacking),
+                    TextTable.Later(TextKeys.OptionExcludedItems), null, TextTable.Later(TextKeys.OptionExcludedItemsDesc));
+                OptionsMenu.Register(manifest.ID, TextTable.Early(TextKeys.OptionsTitle), Bridge.Fault);
             }
-            Limits["backpack_max"] = config.Define("backpack_max", 5, "Stack limits", () => Runtime.Text("option_backpack_max"), 1, 5,
-                () => Runtime.Text("option_backpack_max_desc"));
-            foreach (string key in new[] { "extra_items", "excluded_items" })
-                ItemLists[key] = config.Define(key, "", "Stacking", () => Runtime.Text("option_" + key), null, () => Runtime.Text("option_" + key + "_desc"));
-            LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Stacking", Bridge.Fault);
+            catch (Exception error) { Bridge.Fault("settings", error); }
         }
 
-        private static void Bool(ModConfig config, string key)
+        private static void Bool(ModConfig config, string key, string label, string tip)
         {
-            Switches[key] = config.Define(key, true, "Stacking", () => Runtime.Text("option_" + key), () => Runtime.Text("option_" + key + "_desc"));
+            Switches[key] = config.Define(key, true, TextTable.Early(TextKeys.SectionStacking), TextTable.Later(label), TextTable.Later(tip));
         }
+
+        private static void NoteFault(string id, Exception error) =>
+            UnityEngine.Debug.LogWarning("[Stacking] a fault in note " + id + "; note delivery skipped. " + error.GetType().Name + ": " + error.Message);
 
         public void OnEnable()
         {
+            Incompatible.Enable();
             Bridge.Reset();
             Bridge.Active = true;
             ModHook.OnModAssetsLoaded -= OnModAssetsLoaded;
@@ -69,6 +104,7 @@ namespace Stacking
 
         public void OnDisable()
         {
+            Incompatible.Disable();
             ModHook.OnModAssetsLoaded -= OnModAssetsLoaded;
             ModHook.OnGameLoadedEarly -= Runtime.Start;
             ModHook.OnCreateTooltipLate -= Tooltip;
@@ -316,6 +352,7 @@ namespace Stacking
         {
             TypeGuard.Reset();
             RestGuard.Reset();
+            TargetGuard.Reset();
             FaucetGuard.Reset();
             VarietyGuard.Reset();
             RequestGuard.Reset();
@@ -381,6 +418,7 @@ namespace Stacking
         {
             TypeGuard.TryInstall();
             RestGuard.TryInstall();
+            TargetGuard.TryInstall();
             FaucetGuard.TryInstall();
             VarietyGuard.TryInstall();
             RequestGuard.TryInstall();
@@ -456,7 +494,7 @@ namespace Stacking
                 cosmetic = FindCosmetic();
                 if (!CosmeticFits(cosmetic))
                 {
-                    Report("stamp shape", "Station Economy's test for tags that do not matter is laid out differently; Agri Expansion's visit stamp still keeps goods apart.");
+                    Report("stamp shape", "Station Economy's test for tags that do not matter is laid out differently; Probably a Farm Story's visit stamp still keeps goods apart.");
                     return;
                 }
                 cosmeticPostfix = AccessTools.Method(typeof(Bridge), nameof(CosmeticPostfix));

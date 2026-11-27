@@ -7,7 +7,7 @@ Your backpack can grow. Drop materials on it and it gets bigger, gets compartmen
 | | |
 |---|---|
 | Mod id | `rnk.backpacks` |
-| Version | 1.6.0 |
+| Version | 1.8.0 |
 | Needs | Nothing. |
 
 ## What you get

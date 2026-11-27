@@ -7,7 +7,7 @@ A handful of fixes for [Station Economy](https://steamcommunity.com/sharedfiles/
 | | |
 |---|---|
 | Mod id | `rnk.station-economy-compat` |
-| Version | 2.6.2 |
+| Version | 2.8.0 |
 | Needs | Station Economy. |
 
 ## What you get
@@ -26,7 +26,7 @@ In the Mods list and in Options, under **Off the Books: Station Economy Compatib
 ## Good to know
 
 - Nothing in Station Economy's files is touched. It all happens while the game runs, and nothing is written to your save.
-- The whole-lot fix changes prices.
+- The whole-lot fix makes the price match the discount the seller promises. It is on by default; switch it off in Options to keep Station Economy's own prices.
 - To Station Economy's author: the English lines are in the mod folder in your own table format. Take whatever is useful.
 - Needs Station Economy.
 

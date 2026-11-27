@@ -1,0 +1,13 @@
+# Off the Books: Probably a Farm Story Tweaks. English texts. To translate, copy this file to the
+# language's code (zh.csv for Chinese, de.csv for German) and change the text after the first comma.
+options_title,"Off the Books: Probably a Farm Story Tweaks"
+section_machine_stock,"Machine stock"
+option_unowned_chance,"Chance when you own none (%)"
+option_unowned_chance_desc,"Per machine and visit, for Probably a Farm Story machines at Dr. Jackson and the Hypertech Smuggler while you own none of that machine. Without this tweak, Probably a Farm Story offers each of them on every visit."
+option_owned_chance,"Chance when you already own one (%)"
+option_owned_chance_desc,"Per machine and visit, once you own that machine. Without this tweak, Probably a Farm Story never offers it again at Dr. Jackson, and always at the smuggler."
+incompatible_title,"Off the Books: conflicting mods"
+incompatible_body,"These running mods overlap with Farm Story Tweaks:\n{0}\n\nSwitch off either this mod or the one listed."
+incompatible_final,"No more notes about this conflict will come in this save."
+incompatible_entry,"{0}: {1}"
+notes_signature,"Off the Books"

@@ -1,33 +1,32 @@
-# Off the Books: Water Expanded Compatibility
+# Off the Books: Water Expanded Compatibility (obsolete)
 
-![Off the Books: Water Expanded Compatibility](../../pictures/off-the-books-water-expanded-compatibility-976x544.png)
+![Off the Books: Water Expanded Compatibility (obsolete)](../../pictures/off-the-books-water-expanded-compatibility-976x544.png)
 
-[Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) and [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337), working together. Water Expanded's devices run on the shelves that Shop Expansion adds, and in the back room.
+This mod is no longer needed. [Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) 1.2.0 runs its devices on the shelves that [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337) adds by itself, so this mod now does nothing. You can unsubscribe.
 
 | | |
 |---|---|
 | Mod id | `rnk.shelf-compat` |
-| Version | 1.1.4 |
-| Needs | Water Expanded; Shop Expansion for the shelves. |
+| Version | 1.3.0 |
+| Needs | nothing |
 
 ## What you get
 
-- **On the shelves:** the faucet, pipes, tanks and bottler of Water Expanded work on the shelves from Shop Expansion.
-- **In the back room:** they work there too.
-- **Inside containers:** also when a device sits in a container that stands in one of those places.
+- **What it did:** it let Water Expanded's faucet, pipes, tanks and bottler work on Shop Expansion's shelves.
+- **What it does now:** nothing. Once per save it leaves a note on the counter saying that it can be removed.
+- **Older Water Expanded:** update Water Expanded to 1.2.0 or later.
 
 ## Options
 
-In the Mods list and in Options, under **Off the Books: Water Expanded Compatibility**. One switch for the shelves and one for the back room. They take effect right away.
+In the Mods list and in Options, under **Off the Books: Water Expanded Compatibility**. Its old switches are still listed but have no effect.
 
 ## Good to know
 
-- It corrects one check in Water Expanded while the game runs. No files are changed and nothing is added to your save, so you can remove it whenever.
-- Needs Water Expanded. The shelves come from Shop Expansion, so that part needs it too. The back room works with Water Expanded alone.
+- Only a small record of the note is saved, so you can remove it whenever.
 
 ## Other mods
 
-- **Made for** [Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) and [Shop Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3842868337). Each part switches itself off when its mod is missing.
+- **Made for** [Water Expanded](https://steamcommunity.com/sharedfiles/filedetails/?id=3834513542) before 1.2.0. No longer needed.
 - Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
 
 The full player's guide is [dist/README.txt](dist/README.txt).

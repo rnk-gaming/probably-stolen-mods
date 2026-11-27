@@ -1,4 +1,4 @@
-Off the Books: Stacking 1.9.2
+Off the Books: Stacking 1.12.0
 RnK Gaming
 
 WHAT IT DOES
@@ -25,6 +25,8 @@ accepts them. A lock takes one key card. Bandages and other medicine used at onc
 use one unit. Split a stack before you unpack or activate an item that is not
 used up at once. Junk on a reactor lowers its maximum integrity by 5 for each
 repair, as separate pieces do.
+A stack of metal or electronic parts dropped on something the first part replaces,
+such as a corrupted module, uses one part; drop again for the next one.
 Marketplace requests and barters take only the units they ask for and leave the
 rest of the stack. A customer who wants variety takes one unit of a stack.
 
@@ -87,8 +89,8 @@ against every use the game or other mods have for them; start with a copy of you
 save.
 
 Settings that apply only with Station Economy doing the stacking:
-Stack goods from different sellers: Agri Expansion marks goods with the visit they
-came in. With this on, that mark no longer keeps equal goods apart.
+Stack goods from different sellers: Probably a Farm Story marks goods with the visit
+they came in. With this on, that mark no longer keeps equal goods apart.
 Stack goods with a mark that is switched off: the game leaves some marks on goods
 after switching them off (stolen on goods too cheap to count, challenged after you
 bought them, water or household good on a bottle). With this on they no longer keep
@@ -133,9 +135,6 @@ Without a stacking mod, saved stacks keep their count but the game values and
 uses a stack as one item. That can lose goods. With Station Economy still running,
 its rules continue to apply; move stacks out of the places this mod added first.
 
-TRANSLATION
-Texts are in Localization/en.csv. Copy it to another language file to translate.
-English is used when a translation is missing.
 
 PLAYER.LOG
 Every line starts with [Stacking]. After a game loads, one line says which stacking
@@ -143,3 +142,7 @@ is used: the mod's own, or Station Economy's. "connected to Station Economy's
 stacking" confirms the connection. Each fault is reported once. "the rest of a used
 stack found no room" is written for the first 20 cases only. If the game's code is
 not as expected, the mod stays inactive and says so once.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

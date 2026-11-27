@@ -48,19 +48,7 @@ namespace Stacking
             economyRunning ? (economyFits ? StackMode.Economy : StackMode.Blocked)
                 : (gameFits ? StackMode.Own : StackMode.Blocked);
 
-        internal static Func<string, string> Localized = key => ModHelper.GetLocalized(Id, key);
-        internal static string Text(string key) => Text(key, Texts.English[key]);
-        internal static string TextWith(string key, object value) => TextWith(key, Texts.English[key], value);
-        internal static string Text(string key, string fallback)
-        {
-            try { string text = Localized(key); return string.IsNullOrEmpty(text) || text == key ? fallback : text; }
-            catch { return fallback; }
-        }
-        internal static string TextWith(string key, string fallback, object value)
-        {
-            try { return string.Format(Text(key, fallback), value); }
-            catch { return string.Format(fallback, value); }
-        }
+
     }
 
     // A common gate for the engine's patches: no partial engine on a changed game.

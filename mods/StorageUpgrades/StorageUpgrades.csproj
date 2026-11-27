@@ -6,7 +6,11 @@
   <ItemGroup>
     <Compile Include="../Shared/UpgradeSupport.cs" Link="UpgradeSupport.cs" />
     <Compile Include="../Shared/RemovalSupport.cs" Link="RemovalSupport.cs" />
+    <Compile Include="../Shared/Incompatible.cs" Link="Incompatible.cs" />
+    <Compile Include="../Shared/Notes.cs" Link="Notes.cs" />
     <Compile Include="../Shared/OptionsMenu.cs" Link="OptionsMenu.cs" />
+    <Compile Include="../Shared/TextTable.cs" Link="TextTable.cs" />
+    <EmbeddedResource Include="dist/Localization/*.csv" LogicalName="Localization/%(Filename)%(Extension)" />
     <!-- For the upgrade sound (EmporiumAudioPlayer holds AudioSource fields). -->
     <Reference Include="UnityEngine.AudioModule"><HintPath>$(GameManaged)\UnityEngine.AudioModule.dll</HintPath><Private>false</Private></Reference>
   </ItemGroup>

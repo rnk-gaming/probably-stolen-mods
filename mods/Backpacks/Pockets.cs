@@ -209,13 +209,13 @@ namespace Backpacks
         // Builds off-row, then replaces panels. The returned action restores the
         // exact original panel order if validation or writing the layout tag fails.
         internal static Func<GameItem, int, int, Action> MovePanels = ReplacePanels;
-        internal static Action<GameItem> AddPocketPanel = item => Row(item).Add(MachineHelper.Panel("ATTACHED", new GridPixelElement(1, 4, false), PocketRole));
+        internal static Action<GameItem> AddPocketPanel = item => Row(item).Add(MachineHelper.Panel(TextTable.Get(TextKeys.PanelAttached), new GridPixelElement(1, 4, false), PocketRole));
         internal static Action<GameItem, int> AddPocketSlot = (item, index) =>
         {
             var grid = Inner(Row(item).GetPanel(PocketRole)) as GridPixelElement;
             if (grid == null || !grid.Attach(Slot(item, false), 0, index)) throw new InvalidOperationException("Pocket slot was not attached");
         };
-        internal static Action<GameItem> AddToolboxPanel = item => Row(item).Add(MachineHelper.Panel("TOOLBOX", Slot(item, true), ToolboxRole));
+        internal static Action<GameItem> AddToolboxPanel = item => Row(item).Add(MachineHelper.Panel(TextTable.Get(TextKeys.PanelToolbox), Slot(item, true), ToolboxRole));
         // A slot standing alone in a panel makes the panel several times wider than the
         // slot; inside a grid it takes the slot's own
         // width, as the pocket slots do. The grid is one more inventory level, which
@@ -225,7 +225,7 @@ namespace Backpacks
         {
             var grid = new GridPixelElement(1, 1, false);
             if (!grid.Attach(Slot(item, true), 0, 0)) throw new InvalidOperationException("Toolbox slot was not attached");
-            Row(item).Add(MachineHelper.Panel("TOOLBOX", grid, ToolboxRole));
+            Row(item).Add(MachineHelper.Panel(TextTable.Get(TextKeys.PanelToolbox), grid, ToolboxRole));
         };
         internal static Action<GameItem> Validate = item =>
         {
@@ -307,8 +307,8 @@ namespace Backpacks
             return slot;
         }
 
-        internal static string ToolboxName(int bought) => bought > 0 ? "[Toolbox]" : "[Toolbox slot: not built]";
-        internal static string SlotName(bool toolbox) => toolbox ? "[Toolbox]" : "[Side bag]";
+        internal static string ToolboxName(int bought) => bought > 0 ? TextTable.Get(TextKeys.SlotToolbox) : TextTable.Get(TextKeys.SlotToolboxUnbuilt);
+        internal static string SlotName(bool toolbox) => toolbox ? TextTable.Get(TextKeys.SlotToolbox) : TextTable.Get(TextKeys.SlotSideBag);
 
         internal static bool AcceptAttachedToolbox(GameItem candidate, GameItem backpack)
         {
@@ -357,7 +357,7 @@ namespace Backpacks
                     row => grid.Attach(slot, 0, row), cell => PlaceCell(grid, slot, cell));
                 if (!attached) throw new InvalidOperationException("Attached slot was not attached");
             }
-            MachineryPanel panel = MachineHelper.Panel("ATTACHED", grid, AttachedRole);
+            MachineryPanel panel = MachineHelper.Panel(TextTable.Get(TextKeys.PanelAttached), grid, AttachedRole);
             reservedToolboxes.Remove(item);
             if (reserved != null) reservedToolboxes.Add(item, reserved);
             return panel;
@@ -558,16 +558,17 @@ namespace Backpacks
 
         internal static void Restore(GameItem item) => Ensure(item, Storage.Read(item, PocketsTag), Storage.Read(item, ToolboxTag));
 
-        private static string Name(string id) => id == "wire" ? "Wire" : id == "nuts_metal" ? "Metal Screws"
-            : id == "metal_ingot" ? "Metal Ingot" : id == "scrap_metal" ? "Scrap Metal" : "Module Bay Expansion Kit";
+        private static string Name(string id) => UpgradeViewRules.Name(id);
         internal static string Tooltip(string id, int count, int[] progress, bool toolbox)
         {
             int[] recipe = PocketRules.Recipe(id, count, toolbox);
-            string state = toolbox ? "Toolbox slot: " + (count > 0 ? "yes" : "no") : "Side bag slots: " + count + " of " + PocketRules.Maximum(id);
-            if (recipe == null) return state + " | limit reached";
             var needs = new List<string>();
-            for (int i = 0; i < recipe.Length; i++) if (recipe[i] > 0) needs.Add(Name(PocketRules.Materials[i]) + " " + progress[i] + "/" + recipe[i]);
-            return state + " | next: " + string.Join(", ", needs);
+            if (recipe != null)
+                for (int i = 0; i < recipe.Length; i++) if (recipe[i] > 0)
+                    needs.Add(TextTable.Get(TextKeys.MaterialProgress, Name(PocketRules.Materials[i]), progress[i], recipe[i]));
+            string detail = recipe == null ? TextTable.Get(TextKeys.TooltipLimit) : TextTable.Get(TextKeys.TooltipNext, string.Join(", ", needs));
+            return toolbox ? TextTable.Get(count > 0 ? TextKeys.TooltipToolboxYes : TextKeys.TooltipToolboxNo, detail)
+                : TextTable.Get(TextKeys.TooltipSideBags, count, PocketRules.Maximum(id), detail);
         }
 
         internal static void AddTooltip(RichTextBuilder builder, GameItem item)
@@ -579,9 +580,8 @@ namespace Backpacks
                 {
                     if (toolbox ? !PocketRules.Toolbox(item.identifier) : PocketRules.Maximum(item.identifier) == 0) continue;
                     string key = toolbox ? "backpack_toolbox_enabled" : "backpack_pockets_enabled";
-                    Storage.Line(builder, Tooltip(item.identifier, StorageRules.Clamp(Storage.Read(item, toolbox ? ToolboxTag : PocketsTag), 0, toolbox ? 1 : 4),
-                        Progress(item, toolbox ? ToolboxProgressTags : PocketProgressTags), toolbox)
-                        + (Backpacks.Switch("backpacks_enabled") && Backpacks.Switch(key) ? "" : " | new upgrades disabled"));
+                    Storage.Line(builder, Backpacks.Disabled(key, Tooltip(item.identifier, StorageRules.Clamp(Storage.Read(item, toolbox ? ToolboxTag : PocketsTag), 0, toolbox ? 1 : 4),
+                        Progress(item, toolbox ? ToolboxProgressTags : PocketProgressTags), toolbox)));
                 }
             }
             catch (Exception error) { Storage.Fault("backpack slots tooltip", error); }

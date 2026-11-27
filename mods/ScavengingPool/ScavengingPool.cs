@@ -12,9 +12,10 @@
 // The other trips are then free for something else. Nothing here uses a trip up.
 using System;
 using HarmonyLib;
+using LocalMods;
 using UnityEngine;
 
-[assembly: System.Reflection.AssemblyVersion("2.1.2.0")]
+[assembly: System.Reflection.AssemblyVersion("2.3.0.0")]
 
 namespace ScavengingPool
 {
@@ -31,30 +32,40 @@ namespace ScavengingPool
 
         public void Init(ModManifest manifest)
         {
+            TextTable.Start(manifest.ID, Pool.Fault);
+            // Mods it does not go together with: add one list line and two rows in en.csv.
+            Incompatible.Register(manifest.ID, "[Scavenging Pool]", new IncompatibleMod[]
+            {
+                new IncompatibleMod("station_scavenging", "station_scavenging"),
+            }, NoteFault);
             ModConfig config = ModConfig.For(manifest.ID);
-            Enabled = config.Define("enabled", true, "Scavenging pool",
-                () => "One pool of attempts per night",
-                () => "The attempts of all the night's trips can be used in one visit to the dumping ground, and coming back the same night does not give new ones. Off: the game's own rule, a fresh set on every arrival.");
-            Rounds = config.Define("rounds", 0, "Scavenging pool",
-                () => "Trips counted into the pool (0 = automatic)", 0, Night.MostRounds,
-                () => "0: tonight's trips, up to Most trips counted into the pool. Transit Quota's quota is used when that mod runs and its setting below is on; otherwise the game's outings are used. 1 to 10: that many trips' worth of attempts, without the automatic cap.");
-            MostTrips = config.Define("most_trips", 4, "Scavenging pool",
-                () => "Most trips counted into the pool", 1, Night.MostRounds,
-                () => "The cap for automatic counting. A fixed number in the setting above is not capped.");
-            ReadTransitQuota = config.Define("read_transit_quota", true, "Scavenging pool",
-                () => "Count Transit Quota's trips instead of the game's counter",
-                () => "On: when Transit Quota runs, count its nightly quota, which leaves out one-time cards. Off: count the game's outings, including cards added by travel mods. Takes effect at the next night's count. If Transit Quota cannot be read, the game's outings are used. The automatic cap applies to either count.");
-            CountTrips = config.Define("count_trips", true, "Scavenging pool",
-                () => "Count the night's trips into the pool",
-                () => "On: the pool is one trip's attempts times the trips counted by the settings above. Off: the pool is one trip's attempts, whatever your perks, events and other mods give for one trip; it is still kept for the night, so leaving and coming back does not give it again.");
-            RiskPerRound = config.Define("risk_per_round", true, "Scavenging pool",
-                () => "Wound chance starts over for each trip's worth",
-                () => "On: the chance of a wound rises within one trip's worth of attempts and then starts over, as it did on separate trips. Off: it keeps rising through the whole pool.");
-            LocalMods.OptionsMenu.Register(manifest.ID, "Off the Books: Scavenging Pool", Pool.Fault);
+            Enabled = config.Define("enabled", true, TextTable.Early(TextKeys.SectionScavengingpool),
+                TextTable.Later(TextKeys.OptionEnabled),
+                TextTable.Later(TextKeys.OptionEnabledDesc));
+            Rounds = config.Define("rounds", 0, TextTable.Early(TextKeys.SectionScavengingpool),
+                TextTable.Later(TextKeys.OptionRounds), 0, Night.MostRounds,
+                TextTable.Later(TextKeys.OptionRoundsDesc));
+            MostTrips = config.Define("most_trips", 4, TextTable.Early(TextKeys.SectionScavengingpool),
+                TextTable.Later(TextKeys.OptionMostTrips), 1, Night.MostRounds,
+                TextTable.Later(TextKeys.OptionMostTripsDesc));
+            ReadTransitQuota = config.Define("read_transit_quota", true, TextTable.Early(TextKeys.SectionScavengingpool),
+                TextTable.Later(TextKeys.OptionReadTransitQuota),
+                TextTable.Later(TextKeys.OptionReadTransitQuotaDesc));
+            CountTrips = config.Define("count_trips", true, TextTable.Early(TextKeys.SectionScavengingpool),
+                TextTable.Later(TextKeys.OptionCountTrips),
+                TextTable.Later(TextKeys.OptionCountTripsDesc));
+            RiskPerRound = config.Define("risk_per_round", true, TextTable.Early(TextKeys.SectionScavengingpool),
+                TextTable.Later(TextKeys.OptionRiskPerRound),
+                TextTable.Later(TextKeys.OptionRiskPerRoundDesc));
+            OptionsMenu.Register(manifest.ID, TextTable.Early(TextKeys.OptionsTitle), Pool.Fault);
         }
+
+        private static void NoteFault(string id, Exception error) =>
+            UnityEngine.Debug.LogWarning("[Scavenging Pool] a fault in note " + id + "; note delivery skipped. " + error.GetType().Name + ": " + error.Message);
 
         public void OnEnable()
         {
+            Incompatible.Enable();
             try
             {
                 ModHook.OnGameLoadedEarly -= Pool.Forget;
@@ -68,6 +79,7 @@ namespace ScavengingPool
 
         public void OnDisable()
         {
+            Incompatible.Disable();
             try { ModHook.OnGameLoadedEarly -= Pool.Forget; if (LeavingFits()) UnsubscribeLeaving(); }
             catch (Exception error) { Pool.Fault("disabling", error); }
         }

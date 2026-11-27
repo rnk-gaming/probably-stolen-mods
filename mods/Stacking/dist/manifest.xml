@@ -3,7 +3,7 @@
   <ID>rnk.stacking</ID>
   <Name>Off the Books: Stacking</Name>
   <Author>RnK Gaming</Author>
-  <ModVersion>1.9.2</ModVersion>
+  <ModVersion>1.12.0</ModVersion>
   <Description>Lets materials, medical items and key cards stack, with a stack limit for each kind of goods. It works alone, and also with Station Economy and Faucet Filter when they are installed. It changes item counts and stack values in saves: split stacks before removing the mod, or goods can be lost. Do not run it beside another stacking mod, such as Item Stacks.</Description>
   <GameVersions><Version>0.46</Version></GameVersions>
   <Prerequisites><Mod>suoer.stationeconomy</Mod><Mod>faucet_filter</Mod></Prerequisites>

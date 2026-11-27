@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -43,7 +44,7 @@ namespace ShopkeepingSuite
                 {
                     cachedItem = state.Item;
                     Issues = ReadIssues(state.Item);
-                    line = Issues == null ? null : Texts.Get("counterfeit_line", Issues.Count == 0 ? Texts.Get("counterfeit_sound") : string.Join(", ", Issues));
+                    line = Issues == null ? null : TextTable.Get(TextKeys.CounterfeitLine, Issues.Count == 0 ? TextTable.Get(TextKeys.CounterfeitSound) : string.Join(", ", Issues));
                 }
                 // A null list means another item kind; an empty list means no faults.
                 Item = Issues == null ? null : state.Item;

@@ -7,7 +7,7 @@ More room in the things you already own. Drop a Metal Ingot on a storage bay and
 | | |
 |---|---|
 | Mod id | `rnk.storage-upgrades` |
-| Version | 1.3.4 |
+| Version | 1.5.0 |
 | Needs | Nothing. |
 
 ## What you get

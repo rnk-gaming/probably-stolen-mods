@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -48,17 +49,17 @@ namespace ShopkeepingSuite
                 if (was == active) continue;
                 string name = Clean(step.Name);
                 if (faction.Id == "mod:dsi")
-                    name = Text("standing_level", step.Rank) + (name.Length == 0 ? "" : ": " + name);
-                else if (name.Length == 0) name = Text(faction.Id == "mod:scavengers" ? "standing_step" : "standing_bonus", step.Threshold);
-                string key = step.Threshold < 0 ? (active ? "standing_effect" : "standing_no_effect") : (active ? "standing_gained" : "standing_lost");
+                    name = Text(TextKeys.StandingLevel, step.Rank) + (name.Length == 0 ? "" : ": " + name);
+                else if (name.Length == 0) name = Text(faction.Id == "mod:scavengers" ? TextKeys.StandingStep : TextKeys.StandingBonus, step.Threshold);
+                string key = step.Threshold < 0 ? (active ? TextKeys.StandingEffect : TextKeys.StandingNoEffect) : (active ? TextKeys.StandingGained : TextKeys.StandingLost);
                 result.Add(new StandingChange { Text = Text(key, name), Description = Caption(step.Description), FullDescription = Clean(step.Description) });
             }
             return result;
         }
         private static IReadOnlyDictionary<string, string> labels;
         internal static void ClearLabels() => labels = null;
-        internal static IReadOnlyDictionary<string, string> Labels() => labels ??= TextKeys.ToDictionary(k => k, k => Texts.Get(k, "{0}"));
-        internal static readonly string[] TextKeys = { "standing_gained", "standing_lost", "standing_effect", "standing_no_effect", "standing_bonus", "standing_step", "standing_level" };
+        internal static IReadOnlyDictionary<string, string> Labels() => labels ??= LabelKeys.ToDictionary(k => k, k => TextTable.Get(k, "{0}"));
+        internal static readonly string[] LabelKeys = { TextKeys.StandingGained, TextKeys.StandingLost, TextKeys.StandingEffect, TextKeys.StandingNoEffect, TextKeys.StandingBonus, TextKeys.StandingStep, TextKeys.StandingLevel };
     }
     // Text lookups are independent of the score reader: a missing description never hides standing.
     internal static class StandingBonuses

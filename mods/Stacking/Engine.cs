@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
+using LocalMods;
 using UnityEngine;
 
 namespace Stacking
@@ -326,16 +327,16 @@ namespace Stacking
 
         internal static string UseHint(GameItem item)
         {
-            string hint = Runtime.Text(IsCard(item) ? "tooltip_card" : "tooltip_use");
+            string hint = TextTable.Get(IsCard(item) ? TextKeys.TooltipCard : TextKeys.TooltipUse);
             bool requests = Bridge.Switch("requests_take_units"), barters = Bridge.Switch("barters_take_units");
             if (!Bridge.Switch("requests_refuse_stacks") || (requests && barters)) return hint;
-            return hint + " " + Runtime.Text(requests ? "tooltip_barters" : barters ? "tooltip_requests_only" : "tooltip_requests");
+            return hint + " " + TextTable.Get(requests ? TextKeys.TooltipBarters : barters ? TextKeys.TooltipRequestsOnly : TextKeys.TooltipRequests);
         }
 
         internal static void AddTooltip(RichTextBuilder builder, GameItem item)
         {
             if (!Runtime.Own || builder == null || !IsStack(item)) return;
-            Line(builder, Runtime.TextWith("tooltip_count", item.unitCount));
+            Line(builder, TextTable.Get(TextKeys.TooltipCount, item.unitCount));
             Line(builder, UseHint(item));
         }
     }

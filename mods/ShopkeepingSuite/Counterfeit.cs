@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 
 namespace ShopkeepingSuite
@@ -23,7 +24,7 @@ namespace ShopkeepingSuite
         {
             if (item == null || !Settings.On("enabled") || !Settings.On("counterfeit_check")) return null;
             var issues = Rules.CounterfeitIssues(tag => Marks.Tag(item, tag));
-            return issues == null ? null : Texts.Get("counterfeit_line", issues.Count == 0 ? Texts.Get("counterfeit_sound") : string.Join(", ", issues));
+            return issues == null ? null : TextTable.Get(TextKeys.CounterfeitLine, issues.Count == 0 ? TextTable.Get(TextKeys.CounterfeitSound) : string.Join(", ", issues));
         }
         internal static void Tooltip(RichTextBuilder builder, GameItem item)
         {

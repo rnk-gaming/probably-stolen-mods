@@ -1,4 +1,4 @@
-Off the Books: Backpacks 1.6.0
+Off the Books: Backpacks 1.8.0
 
 WHAT IT DOES
 You upgrade your backpacks by dropping materials on them: more rows, more columns,
@@ -108,3 +108,7 @@ yourself.
 
 WHEN SOMETHING SEEMS WRONG
 Player.log shows a line starting with [Backpacks] when the mod meets a fault.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

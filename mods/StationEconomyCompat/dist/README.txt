@@ -1,4 +1,4 @@
-Off the Books: Station Economy Compatibility 2.6.2
+Off the Books: Station Economy Compatibility 2.8.0
 RnK Gaming
 
 WHAT IT DOES
@@ -88,3 +88,7 @@ value goes in and \n for a line break. It can be appended to your table as it is
 Some lines are your own, in the other forms your screens look them up in (with a
 leading dot, or without their tags); the rest are new. Where a line of ours has the
 same Chinese as one of yours, ours is the later one and wins.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

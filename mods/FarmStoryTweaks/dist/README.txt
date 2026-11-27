@@ -1,4 +1,4 @@
-Off the Books: Probably a Farm Story Tweaks 3.0.0
+Off the Books: Probably a Farm Story Tweaks 3.2.0
 RnK Gaming
 
 WHAT IT DOES
@@ -38,3 +38,7 @@ When a machine is not offered, the game writes its own warning line,
 "Destroyed unplaced items: '<machine>' x1 (Farm Story Tweaks: machine not offered this
 visit)". This is expected and is not an error. A fault in this mod is reported once
 as "[Farm Story Tweaks] a fault in ..." and the game goes on.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

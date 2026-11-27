@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 
@@ -22,21 +23,21 @@ namespace ShopkeepingSuite
             if (tag("INS_INJECTOR_TAG"))
             {
                 issues = new[] { "ISSUE_INDICATOR", "ISSUE_LABEL", "ISSUE_SERIAL", "ISSUE_BODY", "ISSUE_COLOR" };
-                names = new[] { "indicator", "label", "serial", "body", "color" };
+                names = new[] { TextKeys.CounterfeitIndicator, TextKeys.CounterfeitLabel, TextKeys.CounterfeitSerial, TextKeys.CounterfeitBody, TextKeys.CounterfeitColor };
             }
             else if (tag("CIGARETTE_TAG"))
             {
                 issues = new[] { "CIGARETTE_LETTERING_ISSUE", "CIGARETTE_COLOR_ISSUE", "CIGARETTE_SEAL_ISSUE", "CIGARETTE_LOGO_ISSUE", "CIGARETTE_BOX_ISSUE" };
-                names = new[] { "lettering", "color", "seal", "logo", "box" };
+                names = new[] { TextKeys.CounterfeitLettering, TextKeys.CounterfeitColor, TextKeys.CounterfeitSeal, TextKeys.CounterfeitLogo, TextKeys.CounterfeitBox };
             }
             else if (tag("FOOD_STAMP_TAG"))
             {
                 issues = new[] { "STAMP_LETTERING_ISSUE", "STAMP_LOGO_ISSUE", "STAMP_SEAL_ISSUE", "STAMP_AMOUNT_ISSUE", "STAMP_CHIP_ISSUE" };
-                names = new[] { "lettering", "logo", "seal", "amount", "chip" };
+                names = new[] { TextKeys.CounterfeitLettering, TextKeys.CounterfeitLogo, TextKeys.CounterfeitSeal, TextKeys.CounterfeitAmount, TextKeys.CounterfeitChip };
             }
             else return null;
             var result = new List<string>();
-            for (int i = 0; i < issues.Length; i++) if (tag(issues[i])) result.Add(Texts.Get("counterfeit_" + names[i]));
+            for (int i = 0; i < issues.Length; i++) if (tag(issues[i])) result.Add(TextTable.Get(names[i]));
             return result;
         }
 
@@ -73,18 +74,18 @@ namespace ShopkeepingSuite
         {
             var result = new List<string>();
             if (!on("enabled") || f.Outside) return result;
-            if (on("tooltip_wanted") && f.Owned && f.Buyer && f.Demand > 0) result.Add(Texts.Get(f.Demand == 2 ? "wanted" : "too_dear"));
+            if (on("tooltip_wanted") && f.Owned && f.Buyer && f.Demand > 0) result.Add(TextTable.Get(f.Demand == 2 ? TextKeys.Wanted : TextKeys.TooDear));
             if (on("tooltip_wanted") && on("mark_wanted") && on("mark_wanted_inside") && f.Owned && f.Buyer && f.WantedCount > 0)
-                result.Add(Texts.Get("wanted_inside", f.WantedCount));
+                result.Add(TextTable.Get(TextKeys.WantedInside, f.WantedCount));
             if (on("tooltip_risk") && !f.Owned)
             {
-                if (f.Stolen) result.Add(Texts.Get("stolen", f.Heat));
+                if (f.Stolen) result.Add(TextTable.Get(TextKeys.Stolen, f.Heat));
                 if (f.Contraband && f.Level != "CONTRABAND_LEVEL_NONE")
-                    result.Add(string.IsNullOrEmpty(f.Level) ? Texts.Get("contraband_plain") : Texts.Get("contraband", f.Level.Replace("CONTRABAND_LEVEL_", "").ToLowerInvariant()));
+                    result.Add(string.IsNullOrEmpty(f.Level) ? TextTable.Get(TextKeys.ContrabandPlain) : TextTable.Get(TextKeys.Contraband, f.Level.Replace("CONTRABAND_LEVEL_", "").ToLowerInvariant()));
             }
             if (on("tooltip_risk") && on("mark_inspection") && f.Owned && f.Security && f.InspectionCount > 0)
-                result.Add(Texts.Get("inspection_inside", f.InspectionCount));
-            if (on("tooltip_appraisal") && f.AppraisalItem && f.Appraiser && f.Appraisal > 0) result.Add(Texts.Get("worth", f.Appraisal));
+                result.Add(TextTable.Get(TextKeys.InspectionInside, f.InspectionCount));
+            if (on("tooltip_appraisal") && f.AppraisalItem && f.Appraiser && f.Appraisal > 0) result.Add(TextTable.Get(TextKeys.Worth, f.Appraisal));
             return result;
         }
         internal static string Readable(string id, string prefix)
@@ -98,8 +99,8 @@ namespace ShopkeepingSuite
         {
             return intent switch
             {
-                "BUY" => Texts.Get("intent_buy"), "SELL" => Texts.Get("intent_sell"), "SELLNBUY" => Texts.Get("intent_sellnbuy"),
-                "INSPECTION" => Texts.Get("intent_inspection"), "APPRAISAL_SERVICE" => Texts.Get("intent_appraisal"),
+                "BUY" => TextTable.Get(TextKeys.IntentBuy), "SELL" => TextTable.Get(TextKeys.IntentSell), "SELLNBUY" => TextTable.Get(TextKeys.IntentSellnbuy),
+                "INSPECTION" => TextTable.Get(TextKeys.IntentInspection), "APPRAISAL_SERVICE" => TextTable.Get(TextKeys.IntentAppraisal),
                 _ => Readable(intent, "")
             };
         }

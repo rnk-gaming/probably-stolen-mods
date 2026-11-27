@@ -7,7 +7,7 @@ One trip to the dumping ground, the whole night's digging.
 | | |
 |---|---|
 | Mod id | `rnk.scavenging-pool` |
-| Version | 2.1.2 |
+| Version | 2.3.0 |
 | Needs | Nothing. Counts Transit Quota's trips when that mod runs. |
 
 ## What you get
@@ -29,7 +29,7 @@ In the Mods list and in Options, under **Off the Books: Scavenging Pool**. Autom
 
 ## Other mods
 
-- **Compatible with** [Transit Quota](https://steamcommunity.com/sharedfiles/filedetails/?id=3840077264): found by itself. The pool counts that mod's trips for the night.
+- **Compatible with** [Transit Quota](https://steamcommunity.com/sharedfiles/filedetails/?id=3840077264): detected automatically. The pool counts that mod's trips for the night.
 - **Not compatible with** another mod that changes how many scavenging attempts a visit gives.
 - Want to try it with another mod? Make a copy of your save first, and tell me on GitHub how it went.
 

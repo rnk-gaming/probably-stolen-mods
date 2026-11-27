@@ -1,44 +1,30 @@
-Off the Books: Water Expanded Compatibility 1.1.4
+Off the Books: Water Expanded Compatibility 1.3.0
 RnK Gaming
 
-WHAT IT DOES
-Water Expanded's faucet, pipes, bottler and bridge only work in the shop's own
-grid. With this mod they also work on Shop Expansion's shelves and in the back
-room, including inside a Machine Bay or another container that stands there.
-Water Expanded's other rules still apply, including water grade and which
-containers a pipe can use.
-It does this by correcting, in memory, Water Expanded's test of where a device
-stands. It changes none of Water Expanded's files.
+RETIRED
+Water Expanded 1.2.0 or later runs its devices on Shop Expansion's shelves by
+itself, so this compatibility mod is no longer needed. It does nothing now and
+installs no patches. You can unsubscribe from it.
 
-WHAT YOU NEED
-Water Expanded. The shelves also need Shop Expansion. The back room part works
-with Water Expanded alone.
+OLDER WATER EXPANDED
+Water Expanded 1.2.0 or later is needed for shelf support; this mod no longer
+provides it, even with an older Water Expanded.
 
-HOW TO USE IT
-Nothing to do. Place a Water Expanded device on a shelf or in the back room, with
-its usual water connections and settings, and let it run. Its tooltip no longer
-says that it only runs in the store grid. A device inside a Machine Bay on a shelf
-works too.
-
-SETTINGS
-They are in Mods and in Options, and take effect without restarting the game.
-Water Expanded Compatibility enabled: the main switch for both parts below.
-Water Expanded works on the shelves: Water Expanded's devices work on Shop
-Expansion's shelves. It does nothing unless both mods are running.
-Water Expanded works in the back room: the devices work in the back room, also inside
-containers. It needs only Water Expanded.
-
-WHAT IT CHANGES
-It adds no items and no saved data, and it changes nothing in a save or in the
-economy. Water Expanded's devices run in places where they refused to run before.
+THE FAREWELL NOTE
+On the first morning the shutter opens with a clear counter, this mod leaves one
+news note explaining its retirement, signed "Off the Books". It is delivered once
+per save. No incompatibility note is delivered: the conflict list is empty.
+The existing settings remain for compatibility and have no effect.
 
 REMOVING IT
-Close the game and remove the ShelfCompat folder from Mods. Devices then follow
-Water Expanded's own rules again.
+Close the game and unsubscribe from Water Expanded Compatibility on the Workshop,
+or remove the ShelfCompat folder from Mods if you installed it locally.
+Water Expanded 1.2.0 or later supplies its own shelf support.
 
 PLAYER.LOG
-Lines begin with [Shelf Compat]. At start one line says "loaded", the three
-settings, whether each mod is running, and "patched" or "not patched:" with the
-reason. A line "shelf part off:" or "back room part off:" says why a part is left out.
-If a device still says it only runs in the store grid, up to five lines per game
-session say what lies above it, which shows where it really stands. A fault is reported once and Water Expanded's own answer stands.
+One startup line begins "[Shelf Compat] retired; does nothing."
+Note faults are reported once and do not escape into the game.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

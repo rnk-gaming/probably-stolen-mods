@@ -26,8 +26,8 @@ namespace Backpacks
         internal static void Configure(string id)
         {
             modId = id;
-            enabled = ModConfig.For(id).Define("own_backpacks_enabled", true, "Backpacks",
-                () => "Scavenger's Pack and Hauler's Pack", () => "Allow pictures, upgrades and new sources for Scavenger's Pack and Hauler's Pack.");
+            enabled = ModConfig.For(id).Define("own_backpacks_enabled", true, TextTable.Early(TextKeys.SectionBackpacks),
+                TextTable.Later(TextKeys.OptionOwnBackpacksEnabled), TextTable.Later(TextKeys.OptionOwnBackpacksEnabledDesc));
         }
 
         // The mod is not yet in the loader's list while it is being initialised.
@@ -130,9 +130,9 @@ namespace Backpacks
         {
             id = Canonical(id);
             if (string.IsNullOrEmpty(item.name) || item.name.StartsWith("item_", StringComparison.Ordinal))
-                item.name = Texts.Get(id == Medium ? "scavengers_pack_name" : "haulers_pack_name");
+                item.name = TextTable.Get(id == Medium ? TextKeys.ScavengersPackName : TextKeys.HaulersPackName);
             if (string.IsNullOrEmpty(item.shortDescription))
-                item.shortDescription = Texts.Get(id == Medium ? "scavengers_pack_description" : "haulers_pack_description");
+                item.shortDescription = TextTable.Get(id == Medium ? TextKeys.ScavengersPackDescription : TextKeys.HaulersPackDescription);
             item.unitValue = id == Medium ? 700 : 1000;
             string key = PictureKey(id);
             if (!HasPicture(key)) RegisterPicture(key, id == Medium ? "simple_backpack_medium" : "simple_backpack_large");

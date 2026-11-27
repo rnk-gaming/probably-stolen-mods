@@ -22,7 +22,7 @@ namespace Perks
                 if (extra <= 0) return;
                 int cash = checked(Runtime.Cash() - extra);
                 Runtime.SetCash(cash);
-                Log(Runtime.TextWith("night_overheads", "Steep Overheads: {0} extra for services.", extra));
+                Log(LocalMods.TextTable.Get(TextKeys.NightOverheads, extra));
             });
         }
         internal static bool IsService(string id) => Rules.IsService(id);

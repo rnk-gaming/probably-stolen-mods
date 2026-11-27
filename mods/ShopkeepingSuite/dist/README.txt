@@ -1,4 +1,4 @@
-Off the Books: Shopkeeping Suite 0.7.2
+Off the Books: Shopkeeping Suite 0.9.0
 
 WHAT IT DOES
 A set of aids for running your shop. Most of them only show things: coloured marks on
@@ -123,3 +123,7 @@ Player.log has a line starting [Shopkeeping Suite] loaded. It lists each aid as 
 or unavailable. Faults appear as lines starting with [Shopkeeping Suite]. A fault in
 the price aid switches it off for the session; a fault in the Station Economy reading
 switches off only the market part.
+
+TRANSLATIONS
+Translations are very welcome: every text is in Localization/en.csv. Send a translated
+copy on GitHub: https://github.com/rnk-gaming/probably-stolen-mods/issues

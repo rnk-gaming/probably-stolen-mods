@@ -1,3 +1,4 @@
+using LocalMods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,15 +65,16 @@ namespace ShopkeepingSuite
 
     internal sealed class OptionalFaction
     {
-        private readonly string id, name;
+        // name is the existing log scope; only nameKey supplies the player-facing name.
+        private readonly string id, name, nameKey;
         private readonly float interval;
         private readonly Func<Func<double?>> bind;
         private bool bound, failed;
         private Func<double?> reader;
         private StandingView cached;
         private float nextRead = float.NegativeInfinity;
-        internal OptionalFaction(string id, string name, float interval, Func<Func<double?>> bind)
-        { this.id = id; this.name = name; this.interval = interval; this.bind = bind; }
+        internal OptionalFaction(string id, string name, string nameKey, float interval, Func<Func<double?>> bind)
+        { this.id = id; this.name = name; this.nameKey = nameKey; this.interval = interval; this.bind = bind; }
         internal void ClearCache() { cached = null; nextRead = float.NegativeInfinity; }
         internal StandingView Read()
         {
@@ -88,7 +90,7 @@ namespace ShopkeepingSuite
                 nextRead = now + interval;
                 double? value = reader();
                 if (value.HasValue && !LedgerRules.Finite(value.Value)) throw new InvalidOperationException("non-finite standing");
-                cached = value.HasValue ? new StandingView { Id = id, Faction = name, Value = value.Value } : null;
+                cached = value.HasValue ? new StandingView { Id = id, Faction = TextTable.Get(nameKey), Value = value.Value } : null;
                 return cached;
             }
             catch (Exception error) { failed = true; cached = null; SuiteMod.Fault(name + " standing" + stage, error); return null; }
@@ -127,7 +129,7 @@ namespace ShopkeepingSuite
                 get != null && get.IsStatic && !get.ContainsGenericParameters && get.ReturnType == returns && get.GetParameters().Length == 0);
             return property;
         }
-        private static OptionalFaction ScavengerReader() => new OptionalFaction("mod:scavengers", "Scavengers", 0, () =>
+        private static OptionalFaction ScavengerReader() => new OptionalFaction("mod:scavengers", "Scavengers", TextKeys.FactionScavengers, 0, () =>
         {
             Type type = Resolve("DumpingGroundMap", "DumpingGroundMap.Reputation");
             if (type == null) return null;
@@ -135,7 +137,7 @@ namespace ShopkeepingSuite
             PropertyInfo exact = Property(type, ScavengerExact(), typeof(float)), store = Property(type, ScavengerStore(), typeof(bool));
             return () => (bool)store.GetValue(null) ? (double?)(float)exact.GetValue(null) : null;
         });
-        private static OptionalFaction ForgeReader() => new OptionalFaction("mod:dsi", "DSI", 3, () =>
+        private static OptionalFaction ForgeReader() => new OptionalFaction("mod:dsi", "DSI", TextKeys.FactionDsi, 3, () =>
         {
             Type type = Resolve("ModuleForge", "ModuleForge.GameAdapter.ForgeCommissions");
             if (type == null) return null;
